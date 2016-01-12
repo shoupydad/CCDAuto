@@ -31,13 +31,13 @@ namespace CCDAuto {
 		IMAGE *imagePtr;
 
 
-	private: System::Windows::Forms::GroupBox^  groupBox4;
-	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel7;
-	private: System::Windows::Forms::Label^  label24;
-	private: System::Windows::Forms::TextBox^  CurrentRATextBox;
 
-	private: System::Windows::Forms::Label^  label23;
-	private: System::Windows::Forms::TextBox^  CurrentDECTextBox;
+
+
+
+
+
+
 
 
 
@@ -60,6 +60,31 @@ namespace CCDAuto {
 	private: System::Windows::Forms::ToolStripMenuItem^  resetStarsToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  clearMarkedStarsToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  assignPreviousToolStripMenuItem;
+	private: System::Windows::Forms::GroupBox^  groupBox3;
+	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel6;
+	private: System::Windows::Forms::TextBox^  ObjectMagTextBox;
+	private: System::Windows::Forms::Label^  label16;
+	private: System::Windows::Forms::TextBox^  ObjectDECTextBox;
+	private: System::Windows::Forms::Label^  label17;
+	private: System::Windows::Forms::TextBox^  ObjectRATextBox;
+	private: System::Windows::Forms::Label^  label19;
+	private: System::Windows::Forms::Label^  label20;
+	private: System::Windows::Forms::Label^  label21;
+	private: System::Windows::Forms::Label^  label22;
+	private: System::Windows::Forms::TextBox^  ObjectXTextBox;
+	private: System::Windows::Forms::TextBox^  ObjectYTextBox;
+	private: System::Windows::Forms::TextBox^  ObjectMaxTextBox;
+	private: System::Windows::Forms::TextBox^  ObjectFWHMTextBox;
+	private: System::Windows::Forms::Label^  label18;
+	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel8;
+	private: System::Windows::Forms::GroupBox^  groupBox4;
+	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel7;
+	private: System::Windows::Forms::Label^  label24;
+	private: System::Windows::Forms::TextBox^  CurrentRATextBox;
+	private: System::Windows::Forms::Label^  label23;
+	private: System::Windows::Forms::TextBox^  CurrentDECTextBox;
+	private: System::Windows::Forms::CheckBox^  FlipVerticalCheckBox;
+	private: System::Windows::Forms::CheckBox^  FlipHorizontalCheckBox;
 
 
 	public: 
@@ -96,23 +121,23 @@ namespace CCDAuto {
 	protected: 
 
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel1;
-	private: System::Windows::Forms::Label^  label19;
-	private: System::Windows::Forms::Label^  label20;
-	private: System::Windows::Forms::Label^  label21;
-	private: System::Windows::Forms::Label^  label22;
-	private: System::Windows::Forms::TextBox^  ObjectXTextBox;
-	private: System::Windows::Forms::TextBox^  ObjectYTextBox;
-	private: System::Windows::Forms::TextBox^  ObjectMaxTextBox;
-	private: System::Windows::Forms::TextBox^  ObjectFWHMTextBox;
-	private: System::Windows::Forms::TextBox^  ObjectMagTextBox;
-	private: System::Windows::Forms::TextBox^  ObjectRATextBox;
-	private: System::Windows::Forms::TextBox^  ObjectDECTextBox;
+
+
+
+
+
+
+
+
+
+
+
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel2;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel3;
 	private: System::Windows::Forms::GroupBox^  groupBox1;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel4;
 	private: System::Windows::Forms::GroupBox^  groupBox2;
-	private: System::Windows::Forms::GroupBox^  groupBox3;
+
 	private: System::Windows::Forms::Label^  label11;
 	private: System::Windows::Forms::TextBox^  SelectedStarMagTextBox;
 	private: System::Windows::Forms::Label^  label2;
@@ -147,10 +172,10 @@ namespace CCDAuto {
 
 
 
-	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel6;
-	private: System::Windows::Forms::Label^  label16;
-	private: System::Windows::Forms::Label^  label17;
-	private: System::Windows::Forms::Label^  label18;
+
+
+
+
 
 	public: System::Windows::Forms::PictureBox^  ChartPictureBox;
 	public: System::Windows::Forms::PictureBox^  ImagePictureBox;
@@ -217,7 +242,6 @@ namespace CCDAuto {
 			this->ObjectDECTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->ObjectRATextBox = (gcnew System::Windows::Forms::TextBox());
-			this->label18 = (gcnew System::Windows::Forms::Label());
 			this->label19 = (gcnew System::Windows::Forms::Label());
 			this->label20 = (gcnew System::Windows::Forms::Label());
 			this->label21 = (gcnew System::Windows::Forms::Label());
@@ -226,12 +250,16 @@ namespace CCDAuto {
 			this->ObjectYTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->ObjectMaxTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->ObjectFWHMTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->label18 = (gcnew System::Windows::Forms::Label());
+			this->tableLayoutPanel8 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
 			this->tableLayoutPanel7 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->label24 = (gcnew System::Windows::Forms::Label());
 			this->CurrentRATextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label23 = (gcnew System::Windows::Forms::Label());
 			this->CurrentDECTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->FlipVerticalCheckBox = (gcnew System::Windows::Forms::CheckBox());
+			this->FlipHorizontalCheckBox = (gcnew System::Windows::Forms::CheckBox());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->closeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->initializeSettingsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -254,6 +282,7 @@ namespace CCDAuto {
 			this->tableLayoutPanel5->SuspendLayout();
 			this->groupBox3->SuspendLayout();
 			this->tableLayoutPanel6->SuspendLayout();
+			this->tableLayoutPanel8->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			this->tableLayoutPanel7->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
@@ -365,8 +394,8 @@ namespace CCDAuto {
 				28.86497F)));
 			this->tableLayoutPanel3->Controls->Add(this->groupBox1, 0, 0);
 			this->tableLayoutPanel3->Controls->Add(this->groupBox2, 1, 0);
-			this->tableLayoutPanel3->Controls->Add(this->groupBox3, 2, 0);
-			this->tableLayoutPanel3->Controls->Add(this->groupBox4, 2, 0);
+			this->tableLayoutPanel3->Controls->Add(this->groupBox3, 3, 0);
+			this->tableLayoutPanel3->Controls->Add(this->tableLayoutPanel8, 2, 0);
 			this->tableLayoutPanel3->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel3->Location = System::Drawing::Point(3, 557);
 			this->tableLayoutPanel3->Name = L"tableLayoutPanel3";
@@ -826,7 +855,6 @@ namespace CCDAuto {
 			this->tableLayoutPanel6->Controls->Add(this->ObjectDECTextBox, 1, 1);
 			this->tableLayoutPanel6->Controls->Add(this->label17, 0, 1);
 			this->tableLayoutPanel6->Controls->Add(this->ObjectRATextBox, 1, 0);
-			this->tableLayoutPanel6->Controls->Add(this->label18, 0, 0);
 			this->tableLayoutPanel6->Controls->Add(this->label19, 2, 0);
 			this->tableLayoutPanel6->Controls->Add(this->label20, 2, 1);
 			this->tableLayoutPanel6->Controls->Add(this->label21, 2, 2);
@@ -835,6 +863,7 @@ namespace CCDAuto {
 			this->tableLayoutPanel6->Controls->Add(this->ObjectYTextBox, 3, 1);
 			this->tableLayoutPanel6->Controls->Add(this->ObjectMaxTextBox, 3, 2);
 			this->tableLayoutPanel6->Controls->Add(this->ObjectFWHMTextBox, 3, 3);
+			this->tableLayoutPanel6->Controls->Add(this->label18, 0, 0);
 			this->tableLayoutPanel6->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel6->Location = System::Drawing::Point(3, 16);
 			this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
@@ -853,7 +882,7 @@ namespace CCDAuto {
 			this->ObjectMagTextBox->Location = System::Drawing::Point(52, 65);
 			this->ObjectMagTextBox->Name = L"ObjectMagTextBox";
 			this->ObjectMagTextBox->ReadOnly = true;
-			this->ObjectMagTextBox->Size = System::Drawing::Size(84, 20);
+			this->ObjectMagTextBox->Size = System::Drawing::Size(35, 20);
 			this->ObjectMagTextBox->TabIndex = 21;
 			this->ObjectMagTextBox->Text = L"99.999+/-9.999";
 			this->ObjectMagTextBox->WordWrap = false;
@@ -875,7 +904,7 @@ namespace CCDAuto {
 			this->ObjectDECTextBox->Location = System::Drawing::Point(52, 35);
 			this->ObjectDECTextBox->Name = L"ObjectDECTextBox";
 			this->ObjectDECTextBox->ReadOnly = true;
-			this->ObjectDECTextBox->Size = System::Drawing::Size(72, 20);
+			this->ObjectDECTextBox->Size = System::Drawing::Size(35, 20);
 			this->ObjectDECTextBox->TabIndex = 19;
 			this->ObjectDECTextBox->Text = L" 00:00:00.0";
 			this->ObjectDECTextBox->WordWrap = false;
@@ -897,20 +926,10 @@ namespace CCDAuto {
 			this->ObjectRATextBox->Location = System::Drawing::Point(52, 5);
 			this->ObjectRATextBox->Name = L"ObjectRATextBox";
 			this->ObjectRATextBox->ReadOnly = true;
-			this->ObjectRATextBox->Size = System::Drawing::Size(72, 20);
+			this->ObjectRATextBox->Size = System::Drawing::Size(35, 20);
 			this->ObjectRATextBox->TabIndex = 17;
 			this->ObjectRATextBox->Text = L" 00:00:00.0";
 			this->ObjectRATextBox->WordWrap = false;
-			// 
-			// label18
-			// 
-			this->label18->Anchor = System::Windows::Forms::AnchorStyles::Right;
-			this->label18->AutoSize = true;
-			this->label18->Location = System::Drawing::Point(21, 8);
-			this->label18->Name = L"label18";
-			this->label18->Size = System::Drawing::Size(25, 13);
-			this->label18->TabIndex = 15;
-			this->label18->Text = L"RA:";
 			// 
 			// label19
 			// 
@@ -959,7 +978,7 @@ namespace CCDAuto {
 			this->ObjectXTextBox->Location = System::Drawing::Point(198, 5);
 			this->ObjectXTextBox->Name = L"ObjectXTextBox";
 			this->ObjectXTextBox->ReadOnly = true;
-			this->ObjectXTextBox->Size = System::Drawing::Size(65, 20);
+			this->ObjectXTextBox->Size = System::Drawing::Size(36, 20);
 			this->ObjectXTextBox->TabIndex = 26;
 			this->ObjectXTextBox->Text = L" 0000.00";
 			this->ObjectXTextBox->WordWrap = false;
@@ -971,7 +990,7 @@ namespace CCDAuto {
 			this->ObjectYTextBox->Location = System::Drawing::Point(198, 35);
 			this->ObjectYTextBox->Name = L"ObjectYTextBox";
 			this->ObjectYTextBox->ReadOnly = true;
-			this->ObjectYTextBox->Size = System::Drawing::Size(65, 20);
+			this->ObjectYTextBox->Size = System::Drawing::Size(36, 20);
 			this->ObjectYTextBox->TabIndex = 27;
 			this->ObjectYTextBox->Text = L" 0000.00";
 			this->ObjectYTextBox->WordWrap = false;
@@ -983,7 +1002,7 @@ namespace CCDAuto {
 			this->ObjectMaxTextBox->Location = System::Drawing::Point(198, 65);
 			this->ObjectMaxTextBox->Name = L"ObjectMaxTextBox";
 			this->ObjectMaxTextBox->ReadOnly = true;
-			this->ObjectMaxTextBox->Size = System::Drawing::Size(65, 20);
+			this->ObjectMaxTextBox->Size = System::Drawing::Size(36, 20);
 			this->ObjectMaxTextBox->TabIndex = 28;
 			this->ObjectMaxTextBox->Text = L"0000000";
 			this->ObjectMaxTextBox->WordWrap = false;
@@ -995,17 +1014,46 @@ namespace CCDAuto {
 			this->ObjectFWHMTextBox->Location = System::Drawing::Point(198, 96);
 			this->ObjectFWHMTextBox->Name = L"ObjectFWHMTextBox";
 			this->ObjectFWHMTextBox->ReadOnly = true;
-			this->ObjectFWHMTextBox->Size = System::Drawing::Size(65, 20);
+			this->ObjectFWHMTextBox->Size = System::Drawing::Size(36, 20);
 			this->ObjectFWHMTextBox->TabIndex = 29;
 			this->ObjectFWHMTextBox->Text = L"00.000";
 			this->ObjectFWHMTextBox->WordWrap = false;
 			// 
+			// label18
+			// 
+			this->label18->Anchor = System::Windows::Forms::AnchorStyles::Right;
+			this->label18->AutoSize = true;
+			this->label18->Location = System::Drawing::Point(21, 8);
+			this->label18->Name = L"label18";
+			this->label18->Size = System::Drawing::Size(25, 13);
+			this->label18->TabIndex = 15;
+			this->label18->Text = L"RA:";
+			// 
+			// tableLayoutPanel8
+			// 
+			this->tableLayoutPanel8->ColumnCount = 1;
+			this->tableLayoutPanel8->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel8->Controls->Add(this->groupBox4, 0, 0);
+			this->tableLayoutPanel8->Controls->Add(this->FlipVerticalCheckBox, 0, 1);
+			this->tableLayoutPanel8->Controls->Add(this->FlipHorizontalCheckBox, 0, 2);
+			this->tableLayoutPanel8->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tableLayoutPanel8->Location = System::Drawing::Point(584, 3);
+			this->tableLayoutPanel8->Name = L"tableLayoutPanel8";
+			this->tableLayoutPanel8->RowCount = 3;
+			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 66.32653F)));
+			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.67347F)));
+			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 35)));
+			this->tableLayoutPanel8->Size = System::Drawing::Size(138, 142);
+			this->tableLayoutPanel8->TabIndex = 3;
+			// 
 			// groupBox4
 			// 
 			this->groupBox4->Controls->Add(this->tableLayoutPanel7);
-			this->groupBox4->Location = System::Drawing::Point(584, 3);
+			this->groupBox4->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->groupBox4->Location = System::Drawing::Point(3, 3);
 			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(138, 90);
+			this->groupBox4->Size = System::Drawing::Size(132, 64);
 			this->groupBox4->TabIndex = 3;
 			this->groupBox4->TabStop = false;
 			this->groupBox4->Text = L"Current Position";
@@ -1027,14 +1075,14 @@ namespace CCDAuto {
 			this->tableLayoutPanel7->RowCount = 2;
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel7->Size = System::Drawing::Size(132, 71);
+			this->tableLayoutPanel7->Size = System::Drawing::Size(126, 45);
 			this->tableLayoutPanel7->TabIndex = 0;
 			// 
 			// label24
 			// 
 			this->label24->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label24->AutoSize = true;
-			this->label24->Location = System::Drawing::Point(20, 46);
+			this->label24->Location = System::Drawing::Point(18, 27);
 			this->label24->Name = L"label24";
 			this->label24->Size = System::Drawing::Size(32, 13);
 			this->label24->TabIndex = 21;
@@ -1042,12 +1090,12 @@ namespace CCDAuto {
 			// 
 			// CurrentRATextBox
 			// 
-			this->CurrentRATextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentRATextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentRATextBox->Location = System::Drawing::Point(58, 7);
+			this->CurrentRATextBox->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->CurrentRATextBox->Location = System::Drawing::Point(56, 3);
 			this->CurrentRATextBox->Name = L"CurrentRATextBox";
 			this->CurrentRATextBox->ReadOnly = true;
-			this->CurrentRATextBox->Size = System::Drawing::Size(70, 20);
+			this->CurrentRATextBox->Size = System::Drawing::Size(67, 20);
 			this->CurrentRATextBox->TabIndex = 18;
 			this->CurrentRATextBox->Text = L" 00:00:00.0";
 			this->CurrentRATextBox->WordWrap = false;
@@ -1056,7 +1104,7 @@ namespace CCDAuto {
 			// 
 			this->label23->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label23->AutoSize = true;
-			this->label23->Location = System::Drawing::Point(27, 11);
+			this->label23->Location = System::Drawing::Point(25, 4);
 			this->label23->Name = L"label23";
 			this->label23->Size = System::Drawing::Size(25, 13);
 			this->label23->TabIndex = 19;
@@ -1064,15 +1112,39 @@ namespace CCDAuto {
 			// 
 			// CurrentDECTextBox
 			// 
-			this->CurrentDECTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentDECTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentDECTextBox->Location = System::Drawing::Point(58, 43);
+			this->CurrentDECTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->CurrentDECTextBox->Location = System::Drawing::Point(56, 25);
 			this->CurrentDECTextBox->Name = L"CurrentDECTextBox";
 			this->CurrentDECTextBox->ReadOnly = true;
-			this->CurrentDECTextBox->Size = System::Drawing::Size(70, 20);
+			this->CurrentDECTextBox->Size = System::Drawing::Size(67, 20);
 			this->CurrentDECTextBox->TabIndex = 20;
 			this->CurrentDECTextBox->Text = L" 00:00:00.0";
 			this->CurrentDECTextBox->WordWrap = false;
+			// 
+			// FlipVerticalCheckBox
+			// 
+			this->FlipVerticalCheckBox->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->FlipVerticalCheckBox->AutoSize = true;
+			this->FlipVerticalCheckBox->Location = System::Drawing::Point(29, 79);
+			this->FlipVerticalCheckBox->Name = L"FlipVerticalCheckBox";
+			this->FlipVerticalCheckBox->Size = System::Drawing::Size(80, 17);
+			this->FlipVerticalCheckBox->TabIndex = 4;
+			this->FlipVerticalCheckBox->Text = L"Flip Vertical";
+			this->FlipVerticalCheckBox->UseVisualStyleBackColor = true;
+			this->FlipVerticalCheckBox->CheckedChanged += gcnew System::EventHandler(this, &AstrometryWindow::FlipVerticalCheckBox_Changed);
+			// 
+			// FlipHorizontalCheckBox
+			// 
+			this->FlipHorizontalCheckBox->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->FlipHorizontalCheckBox->AutoSize = true;
+			this->FlipHorizontalCheckBox->Location = System::Drawing::Point(23, 115);
+			this->FlipHorizontalCheckBox->Name = L"FlipHorizontalCheckBox";
+			this->FlipHorizontalCheckBox->Size = System::Drawing::Size(92, 17);
+			this->FlipHorizontalCheckBox->TabIndex = 5;
+			this->FlipHorizontalCheckBox->Text = L"Flip Horizontal";
+			this->FlipHorizontalCheckBox->UseVisualStyleBackColor = true;
+			this->FlipHorizontalCheckBox->CheckedChanged += gcnew System::EventHandler(this, &AstrometryWindow::FlipHorizontalCheckBox_Changed);
 			// 
 			// menuStrip1
 			// 
@@ -1188,6 +1260,8 @@ namespace CCDAuto {
 			this->groupBox3->ResumeLayout(false);
 			this->tableLayoutPanel6->ResumeLayout(false);
 			this->tableLayoutPanel6->PerformLayout();
+			this->tableLayoutPanel8->ResumeLayout(false);
+			this->tableLayoutPanel8->PerformLayout();
 			this->groupBox4->ResumeLayout(false);
 			this->tableLayoutPanel7->ResumeLayout(false);
 			this->tableLayoutPanel7->PerformLayout();
@@ -1222,7 +1296,7 @@ private: System::Void MouseClickHandler(Object^ sender,System::Windows::Forms::M
 			 FRAME *light;
 
 			 light = &this->imagePtr->light_frame;
-			 MouseXYtoFrameXY(e->X,e->Y,light,frameX,frameY);
+			 PictureToFrame(e->X, e->Y, &frameX, &frameY, light);
 			 if (e->Button == ::MouseButtons::Left) {
 			 } else if (e->Button == ::MouseButtons::Right) {
 				 xmin = (int) (frameX - photometrySettings.findRadius);
@@ -1259,6 +1333,34 @@ private: System::Void MouseClickHandler(Object^ sender,System::Windows::Forms::M
 				 }
 			 }
 		 }
+
+private: System::Void PictureToFrame(int pictX, int pictY, int *frameX, int *frameY, FRAME *light) {
+
+			if (this->FlipVerticalCheckBox->Checked)
+				*frameY = pictY;
+			else
+				*frameY = light->h - pictY;
+			
+			if (this->FlipHorizontalCheckBox->Checked)
+				*frameX = light->w - pictX;
+			else
+				*frameX = pictX;
+}
+
+private: System::Void FrameToPicture(int frameX, int frameY, int *pictX, int *pictY, FRAME *light) {
+
+	if (this->FlipVerticalCheckBox->Checked)
+		*pictY = frameY;
+	else
+		*pictY = light->h - frameY;
+
+	if (this->FlipHorizontalCheckBox->Checked)
+		*pictX = light->w - frameX;
+	else
+		*pictX = frameX;
+
+}
+
 private: System::Void MouseDoubleClickHandler(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 int xmin, ymin, xmax, ymax;
 			 float x, y;
@@ -1266,7 +1368,7 @@ private: System::Void MouseDoubleClickHandler(System::Object^  sender, System::W
 			 FRAME *light;
 
 			 light = &this->imagePtr->light_frame;
-			 MouseXYtoFrameXY(e->X,e->Y,light,frameX,frameY);
+			 PictureToFrame(e->X, e->Y, &frameX, &frameY, light);
 
 			 if (e->Button == ::MouseButtons::Left) {
 			 } else if (e->Button == ::MouseButtons::Right) {
@@ -1297,7 +1399,7 @@ private: System::Void MouseMoveHandler(Object^ sender,System::Windows::Forms::Mo
 		 FRAME *light;
 		 
 		 light = &this->imagePtr->light_frame;
-		 MouseXYtoFrameXY(e->X,e->Y,light,frameX,frameY);
+		 PictureToFrame(e->X, e->Y, &frameX, &frameY, light);
 
 		 if (plateSolution.status == 0) {
 			 Pixel2Equatorial((double) frameX, (double) frameY, &ra, &dec);
@@ -1375,18 +1477,24 @@ private: void PaintHandler( Object^ sender, System::Windows::Forms::PaintEventAr
 			 sptr = AstrometryWindow::MarkedStarList;
 			 starNum = 0;
 			 while (sptr != NULL) {
-				 FrameXYtoMouseXY(light,(int)Math::Round(sptr->x),(int)Math::Round(sptr->y),starX,starY);
-				 FrameXYtoMouseXY(light,(int)Math::Round(sptr->x-5.0),(int)Math::Round(sptr->y-5.0),x1,y1);
-				 FrameXYtoMouseXY(light,(int)Math::Round(sptr->x+5.0),(int)Math::Round(sptr->y+5.0),x2,y2);
+				 FrameToPicture((int)Math::Round(sptr->x), (int)Math::Round(sptr->y), &starX, &starY, light);
+				 FrameToPicture((int)Math::Round(sptr->x-5.0), (int)Math::Round(sptr->y-5.0), &x1, &y1, light);
+				 FrameToPicture((int)Math::Round(sptr->x+5.0), (int)Math::Round(sptr->y+5.0), &x2, &y2, light);
 				 e->Graphics->DrawLine(System::Drawing::Pens::Red,starX,y1,starX,y2);
 				 e->Graphics->DrawLine(System::Drawing::Pens::Red,x1,starY,x2,starY);
-				 FrameXYtoMouseXY(light,(int)Math::Round(sptr->x-AperRad),(int)Math::Round(sptr->y+AperRad),x1,y1);
+				 FrameToPicture((int) sptr->x, (int) sptr->y, &x1, &y1, light);
+				 x1 = (int) Math::Round(x1-AperRad);
+				 y1 = (int) Math::Round(y1-AperRad);
 				 h = w = (int) (2.0*AperRad);
 				 e->Graphics->DrawEllipse(System::Drawing::Pens::Red,x1,y1,h,w);
-				 FrameXYtoMouseXY(light,(int)Math::Round(sptr->x-SkyInnerRad),(int)Math::Round(sptr->y+SkyInnerRad),x1,y1);
+				 FrameToPicture((int) sptr->x, (int) sptr->y, &x1, &y1, light);
+				 x1 = (int)Math::Round(x1 - SkyInnerRad);
+				 y1 = (int)Math::Round(y1 - SkyInnerRad);
 				 h = w = (int) (2.0*SkyInnerRad);
 				 e->Graphics->DrawEllipse(System::Drawing::Pens::Red,x1,y1,h,w);
-				 FrameXYtoMouseXY(light,(int)Math::Round(sptr->x-SkyOuterRad),(int)Math::Round(sptr->y+SkyOuterRad),x1,y1);
+				 FrameToPicture((int) sptr->x, (int) sptr->y, &x1, &y1, light);
+				 x1 = (int)Math::Round(x1 - SkyOuterRad);
+				 y1 = (int)Math::Round(y1 - SkyOuterRad);
 				 h = w = (int) (2.0*SkyOuterRad);
 				 e->Graphics->DrawEllipse(System::Drawing::Pens::Red,x1,y1,h,w);
 				 //sprintf_s(text, sizeof(text), "%d", starNum);
@@ -1401,7 +1509,7 @@ private: void PaintHandler( Object^ sender, System::Windows::Forms::PaintEventAr
 			 for (i=0; i<plateStars.numStars; i++) {
 				 starX = ((int) (plateStars.pixelX[i]));
 				 starY = ((int) ( plateStars.pixelY[i]));
-				 FrameXYtoMouseXY(light,(int)plateStars.pixelX[i],(int)plateStars.pixelY[i],starX,starY);
+				 FrameToPicture((int)plateStars.pixelX[i], (int)plateStars.pixelY[i], &starX, &starY, light);
 				 sprintf_s(text, sizeof(text), "%d", i+1);
 				 String ^buffer;
 				 buffer = gcnew String(text);
@@ -1818,10 +1926,9 @@ private: System::Void ChartMouseClickHandler(System::Object^  sender, System::Wi
 
 private: void ChartPaintHandler( Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 
-			 int x1, y1, x2, y2, starX, starY, h, w, i, r, imageYear, delYear;
+			 int x1, y1, x2, y2, starX, starY, h, w, i, r, delYear, imageYear;
 			 double minMag, maxMag;
-			 double magScale, mag;
-			 double ra, dec;
+			 double magScale, mag, ra, dec;
 			 char text[80];
 			 double CenterRA, CenterDEC, PixelScale;
 			 double MinRA, MaxRA, MinDEC, MaxDEC, FieldWidthHours, FieldHeightDegs;
@@ -1866,8 +1973,8 @@ private: void ChartPaintHandler( Object^ sender, System::Windows::Forms::PaintEv
 			 sscanf_s(this->imagePtr->light_frame.UTDATE, "%4d", &imageYear);
 			 delYear = imageYear - 2000;
 			 for (i = 0; i < refStars.numStars; i++) {
-				 ra = refStars.RA[i] + (refStars.ProperMotionRA[i] * delYear) / 3600.0*24.0 / 360.0;
-				 dec = refStars.DEC[i] + (refStars.ProperMotionDEC[i] * delYear) / 3600.0*24.0 / 360.0;
+				 ra = refStars.RA[i] + (refStars.ProperMotionRA[i] * delYear) / 3600.0 * 24.0 / 360.0;
+				 dec = refStars.DEC[i] + (refStars.ProperMotionDEC[i] * delYear) / 3600.0;
 				 refStars.x[i] = pictboxfullw - ((int)((ra - refStars.ChartMinRA) / refStars.ChartXScale));
 				 refStars.y[i] = pictboxfullh - ((int)((dec - refStars.ChartMinDEC) / refStars.ChartYScale));
 			 }
@@ -1930,9 +2037,9 @@ private: void ChartPaintHandler( Object^ sender, System::Windows::Forms::PaintEv
 
 			 for (i=0; i<plateStars.numStars; i++) {
 				 starX = AstrometryWindow::FormPtr->ChartPictureBox->Size.Width -
-					 ((int) ((plateStars.RA[i] - refStars.ChartMinRA)/refStars.ChartXScale));
-				 starY = AstrometryWindow::FormPtr->ChartPictureBox->Size.Height - 
-					 ((int) ((plateStars.DEC[i] - refStars.ChartMinDEC)/refStars.ChartYScale));
+					 ((int) ((plateStars.RA[i] - (refStars.ChartMinRA-0.001))/refStars.ChartXScale));
+				 starY = AstrometryWindow::FormPtr->ChartPictureBox->Size.Height -
+					 ((int)((plateStars.DEC[i] - refStars.ChartMinDEC) / refStars.ChartYScale));
 				 sprintf_s(text, sizeof(text), "%d", i+1);
 				 String ^buffer;
 				 buffer = gcnew String(text);
@@ -2105,6 +2212,26 @@ private: System::Void AssignPreviousMenuItem_Clicked(System::Object^  sender, Sy
 				 MessageBox("Don't have a solution to assign.", OKAY, true);
 			 }
 		 }
+
+private: System::Void FlipVerticalCheckBox_Changed(System::Object^  sender, System::EventArgs^  e) {
+
+		this->ImagePictureBox->Image->RotateFlip(System::Drawing::RotateFlipType::RotateNoneFlipY);
+		this->ImagePictureBox->Refresh();
+}
+
+
+private: System::Void FlipHorizontalCheckBox_Changed(System::Object^  sender, System::EventArgs^  e) {
+
+	this->ImagePictureBox->Image->RotateFlip(System::Drawing::RotateFlipType::RotateNoneFlipX);
+	this->ImagePictureBox->Refresh();
+}
+
+public: static System::Void ClearFlippedCheckBoxes() {
+
+	AstrometryWindow::FormPtr->FlipVerticalCheckBox->Checked = false;
+	AstrometryWindow::FormPtr->FlipHorizontalCheckBox->Checked = false;
+}
+
 
 };
 }

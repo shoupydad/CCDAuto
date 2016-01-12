@@ -30,6 +30,7 @@ namespace CCDAuto {
 #define DEFAULT_IMAGE_DIRECTORY	BASE_PATH "ImageData"
 #define OBJECT_LIST_FILE_NAME BASE_PATH "CCDAuto\\ObjectList.lst"
 #define USNOB_CATALOG_PATH BASE_PATH "Catalogs\\USNO-B1.0\\"
+#define DEFAULT_PHOTOMETRY_LOG_DIRECTORY BASE_PATH "ImageData"
 
 	// Macros
 
@@ -155,6 +156,14 @@ namespace CCDAuto {
 #define CURRENTIMAGEWINDOW 0
 #define GUIDEIMAGEWINDOW 1
 #define ASTROMETRYWINDOW 2
+
+	// TheSky6 Query Constants
+
+#define THESKYQUERYFILE "c:\\Users\\shoup.31\\Documents\\Observatory\\CCDAuto\\GeneralQuery.DBQ"
+#define TEMPQUERYFILE "c:\\Users\\shoup.31\\Documents\\Observatory\\CCDAuto\\TempQuery.DBQ"
+#define THESKY6RA2000INDEX 56
+#define THESKY6DEC2000INDEX 57
+#define THESKY6MAGINDEX 65
 
 typedef struct _MARKSTAR {
 	float x;
@@ -458,8 +467,8 @@ typedef struct {
   bool  logAAVSOFormat;
   char  logDir[161];
   char  logBaseName[80];
-  char  logCCDAutoFileName[100];
-  char  logAAVSOFileName[100];
+  char  logCCDAutoFileName[200];
+  char  logAAVSOFileName[200];
   FILE  *logCCDAutoFilePtr;
   FILE  *logAAVSOFilePtr;
   char  AAVSOCompStarID[15];

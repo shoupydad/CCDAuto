@@ -140,9 +140,6 @@
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
     </Reference>
-    <Reference Include="XYGraph">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\componentXtra\XYGraph\XYGraph.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AAVSOPhotoDialog.cpp" />

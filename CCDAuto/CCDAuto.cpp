@@ -52,7 +52,7 @@ int main(array<System::String ^> ^args)
   photometrySettings.offsetSky = false;
   photometrySettings.CalibrateImages = false;
   strcpy_s(photometrySettings.logBaseName,"Target");
-  strcpy_s(photometrySettings.logDir,"C:\\Users\\shoup.31\\Documents\\Observatory\\ImageData\\");
+  strcpy_s(photometrySettings.logDir, DEFAULT_PHOTOMETRY_LOG_DIRECTORY);
   photometrySettings.logCCDAutoFilePtr = NULL;
   photometrySettings.logAAVSOFilePtr = NULL;
   photometrySettings.AAVSOPrintHeading = false;

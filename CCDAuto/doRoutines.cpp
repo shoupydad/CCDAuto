@@ -846,6 +846,7 @@ void loadImageImaging(unsigned short *sp, int x, int y, int w, int h, int binnin
   }
   CurrentImageWindow::FormPtr->CurrentImagePictureBox->Height = fullh;
   CurrentImageWindow::FormPtr->CurrentImagePictureBox->Width = fullw;
+  CurrentImageWindow::FormPtr->FlipImageIfRequested();
 
   /* get min and max */
 
@@ -5505,6 +5506,11 @@ void DisplayPSF(PIXCELL *PixList, float fitMax, float fitFWHM)
   DataPlotWindow::FormPtr->xFit = xFit;
   DataPlotWindow::FormPtr->yFit = yFit;
   DataPlotWindow::FormPtr->numFitPts = numFitPts;
+  DataPlotWindow::FormPtr->XAxisLabel = gcnew String("Distance from Centroid (pixels)");
+  DataPlotWindow::FormPtr->YAxisLabel = gcnew String("Pixel value (ADC units)");
+  DataPlotWindow::FormPtr->XName = gcnew String("Star PSF Data");
+  DataPlotWindow::FormPtr->YName = gcnew String("Star PSF Fit");
+  DataPlotWindow::FormPtr->PlotTitle = gcnew String("Star Point Spread Function Plot");
 
   DataPlotWindow::FormPtr->ShowTheDialog();
 
@@ -6795,6 +6801,7 @@ void ShowAstrometryWindow(void) {
 	loadImageAstrometry(ccd->Image.light_frame.frame, ccd->Image.light_frame.x,
 	     ccd->Image.light_frame.y, ccd->Image.light_frame.w,
 	     ccd->Image.light_frame.h, ccd->Image.light_frame.binning);
+	AstrometryWindow::FormPtr->ClearFlippedCheckBoxes();
 	if (plateSolution.status != 0) {
 		plateStars.numStars = 0;
 		refStars.numStars = 0;
@@ -6853,8 +6860,8 @@ void ShowInitializeAstrometryDialog(void) {
 
 bool loadRefChartAstrometry(IMAGE *image) {
 
-	double CenterRA, CenterDEC, PixelScale, ra, dec;
-	double MinRA, MaxRA, MinDEC, MaxDEC, FieldWidthHours, FieldHeightDegs;
+	double CenterRA, CenterDEC, PixelScale;
+	double MinRA, MaxRA, MinDEC, MaxDEC, FieldWidthHours, FieldHeightDegs, ra, dec;
 	int fullw, fullh, pictboxfullw, pictboxfullh, i, imageYear, delYear;
 
 	// Get "rough" RA & DEC of image center
@@ -6870,14 +6877,14 @@ bool loadRefChartAstrometry(IMAGE *image) {
 	}
 	fullw = image->light_frame.w;
 	fullh = image->light_frame.h;
-	FieldWidthHours = PixelScale*fullw / 3600.0 / 15.0 / Math::Cos(CenterDEC*DEG2RAD);
-	FieldHeightDegs = PixelScale*fullh / 3600.0;
-	MinRA = CenterRA - FieldWidthHours / 2.0;
+	FieldWidthHours = PixelScale*fullw/3600.0/15.0/Math::Cos(CenterDEC*DEG2RAD);
+	FieldHeightDegs = PixelScale*fullh/3600.0;
+	MinRA = CenterRA - FieldWidthHours/2.0;
 	if (MinRA < 0.0) MinRA += 24.0;
 	if (MinRA > 24.0) MinRA -= 24.0;
 	MaxRA = MinRA + FieldWidthHours;
 	if (MaxRA > 24.0) MaxRA -= 24.0;
-	MinDEC = CenterDEC - FieldHeightDegs / 2.0;
+	MinDEC = CenterDEC - FieldHeightDegs/2.0;
 	if (MinDEC < -90.0) MinDEC = -90.0;
 	if (MinDEC > 90.0) MinDEC = 90.0;
 	MaxDEC = MinDEC + FieldHeightDegs;
@@ -6890,16 +6897,16 @@ bool loadRefChartAstrometry(IMAGE *image) {
 
 	pictboxfullw = AstrometryWindow::FormPtr->ChartPictureBox->Size.Width;
 	pictboxfullh = AstrometryWindow::FormPtr->ChartPictureBox->Size.Height;
-	refStars.ChartXScale = FieldWidthHours / pictboxfullw;
-	refStars.ChartYScale = FieldHeightDegs / pictboxfullh;
+	refStars.ChartXScale = FieldWidthHours/pictboxfullw;
+	refStars.ChartYScale = FieldHeightDegs/pictboxfullh;
 	refStars.ChartMinRA = MinRA;
 	refStars.ChartMinDEC = MinDEC;
 	sscanf_s(image->light_frame.UTDATE, "%4d", &imageYear);
 	delYear = imageYear - 2000;
 	for (i = 0; i < refStars.numStars; i++) {
 		refStars.Marked[i] = false;
-		ra = refStars.RA[i] + (refStars.ProperMotionRA[i] * delYear) / 3600.0*24.0 / 360.0;
-		dec = refStars.DEC[i] + (refStars.ProperMotionDEC[i] * delYear) / 3600.0*24.0 / 360.0;
+		ra = refStars.RA[i] + (refStars.ProperMotionRA[i]*delYear) / 3600.0 * 24.0/360.0;
+		dec = refStars.DEC[i] + (refStars.ProperMotionDEC[i]*delYear)/3600.0;
 		refStars.x[i] = pictboxfullw - ((int)((ra - refStars.ChartMinRA) / refStars.ChartXScale));
 		refStars.y[i] = pictboxfullh - ((int)((dec - refStars.ChartMinDEC) / refStars.ChartYScale));
 	}
@@ -6907,7 +6914,9 @@ bool loadRefChartAstrometry(IMAGE *image) {
 	AstrometryWindow::FormPtr->Refresh();
 
 	return true;
+
 }
+
 
 bool GetRefStarsFromUSNOB1(double MinRA, double MaxRA, double MinDEC, double MaxDEC, double MaxMag, REFSTARS *refStars) {
 
@@ -6937,9 +6946,9 @@ bool GetRefStarsFromUSNOB1(double MinRA, double MaxRA, double MinDEC, double Max
 	// Convert DEC into south pole distance in degrees & tenths
 
 	SPDMin = (int)(MinDEC + 90.0);
-	SPDMinInTenths = (int)(10.0*(MinDEC + 90.0));
+	SPDMinInTenths = (int)(10.0*(MinDEC+90.0));
 	SPDMax = (int)(MaxDEC + 90.0);
-	SPDMaxInTenths = (int)(10.0*(MaxDEC + 90.0));
+	SPDMaxInTenths = (int)(10.0*(MaxDEC+90.0));
 
 	// Loop through all USNOB files covering this region
 
@@ -6949,8 +6958,6 @@ bool GetRefStarsFromUSNOB1(double MinRA, double MaxRA, double MinDEC, double Max
 		if (refStars->numStars >= MAXNUMREFSTARS)
 			break;
 		sprintf_s(FileName, sizeof(FileName), "%s\\%03i\\b%04i.cat", USNOB_CATALOG_PATH, SPD, Tenths);
-		sprintf_s(message, sizeof(message), "*** DEBUG - Reading from USNOB file: %s\n", FileName);
-		Form1::StatusPrint(message);
 		fopen_s(&fptr, FileName, "rb");
 		if (fptr == NULL) {
 			sprintf_s(message, sizeof(message), "*** Warning - Can't open USNOB file: %s (GetRefStarsFromUSNOB)\n",
@@ -6978,10 +6985,11 @@ bool GetRefStarsFromUSNOB1(double MinRA, double MaxRA, double MinDEC, double Max
 			StellarProb = (int)(value / 1.0e8);
 			if ((RMag > MaxMag) || (RMag <= 0.0))
 				continue;
-			if (StellarProb < 3)
-				continue;
-			sprintf_s(message, sizeof(message), "*** DEBUG - star(ra,dec,mag): %f %f %f\n", RA_hours, DEC_deg, RMag);
-			Form1::StatusPrint(message);
+//			if (StellarProb < 3)
+//				continue;
+			memcpy_s(&value, sizeof(value), &record[PMIndex], 4);
+			refStars->ProperMotionRA[refStars->numStars]= (value % 10000) * 0.002 * cos(DEC_deg*3.14159/180.0); // pm in "/yr
+			refStars->ProperMotionDEC[refStars->numStars] = (((int)(value / 10000)) / 10000) * 0.002;           // pm in "/yr
 			refStars->RA[refStars->numStars] = RA_hours;
 			refStars->DEC[refStars->numStars] = DEC_deg;
 			refStars->Mag[refStars->numStars++] = RMag;
