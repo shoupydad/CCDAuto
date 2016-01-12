@@ -20,7 +20,7 @@ namespace CCDAuto {
 
 #define RELEASE_VERSION 2.0
 
-#define BASE_PATH "C:\\Users\\tshoup\\Documents\\Observatory\\"
+#define BASE_PATH "C:\\Users\\Public\\Observatory\\"
 
 #define OBJECTLISTFILE "Objects.lst"  /* Text file of list of objects */
 #define LONGITUDE 84.02741 /* longitude of OSUROB */

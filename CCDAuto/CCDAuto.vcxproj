@@ -99,9 +99,7 @@
       <HintPath>..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\ASCOM.DriverAccess\6.0.0.0__565de7938946fba7\ASCOM.DriverAccess.dll</HintPath>
     </Reference>
     <Reference Include="ImagerLibrary">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Meade\AutostarSuite\LPI\ImagerLibrary.dll</HintPath>
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Meade\AutostarSuite\Envisage\ImagerLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualC">
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
