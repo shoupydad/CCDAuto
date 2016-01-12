@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.15 Optimizing Code for Maximum Processing Speed</TITLE>
+<META NAME="description" CONTENT="5.15 Optimizing Code for Maximum Processing Speed">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="previous" HREF="node51.html">
+<LINK REL="up" HREF="node37.html">
+<LINK REL="next" HREF="node57.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html884"
+ HREF="node57.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html881"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html877"
+ HREF="node55.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html883"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html885"
+ HREF="node57.html">5.15.1 Background Information: How</A>
+<B> Up:</B> <A NAME="tex2html882"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html878"
+ HREF="node55.html">5.14.4 HIERARCH Convention for</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006150000000000000000">
+5.15 Optimizing Code for Maximum Processing Speed</A>
+</H1>
+
+<P>
+CFITSIO has been carefully designed to obtain the highest possible
+speed when reading and writing FITS files.  In order to achieve the
+best performance, however, application programmers must be careful to
+call the CFITSIO routines appropriately and in an efficient sequence;
+inappropriate usage of CFITSIO routines can greatly slow down the
+execution speed of a program.
+
+<P>
+The maximum possible I/O speed of CFITSIO depends of course on the type
+of computer system that it is running on.  As a rough guide, the
+current generation of workstations can achieve speeds of 2 - 10 MB/s
+when reading or writing FITS images and similar, or slightly slower
+speeds with FITS binary tables.  Reading of FITS files can occur at
+even higher rates (30MB/s or more) if the FITS file is still cached in
+system memory following a previous read or write operation on the same
+file.  To more accurately predict the best performance that is possible
+on any particular system, a diagnostic program called ``speed.c'' is
+included with the CFITSIO distribution which can be run to
+approximately measure the maximum possible speed of writing and reading
+a test FITS file.
+
+<P>
+The following 2 sections provide some background on how CFITSIO
+internally manages the data I/O and describes some strategies that may
+be used to optimize the processing speed of software that uses
+CFITSIO.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html886"
+ HREF="node57.html">5.15.1 Background Information: How CFITSIO Manages Data I/O</A>
+<LI><A NAME="tex2html887"
+ HREF="node58.html">5.15.2 Optimization Strategies</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html884"
+ HREF="node57.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html881"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html877"
+ HREF="node55.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html883"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html885"
+ HREF="node57.html">5.15.1 Background Information: How</A>
+<B> Up:</B> <A NAME="tex2html882"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html878"
+ HREF="node55.html">5.14.4 HIERARCH Convention for</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

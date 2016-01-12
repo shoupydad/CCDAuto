@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.1.1 Unix Systems</TITLE>
+<META NAME="description" CONTENT="2.1.1 Unix Systems">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node4.html">
+<LINK REL="up" HREF="node4.html">
+<LINK REL="next" HREF="node6.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html270"
+ HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html267"
+ HREF="node4.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html261"
+ HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html269"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html271"
+ HREF="node6.html">2.1.2 VMS</A>
+<B> Up:</B> <A NAME="tex2html268"
+ HREF="node4.html">2.1 Building the Library</A>
+<B> Previous:</B> <A NAME="tex2html262"
+ HREF="node4.html">2.1 Building the Library</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00311000000000000000">
+2.1.1  Unix Systems</A>
+</H2>
+
+<P>
+The CFITSIO library is built on Unix systems by typing:
+ 
+<PRE>
+   &gt; ./configure
+   &gt; make
+</PRE>at the operating system prompt.  Type ./configure and not simply
+`configure' to ensure that the configure script in the current
+directory is run and not some other system-wide configure script.  The
+configure command customizes the Makefile for the particular system,
+then the `make' command compiles the source files and builds the
+library.
+
+<P>
+On HP/UX systems, the environment variable CFLAGS should be set
+to -Ae before running configure to enable "extended ANSI" features.
+
+<P>
+By default, a set of Fortran-callable wrapper routines are
+also built and included in the CFITSIO library.  If these wrapper
+routines are not needed (i.e., the CFITSIO library will not
+be linked to any Fortran applications which call FITSIO subroutines)
+then they may be omitted from the build by typing 'make all-nofitsio'
+instead of simply typing 'make'.  This will reduce the size
+of the CFITSIO library slightly.
+
+<P>
+Most 32-bit operating systems have only supported disk files up to
+2.1GB (2**31 bytes) in size.  Starting with version 2.1 of CFITSIO,
+FITS files larger than this limit (up to 6 terabytes) can be read and
+written on platforms which support large files (e.g., Solaris).  To
+enable this feature, CFITSIO must be compiled with the
+`-D_FILE_OFFSET_BITS=64' compiler flag.  All programs which link to
+the CFITSIO library must also be compiled with this flag or must
+include this preprocessor definition at the start of the source code
+file. See the `CFITSIO Size Limitations' section in Chapter 5 for
+further details.
+
+<P>
+It may not be possible to staticly link programs that use CFITSIO on
+some platforms (namely, on Solaris 2.6) due to the network drivers
+(which provide FTP and HTTP access to FITS files).  It is possible to
+make both a dynamic and a static version of the CFITSIO library, but
+network file access will not be possible using the static version.  To
+build the dynamic libcfitsio.so library (on solaris), type 'make
+clean', then edit the Makefile to add -fPIC or -KPIC (gcc or cc) to the
+CFLAGS line, then rebuild the library with 'make'.  Once you're done,
+build the shared library with
+ 
+<PRE>
+ ld -G -z text -o libcfitsio.so *.o
+</PRE>Then to get the staticly linkable libcfitsio.a library file do another
+make clean, undefine HAVE_NET_SERVICES on the CFLAGS line and rebuild.
+It's unimportant whether or not you use -fPIC for static builds.
+
+<P>
+When using the shared library the executable code is not copied into
+your program at link time and instead the program locates the necessary
+library code at run time, normally through LD_LIBRARY_PATH or some
+other method.  The advantages are:
+ 
+<PRE>
+   1.  Less disk space if you build more than 1 program
+   2.  Less memory if more than one copy of a program using the shared
+       library is running at the same time since the system is smart
+       enough to share copies of the shared library at run time.
+   3.  Possibly easier maintenance since a new version of the shared
+       library can be installed without relinking all the software
+       that uses it (as long as the subroutine names and calling
+       sequences remain unchanged).
+   4.  No run-time penalty.
+</PRE>The disadvantages are:
+ 
+<PRE>
+   1. More hassle at runtime.  You have to either build the programs
+      specially or have LD_LIBRARY_PATH set right.
+   2. There may be a slight start up penality, depending on where you are
+      reading the shared library and the program from and if your CPU is
+      either really slow or really heavily loaded.
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html270"
+ HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html267"
+ HREF="node4.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html261"
+ HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html269"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html271"
+ HREF="node6.html">2.1.2 VMS</A>
+<B> Up:</B> <A NAME="tex2html268"
+ HREF="node4.html">2.1 Building the Library</A>
+<B> Previous:</B> <A NAME="tex2html262"
+ HREF="node4.html">2.1 Building the Library</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

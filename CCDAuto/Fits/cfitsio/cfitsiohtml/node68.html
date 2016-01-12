@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.5 Iterator Routines</TITLE>
+<META NAME="description" CONTENT="7.5 Iterator Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node69.html">
+<LINK REL="previous" HREF="node67.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node69.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1035"
+ HREF="node69.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1032"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1026"
+ HREF="node67.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1034"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1036"
+ HREF="node69.html">7.6 Primary Array or</A>
+<B> Up:</B> <A NAME="tex2html1033"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1027"
+ HREF="node67.html">7.4 Header Keyword Read/Write</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00850000000000000000">
+7.5 Iterator Routines</A>
+</H1>
+
+<P>
+The use of these routines is described in the previous chapter.
+Most of these routines do not have a corresponding short function
+name.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Iterator `constructor' functions that set
+the value of elements in the iteratorCol structure
+   that define the columns or arrays. These set the fitsfile
+    pointer, column name, column number, datatype, and iotype,
+    respectively.  The last 2 routines allow all the parameters
+    to be set with one function call (one supplies the column
+   name, the other the column number). <A NAME="ffiterset">&#160;</A></DL>
+<P>
+<PRE>
+  int fits_iter_set_file(iteratorCol *col, fitsfile *fptr);
+
+  int fits_iter_set_colname(iteratorCol *col, char *colname);
+
+  int fits_iter_set_colnum(iteratorCol *col, int colnum);
+
+  int fits_iter_set_datatype(iteratorCol *col, int datatype);
+
+  int fits_iter_set_iotype(iteratorCol *col, int iotype);
+
+  int fits_iter_set_by_name(iteratorCol *col, fitsfile *fptr,
+          char *colname, int datatype,  int iotype);
+
+  int fits_iter_set_by_num(iteratorCol *col, fitsfile *fptr,
+          int colnum, int datatype,  int iotype);
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Iterator `accessor' functions that return the value of the
+element in the iteratorCol structure
+    that describes a particular data column or array <A NAME="ffiterget">&#160;</A></DL> 
+<PRE>
+  fitsfile * fits_iter_get_file(iteratorCol *col);
+
+  char * fits_iter_get_colname(iteratorCol *col);
+
+  int fits_iter_get_colnum(iteratorCol *col);
+
+  int fits_iter_get_datatype(iteratorCol *col);
+
+  int fits_iter_get_iotype(iteratorCol *col);
+
+  void * fits_iter_get_array(iteratorCol *col);
+
+  long fits_iter_get_tlmin(iteratorCol *col);
+
+  long fits_iter_get_tlmax(iteratorCol *col);
+
+  long fits_iter_get_repeat(iteratorCol *col);
+
+  char * fits_iter_get_tunit(iteratorCol *col);
+
+  char * fits_iter_get_tdisp(iteratorCol *col);
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>The CFITSIO iterator function <A NAME="ffiter">&#160;</A></DL> 
+<PRE>
+  int fits_iterate_data(int narrays,  iteratorCol *data, long offset,
+            long nPerLoop,
+            int (*workFn)( long totaln, long offset, long firstn,
+                           long nvalues, int narrays, iteratorCol *data,
+                           void *userPointer),
+            void *userPointer,
+            int *status);
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

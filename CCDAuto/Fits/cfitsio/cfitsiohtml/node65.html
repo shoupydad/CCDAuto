@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.2 FITS File Access Routines</TITLE>
+<META NAME="description" CONTENT="7.2 FITS File Access Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node66.html">
+<LINK REL="previous" HREF="node64.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node66.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1002"
+ HREF="node66.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html999"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html993"
+ HREF="node64.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1001"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1003"
+ HREF="node66.html">7.3 HDU Access Routines</A>
+<B> Up:</B> <A NAME="tex2html1000"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html994"
+ HREF="node64.html">7.1 CFITSIO Error Status</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00820000000000000000">
+7.2 FITS File Access Routines</A>
+</H1>
+
+<P>
+These routines will open or close a new or existing FITS file or return
+information about the opened FITS file.  These routines support the
+extended file name syntax that is described in a previous chapter.
+See Appendix B for the definition of the parameters used in these routines.
+
+<P>
+The same FITS file may be opened more than once simultaneously and the
+resulting pointers to the files may be treated as though they were
+completely independent FITS files.  Thus, one could open a FITS file
+twice, move to different extensions within the file, and then read or
+write data to the 2 extensions in any order.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Open an existing FITS file with a specified access mode.
+The iomode parameter may have a value of READONLY or READWRITE.
+<A NAME="ffopen">&#160;</A></DL> 
+<PRE>
+  int fits_open_file / ffopen
+      (fitsfile **fptr, char *filename, int iomode, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Reopen a FITS file that was previously opened with
+fits_open_file or fits_create_file.  The new fitsfile
+    pointer may then be treated as a separate file, and one may
+    simultaneously read or write to 2 (or more)  different extensions in
+    the same file.   The fits_open_file routine (above) automatically
+    detects cases where a previously opened file is being opened again,
+    and then internally call fits_reopen_file, so programs should rarely
+    need to explicitly call this routine.
+<A NAME="ffreopen">&#160;</A></DL> 
+<PRE>
+  int fits_reopen_file / ffreopen
+      (fitsfile *openfptr, fitsfile **newfptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Create a new empty FITS file.  A template file may also be
+specified to define the structure of the new file (see secion 4.2.4).
+   An error will be returned if
+   the specified file already exists unless the filename is
+   prefixed with an exclamation point (!).  In that case CFITSIO
+   will overwrite the existing file. Note  that the exclamation point,
+   '!', is a special UNIX character, so if it is used  on the command
+   line rather than entered at a task prompt, it must be  preceded by a
+  backslash to force the UNIX shell to ignore it. <A NAME="ffinit">&#160;</A></DL> 
+<PRE>
+  int fits_create_file / ffinit
+      (fitsfile **fptr, char *filename, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Create a new FITS file, using a template file to define its
+initial size and structure.  The template may be another FITS HDU
+  or an ASCII template file.  If the input template file name pointer
+  is null, then this routine behaves the same as fits_create_file.
+  The currently supported format of the ASCII template file is described
+  under the fits_parse_template routine (in the general Utilities
+  section)
+<A NAME="fftplt">&#160;</A></DL> 
+<PRE>
+  int fits_create_template / fftplt
+      (fitsfile **fptr, char *filename, char *tpltfile &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Close a previously opened FITS file. <A NAME="ffclos">&#160;</A></DL> 
+<PRE>
+  int fits_close_file / ffclos (fitsfile *fptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Close and DELETE a FITS disk file previously opened with ffopen or ffinit.
+This routine may be  useful in cases where a FITS file is created but
+    then an error occurs which prevents the file from being completed.
+  <A NAME="ffdelt">&#160;</A></DL> 
+<PRE>
+  int fits_delete_file / ffdelt
+      (fitsfile *fptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Return the name of the opened FITS file. <A NAME="ffflnm">&#160;</A></DL> 
+<PRE>
+  int fits_file_name / ffflnm
+      (fitsfile *fptr, &gt; char *filename, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>8 </STRONG>
+<DD>Return the I/O mode of the open FITS file (READONLY or READWRITE).
+<A NAME="ffflmd">&#160;</A></DL> 
+<PRE>
+  int fits_file_mode / ffflmd
+      (fitsfile *fptr, &gt; int *iomode, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>9 </STRONG>
+<DD>Return the file type of the opened FITS file (e.g. 'file://', 'ftp://',
+etc.).
+<A NAME="ffurlt">&#160;</A></DL> 
+<PRE>
+  int fits_url_type / ffurlt
+      (fitsfile *fptr, &gt; char *urltype, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>10</STRONG>
+<DD>Parse the input filename or URL into its component parts: the file
+type (file://, ftp://, http://, etc), the base input file name, the
+name of the output file that the input file is to be copied to prior
+to opening, the HDU or extension specification, the filtering
+specifier, the binning specifier, and the column specifier.  Null
+strings will be returned for any components that are not present
+in the input file name.
+<A NAME="ffiurl">&#160;</A></DL> 
+<PRE>
+  int fits_parse_input_url / ffiurl
+      (char *filename, &gt; char *filetype, char *infile, char *outfile, char
+       *extspec, char *filter, char *binspec, char *colspec, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>11</STRONG>
+<DD>Parse the input filename and return the HDU number that would be
+moved to if the file were opened with fits_open_file.  The returned
+HDU number begins with 1 for the primary array, so for example, if the
+input filename = `myfile.fits[2]' then hdunum = 3 will be returned.
+CFITSIO does not open the file to check if the extension actually
+exists if an extension number is specified. If an extension *name* is
+included in the file name specification (e.g.  `myfile.fits[EVENTS]'
+then this routine will have to open the FITS file and look for the
+position of the named extension, then close file again.  This is not
+possible if the file is being read from the stdin stream, and an error
+will be returned in this case.  If the filename does not specify an
+explicit extension (e.g. 'myfile.fits') then hdunum = -99 will be
+returned, which is functionally equivalent to hdunum = 1. This routine
+is mainly used for backward compatibility in the ftools software
+package and is not recommended for general use.  It is generally better
+and more efficient to first open the FITS file with fits_open_file,
+then use fits_get_hdu_num to determine which HDU in the file has
+been opened, rather than calling fits_parse_input_url followed by a
+call to fits_open_file.
+<A NAME="ffextn">&#160;</A></DL> 
+<PRE>
+   int fits_parse_extnum / ffextn
+       (char *filename, &gt; int *hdunum, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>12</STRONG>
+<DD>Parse the input file name and return the root file name.  The root
+name includes the file type if specified, (e.g.  'ftp://' or 'http://')
+and the full path name, to the extent that it is specified in the input
+filename.  It does not enclude the HDU name or number, or any filtering
+specifications.
+<A NAME="ffrtnm">&#160;</A></DL> 
+<PRE>
+   int fits_parse_rootname / ffrtnm
+       (char *filename, &gt; char *rootname, int *status);
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1002"
+ HREF="node66.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html999"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html993"
+ HREF="node64.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1001"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1003"
+ HREF="node66.html">7.3 HDU Access Routines</A>
+<B> Up:</B> <A NAME="tex2html1000"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html994"
+ HREF="node64.html">7.1 CFITSIO Error Status</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

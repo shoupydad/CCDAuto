@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.8.1 Self-contained WCS Routines</TITLE>
+<META NAME="description" CONTENT="7.8.1 Self-contained WCS Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node76.html">
+<LINK REL="previous" HREF="node74.html">
+<LINK REL="up" HREF="node74.html">
+<LINK REL="next" HREF="node76.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1115"
+ HREF="node76.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1112"
+ HREF="node74.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1106"
+ HREF="node74.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1114"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1116"
+ HREF="node76.html">7.8.2 WCS Routines that</A>
+<B> Up:</B> <A NAME="tex2html1113"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<B> Previous:</B> <A NAME="tex2html1107"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00881000000000000000">
+7.8.1  Self-contained WCS Routines</A>
+</H2>
+
+<P>
+The following routines are included in the CFITSIO library to help
+calculate the transformation between pixel location in an image and the
+corresponding celestial coordinates on the sky.  These support the
+following standard map projections:  -SIN, -TAN, -ARC, -NCP, -GLS,
+  -MER, and -AIT (these are the legal values for the coordtype
+parameter).  These routines are based on similar functions in Classic
+AIPS.  All the angular quantities are given in units of degrees.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Get the values of all the standard FITS celestial coordinate system
+keywords from the header of a FITS image (i.e., the primary array or
+    an image extension).  These values may then be passed to the routines
+    that perform the coordinate transformations.  If any or all of the WCS
+    keywords are not present, then default values will be returned. If
+    the first coordinate axis is the declination-like coordinate, then
+    this routine will swap them so that the longitudinal-like coordinate
+    is returned as the first axis.
+
+<P>
+If the file uses the newer 'CDj_i' WCS transformation matrix
+    keywords instead of old style 'CDELTn' and 'CROTA2' keywords, then
+    this routine will calculate and return the values of the equivalent
+    old-style keywords.  Note that the conversion from the new-style
+    keywords to the old-style values is sometimes only an
+    approximation, so if the approximation is larger than an internally
+    defined threshold level, then CFITSIO will still return the
+    approximate WCS keyword values, but will also return with status =
+    APPROX_WCS_KEY, to warn the calling program that approximations
+    have been made.  It is then up to the calling program to decide
+    whether the approximations are sufficiently accurate for the
+    particular application, or whether more precise WCS transformations
+   must be performed using new-style WCS keywords directly. <A NAME="ffgics">&#160;</A></DL> 
+<PRE>
+  int fits_read_img_coord / ffgics
+      (fitsfile *fptr, &gt; double *xrefval, double *yrefval,
+       double *xrefpix, double *yrefpix, double *xinc, double *yinc,
+       double *rot, char *coordtype, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Get the values of all the standard FITS celestial coordinate system
+keywords from the header of a FITS table where the X and Y (or RA and
+    DEC coordinates are stored in 2 separate columns of the table.
+    These values may then be passed to the routines that perform the
+   coordinate transformations. <A NAME="ffgtcs">&#160;</A></DL> 
+<PRE>
+  int fits_read_tbl_coord / ffgtcs
+      (fitsfile *fptr, int xcol, int ycol, &gt; double *xrefval,
+       double *yrefval, double *xrefpix, double *yrefpix, double *xinc,
+       double *yinc, double *rot, char *coordtype, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Calculate the celestial coordinate corresponding to the input
+X and Y pixel location in the image. <A NAME="ffwldp">&#160;</A></DL> 
+<PRE>
+  int fits_pix_to_world / ffwldp
+      (double xpix, double ypix, double xrefval, double yrefval,
+       double xrefpix, double yrefpix, double xinc, double yinc,
+       double rot, char *coordtype, &gt; double *xpos, double *ypos,
+       int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Calculate the X and Y pixel location corresponding to the input
+celestial coordinate in the image. <A NAME="ffxypx">&#160;</A></DL> 
+<PRE>
+  int fits_world_to_pix / ffxypx
+      (double xpos, double ypos, double xrefval, double yrefval,
+       double xrefpix, double yrefpix, double xinc, double yinc,
+       double rot, char *coordtype, double *xpix, double *ypix,
+       int *status)
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1115"
+ HREF="node76.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1112"
+ HREF="node74.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1106"
+ HREF="node74.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1114"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1116"
+ HREF="node76.html">7.8.2 WCS Routines that</A>
+<B> Up:</B> <A NAME="tex2html1113"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<B> Previous:</B> <A NAME="tex2html1107"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1. Introduction </TITLE>
+<META NAME="description" CONTENT="1. Introduction ">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node3.html">
+<LINK REL="previous" HREF="node1.html">
+<LINK REL="up" HREF="cfitsio.html">
+<LINK REL="next" HREF="node3.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html220"
+ HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html217"
+ HREF="cfitsio.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html211"
+ HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html219"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html221"
+ HREF="node3.html">2. Creating the CFITSIO</A>
+<B> Up:</B> <A NAME="tex2html218"
+ HREF="cfitsio.html">CFITSIO</A>
+<B> Previous:</B> <A NAME="tex2html212"
+ HREF="node1.html">Contents</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00200000000000000000">
+1. Introduction </A>
+</H1>
+
+<P>
+CFITSIO is a machine-independent library of routines for reading and
+writing data files in the FITS (Flexible Image Transport System) data
+format.  It can also read IRAF format image files by converting them on
+the fly into a temporary FITS format file.  This library is written in
+ANSI C and provides a powerful yet simple interface for accessing FITS
+files which will run on most commonly used computers and workstations.
+CFITSIO supports all the features described in the official NOST
+definition of the FITS format and can read and write all the currently
+defined types of extensions, including ASCII tables (TABLE), Binary
+tables (BINTABLE) and IMAGE extensions.  The CFITSIO routines insulate
+the programmer from having to deal with the complicated formatting
+details in the FITS file, however, it is assumed that users have a
+general knowledge about the structure and usage of FITS files.
+
+<P>
+CFITSIO also contains a set of Fortran callable wrapper routines which
+allow Fortran programs to call the CFITSIO routines.  See the companion
+``FITSIO User's Guide'' for the definition of the Fortran subroutine
+calling sequences.  These wrappers replace the older Fortran FITSIO
+library which is no longer supported.
+
+<P>
+The CFITSIO package was initially developed by the HEASARC (High Energy
+Astrophysics Science Archive Research Center) at the NASA Goddard Space
+Flight Center to convert various existing and newly acquired
+astronomical data sets into FITS format and to further analyze data
+already in FITS format.  New features continue to be added to CFITSIO
+in large part due to contributions of ideas or actual code from
+users of the package.  The Integral Science Data Center in Switzerland,
+and the XMM/ESTEC project in The Netherlands made especially significant
+contributions that resulted in many of the new features that appeared
+in v2.0 of CFITSIO.
+
+<P>
+The latest version of the CFITSIO source code,
+documentation, and example programs are available on the World-Wide
+Web or via anonymous ftp from:
+ 
+<PRE>
+        http://heasarc.gsfc.nasa.gov/fitsio
+        ftp://legacy.gsfc.nasa.gov/software/fitsio/c
+</PRE>
+Any questions, bug reports, or suggested enhancements related to the CFITSIO
+package should be sent to the primary author:
+ 
+<PRE>
+        Dr. William Pence                 Telephone:  (301) 286-4599
+        HEASARC, Code 662                 E-mail: pence@tetra.gsfc.nasa.gov
+        NASA/Goddard Space Flight Center
+        Greenbelt, MD 20771, USA
+</PRE>This User's Guide assumes that readers already have a general
+understanding of the definition and structure of FITS format files.
+Further information about FITS formats is available in the `FITS User's
+Guide' and the `NOST FITS Standard', which are available from the NASA
+Science Office of Standards and Technology at the address given below.
+Both of these documents are available electronically from their Web
+site and via anonymous ftp at nssdc.gsfc.nasa.gov in the /pub/fits
+directory. Any questions about FITS formats should be directed to the
+NOST, at:
+ 
+<PRE>
+        NASA, Science Office of Standards and Technology
+        Code 633.2,
+        Goddard Space Flight Center
+        Greenbelt MD 20771, USA
+        WWW: http://fits.gsfc.nasa.gov/
+        E-mail: fits@fits.gsfc.nasa.gov
+        (301) 286-2899
+</PRE>CFITSIO users may also be interested in the FTOOLS package of programs
+that can be used to manipulate and analyze FITS format files.
+Information about FTOOLS can be obtained on the Web or via anonymous
+ftp at:
+ 
+<PRE>
+        http://heasarc.gsfc.nasa.gov/ftools
+        ftp://legacy.gsfc.nasa.gov/software/ftools/release
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html220"
+ HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html217"
+ HREF="cfitsio.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html211"
+ HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html219"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html221"
+ HREF="node3.html">2. Creating the CFITSIO</A>
+<B> Up:</B> <A NAME="tex2html218"
+ HREF="cfitsio.html">CFITSIO</A>
+<B> Previous:</B> <A NAME="tex2html212"
+ HREF="node1.html">Contents</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

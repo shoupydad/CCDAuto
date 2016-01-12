@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.2 Specialized HDU Access Routines</TITLE>
+<META NAME="description" CONTENT="8.2 Specialized HDU Access Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node85.html">
+<LINK REL="previous" HREF="node83.html">
+<LINK REL="up" HREF="node82.html">
+<LINK REL="next" HREF="node85.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1227"
+ HREF="node85.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1224"
+ HREF="node82.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1218"
+ HREF="node83.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1226"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1228"
+ HREF="node85.html">8.3 Specialized Header Keyword</A>
+<B> Up:</B> <A NAME="tex2html1225"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1219"
+ HREF="node83.html">8.1 Specialized FITS File</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00920000000000000000">
+8.2 Specialized HDU Access Routines</A>
+</H1>
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Get the byte offsets in the FITS file to the start of the header
+and the start and end of the data in the CHDU. The difference
+    between headstart and dataend equals the size of the CHDU.  If the
+    CHDU is the last HDU in the file, then dataend is also equal to the
+    size of the entire FITS file.  Null pointers may be input for any
+    of the address parameters if their values are not needed.  The
+    fits_get_hduaddr routine is obsolete and should no longer be
+    used.  The newer fits_get_hduoff routine uses the 'off_t'
+    datatype which can support offsets in large files greater than
+   2.1GB in size. <A NAME="ffghad">&#160;</A></DL> 
+<PRE>
+  int fits_get_hduoff / ffghof
+       (fitsfile *fptr, &gt; off_t *headstart, off_t *datastart, off_t *dataend,
+        int *status)
+
+  int fits_get_hduaddr / ffghad  (OBSOLETE routine)
+       (fitsfile *fptr, &gt; long *headstart, long *datastart, long *dataend,
+        int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Create (append) a new empty HDU at the end of the FITS file.
+This is now  the CHDU but it is completely empty and has
+    no header keywords.  It is recommended that fits_create_img or
+ fits_create_tbl be used instead of this routine. <A NAME="ffcrhd">&#160;</A></DL> 
+<PRE>
+  int fits_create_hdu / ffcrhd
+      (fitsfile *fptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Insert a new IMAGE extension immediately following the CHDU.
+Any following extensions will be shifted down to make room for
+    the new extension.  If there are no other following extensions
+    then the new image extension will simply be appended to the
+    end of the file.  The new extension will become the CHDU.
+   Refer to Chapter 9 for a list of pre-defined bitpix values. <A NAME="ffiimg">&#160;</A></DL> 
+<PRE>
+  int fits_insert_img / ffiimg
+      (fitsfile *fptr, int bitpix, int naxis, long *naxes, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Insert a new ASCII or binary table extension immediately following the CHDU.
+Any following extensions will be shifted down to make room for
+    the new extension.  If there are no other following extensions
+    then the new table extension will simply be appended to the
+    end of the file.   If the FITS file is currently empty
+    then this routine will create a dummy primary array before
+    appending the table to it. The new extension will become the CHDU.
+    The tunit and
+    extname parameters are optional and a null pointer may be given
+    if they are not defined.  When inserting an ASCII table with
+    fits_insert_atbl, a null pointer  may given for the
+    *tbcol parameter in which case each column of the table
+    will be separated by a single space character. Similarly, if the
+    input value of rowlen is  0, then CFITSIO will calculate
+    the default rowlength based on the tbcol and ttype values.
+    When inserting a binary table with fits_insert_btbl,
+    if there are following extensions in the file and if
+    the table contains variable length array columns
+    then pcount must specify the expected final size of the data heap,
+   otherwise pcount must = 0. <A NAME="ffitab">&#160;</A> <A NAME="ffibin">&#160;</A></DL> 
+<PRE>
+  int fits_insert_atbl / ffitab
+      (fitsfile *fptr, long rowlen, long nrows, int tfields, char *ttype[],
+       long *tbcol, char *tform[], char *tunit[], char *extname, &gt; int *status)
+
+  int fits_insert_btbl / ffibin
+      (fitsfile *fptr, long nrows, int tfields, char **ttype,
+      char **tform, char **tunit, char *extname, long pcount, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Modify the size, dimensions, and/or datatype of the current
+primary array or image extension. If the new image, as specified
+    by the input arguments, is larger than the current existing image
+    in the FITS file then zero fill data will be inserted at the end
+    of the current image and any following extensions will be moved
+    further back in the file.  Similarly, if the new image is
+    smaller than the current image then any following extensions
+    will be shifted up towards the beginning of the FITS file
+    and the image data will be truncated to the new size.
+    This routine rewrites the BITPIX, NAXIS, and NAXISn keywords
+   with the appropriate values for the new image. <A NAME="ffrsim">&#160;</A></DL> 
+<PRE>
+  int fits_resize_img / ffrsim
+      (fitsfile *fptr, int bitpix, int naxis, long *naxes, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Copy the header (and not the data) from the CHDU associated with infptr
+to the CHDU associated with outfptr.  If the current output HDU
+    is not completely empty, then the CHDU will be closed and a new
+    HDU will be appended to the output file.  This routine will automatically
+    transform the necessary keywords when copying a primary array to
+    and image extension, or an image extension to a primary array.
+   An empty output data unit will be created (all values = 0). <A NAME="ffcphd">&#160;</A></DL> 
+<PRE>
+  int fits_copy_header / ffcphd
+      (fitsfile *infptr, fitsfile *outfptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Copy the data (and not the header) from the CHDU associated with infptr
+to the CHDU associated with outfptr. This will overwrite any data
+    previously in the output CHDU.  This low level routine is used by
+    fits_copy_hdu, but it may also be useful in certain application programs
+    that want to copy the data from one FITS file to another but also
+    want to modify the header keywords. The required FITS header keywords
+    which define the structure of the HDU must be written to the
+   output CHDU before calling this routine. <A NAME="ffcpdt">&#160;</A></DL> 
+<PRE>
+  int fits_copy_data / ffcpdt
+      (fitsfile *infptr, fitsfile *outfptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>8 </STRONG>
+<DD>This routine forces CFITSIO to rescan the current header keywords that
+define the structure of the HDU (such as the NAXIS and BITPIX
+    keywords) so that it reinitializes the internal buffers that
+    describe the HDU structure.  This routine is useful for
+    reinitializing the structure of an HDU if any of the required
+    keywords (e.g., NAXISn) have been modified.  In practice it should
+    rarely be necessary to call this routine because CFITSIO
+   internally calls it in most situations. <A NAME="ffrdef">&#160;</A></DL> 
+<PRE>
+  int fits_set_hdustruc / ffrdef
+      (fitsfile *fptr, &gt; int *status)   (DEPRECATED)
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1227"
+ HREF="node85.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1224"
+ HREF="node82.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1218"
+ HREF="node83.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1226"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1228"
+ HREF="node85.html">8.3 Specialized Header Keyword</A>
+<B> Up:</B> <A NAME="tex2html1225"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1219"
+ HREF="node83.html">8.1 Specialized FITS File</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

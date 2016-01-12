@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.2.4 Template File Name when Creating a New File</TITLE>
+<META NAME="description" CONTENT="4.2.4 Template File Name when Creating a New File">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node32.html">
+<LINK REL="previous" HREF="node24.html">
+<LINK REL="up" HREF="node19.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html520"
+ HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html517"
+ HREF="node19.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html511"
+ HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html519"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html521"
+ HREF="node26.html">4.2.4.1 Detailed Template Line</A>
+<B> Up:</B> <A NAME="tex2html518"
+ HREF="node19.html">4.2 Detailed Filename Syntax</A>
+<B> Previous:</B> <A NAME="tex2html512"
+ HREF="node24.html">4.2.3 Output File Name</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00524000000000000000">
+4.2.4 Template File Name when Creating a New File</A>
+</H2>
+
+<P>
+When a new FITS file is created with a call to fits_create_file, the
+name of a template file may be supplied in parentheses immediately
+following the name of the new file to be created.  This template is
+used to define the structure of one or more HDUs in the new file.  The
+template file may be another FITS file, in which case the newly created
+file will have exactly the same keywords in each HDU as in the template
+FITS file, but all the data units will be filled with zeros.  The
+template file may also be an ASCII text file, where each line (in
+general) describes one FITS keyword record.  The format of the ASCII
+template file is described below.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html522"
+ HREF="node26.html">4.2.4.1 Detailed Template Line Format</A>
+<LI><A NAME="tex2html523"
+ HREF="node27.html">4.2.4.2 Auto-indexing of Keywords</A>
+<LI><A NAME="tex2html524"
+ HREF="node28.html">4.2.4.3 Template Parser Directives</A>
+<LI><A NAME="tex2html525"
+ HREF="node29.html">4.2.4.4 Formal Template Syntax</A>
+<LI><A NAME="tex2html526"
+ HREF="node30.html">4.2.4.5 Errors</A>
+<LI><A NAME="tex2html527"
+ HREF="node31.html">4.2.4.6 Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

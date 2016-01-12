@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.8 Celestial Coordinate System Routines</TITLE>
+<META NAME="description" CONTENT="7.8 Celestial Coordinate System Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node77.html">
+<LINK REL="previous" HREF="node70.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node75.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1102"
+ HREF="node75.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1099"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1093"
+ HREF="node73.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1101"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1103"
+ HREF="node75.html">7.8.1 Self-contained WCS Routines</A>
+<B> Up:</B> <A NAME="tex2html1100"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1094"
+ HREF="node73.html">7.7.3 Read and Write</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00880000000000000000">&#160;</A> <A NAME="FFGICS">&#160;</A>
+<BR>
+7.8 Celestial Coordinate System Routines
+</H1>
+
+<P>
+Two complimentary sets of routines are provided for calculating the
+transformation between pixel location in an image and the the
+corresponding celestial coordinates on the sky.  These routines rely on
+a set of standard World Coordinate System (WCS) keywords in the header
+of the HDU which define the parameters to be used when calculating the
+coordinate transformation.
+
+<P>
+Both sets of routines require that a 2 step procedure be followed:
+first an initialization routine must be called to read the relevent WCS
+keywords in the header.  These parameters are then passed to a pair of
+routines that convert from pixel to sky coordinates, or from sky to
+pixel coordinates.  See Appendix B for the definition of the
+parameters used in these routines.
+
+<P>
+The first set of routines described below have the advantage that they
+are completely self-contained within the CFITSIO library and thus are
+guaranteed to be available on the system.  These routines  only support
+the most common types of map projections and WCS keyword conventions
+however.
+
+<P>
+The second set of routines are available in a WCS library written by
+Doug Mink at SAO.  These routines are more powerful than the ones
+contained in CFITSIO itself because they support all the defined WCS
+map projections and they  support a number of non-standard keyword
+conventions that have been adopted over the years by various different
+observatories.  To use these routines, however, requires that a
+separate WCS library be built and installed on the system in addition
+to CFITSIO.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html1104"
+ HREF="node75.html">7.8.1  Self-contained WCS Routines</A>
+<LI><A NAME="tex2html1105"
+ HREF="node76.html">7.8.2 WCS Routines that require the WCS library</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1102"
+ HREF="node75.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1099"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1093"
+ HREF="node73.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1101"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1103"
+ HREF="node75.html">7.8.1 Self-contained WCS Routines</A>
+<B> Up:</B> <A NAME="tex2html1100"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1094"
+ HREF="node73.html">7.7.3 Read and Write</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

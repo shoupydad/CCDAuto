@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.10 Row Selection and Calculator Routines</TITLE>
+<META NAME="description" CONTENT="7.10 Row Selection and Calculator Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node79.html">
+<LINK REL="previous" HREF="node77.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node79.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1146"
+ HREF="node79.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1143"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1137"
+ HREF="node77.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1145"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1147"
+ HREF="node79.html">7.11 File Checksum Routines</A>
+<B> Up:</B> <A NAME="tex2html1144"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1138"
+ HREF="node77.html">7.9 Hierarchical Grouping Convention</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008100000000000000000">
+7.10 Row Selection and Calculator Routines</A>
+</H1>
+
+<P>
+These routines all parse and evaluate an input string containing a user
+defined arithmetic expression.  The first 3 routines select rows in a
+FITS table, based on whether the expression evaluates to true (not
+equal to zero) or false (zero).  The other routines evaluate the
+expression and calculate a value for each row of the table.  The
+allowed expression syntax is described in the row filter section in the
+earlier `Extended File Name Syntax' chapter of this document.  See
+Appendix B for the definition of the parameters used in these
+routines.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Evaluate a boolean expression over the indicated rows, returning an
+array of flags indicating which rows evaluated to TRUE/FALSE  <A NAME="fffrow">&#160;</A></DL> 
+<PRE>
+  int fits_find_rows / fffrow
+      (fitsfile *fptr,  char *expr, long firstrow, long nrows,
+      &gt; long *n_good_rows, char *row_status,  int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Find the first row which satisfies the input boolean expression <A NAME="ffffrw">&#160;</A></DL> 
+<PRE>
+  int fits_find_first_row / ffffrw
+      (fitsfile *fptr,  char *expr, &gt; long *rownum, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Evaluate an expression on all rows of a table.  If the input and output
+files are not the same, copy the TRUE rows to the output file.  If the
+files are the same, delete the FALSE rows (preserve the TRUE rows). <A NAME="ffsrow">&#160;</A></DL> 
+<PRE>
+  int fits_select_rows / ffsrow
+      (fitsfile *infptr, fitsfile *outfptr,  char *expr,  &gt; int *status )
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Calculate an expression for the indicated rows of a table, returning
+the results, cast as datatype (TSHORT, TDOUBLE, etc), in array.  If
+nulval==NULL, UNDEFs will be zeroed out.  For vector results, the number
+of elements returned may be less than nelements if nelements is not an
+even multiple of the result dimension.  Call fits_test_expr to obtain
+the dimensions of the results.  <A NAME="ffcrow">&#160;</A></DL> 
+<PRE>
+  int fits_calc_rows / ffcrow
+      (fitsfile *fptr,  int datatype, char *expr, long firstrow,
+       long nelements, void *nulval, &gt; void *array,  int *anynul, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Evaluate an expression and write the result either to a column (if
+the expression is a function of other columns in the table) or to a
+keyword (if the expression evaluates to a constant and is not a
+function of other columns in the table).  In the former case, the
+parName parameter is the name of the column (which may or may not already
+exist) into which to write the results, and parInfo contains an
+optional TFORM keyword value if a new column is being created.  If a
+TFORM value is not specified then a default format will be used,
+depending on the expression.  If the expression evalutes to a constant,
+then the result will be written to the keyword name given by the
+parName parameter, and the parInfo parameter may be used to supply an
+optional comment for the keyword.  If the keyword does not already
+exist, then the name of the keyword must be preceeded with a '#' character,
+otherwise the result will be written to a column with that name.
+<A NAME="ffcalc">&#160;</A></DL> 
+<PRE>
+  int fits_calculator / ffcalc
+      (fitsfile *infptr, char *expr, fitsfile *outfptr, char *parName,
+       char *parInfo, &gt;  int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>This calculator routine is similar to the previous routine, except
+that the expression is only evaluated over the specified
+row ranges.  nranges specifies the number of row ranges, and firstrow
+and lastrow give the starting and ending row number of each range.
+<A NAME="ffcalcrng">&#160;</A></DL> 
+<PRE>
+  int fits_calculator_rng / ffcalc_rng
+      (fitsfile *infptr, char *expr, fitsfile *outfptr, char *parName,
+       char *parInfo, int nranges, long *firstrow, long *lastrow
+       &gt;  int *status)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Evaluate the given expression and return information on the result. <A NAME="fftexp">&#160;</A></DL> 
+<PRE>
+  int fits_test_expr / fftexp
+      (fitsfile *fptr, char *expr, &gt; int *datatype, long *nelem, int *naxis,
+       long *naxes, int *status)
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1146"
+ HREF="node79.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1143"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1137"
+ HREF="node77.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1145"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1147"
+ HREF="node79.html">7.11 File Checksum Routines</A>
+<B> Up:</B> <A NAME="tex2html1144"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1138"
+ HREF="node77.html">7.9 Hierarchical Grouping Convention</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

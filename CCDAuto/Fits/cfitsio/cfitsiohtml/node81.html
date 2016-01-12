@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.13 General Utility Routines</TITLE>
+<META NAME="description" CONTENT="7.13 General Utility Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="previous" HREF="node80.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node82.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1177"
+ HREF="node82.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1174"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1170"
+ HREF="node80.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1176"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1178"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<B> Up:</B> <A NAME="tex2html1175"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1171"
+ HREF="node80.html">7.12 Date and Time</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION008130000000000000000">
+7.13  General Utility Routines</A>
+</H1>
+
+<P>
+The following utility routines may be useful for certain applications.
+See Appendix B for the definition of the parameters used in these
+routines.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Convert a character string to uppercase (operates in place). <A NAME="ffupch">&#160;</A></DL> 
+<PRE>
+  void fits_uppercase / ffupch (char *string)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Compare the input template string against the reference string
+to see if they match.  The template string may contain wildcard
+    characters: '*' will match any sequence of characters (including
+    zero characters) and '%' will match any single character in the
+    reference string.  If casesen = CASESEN = TRUE then the match will be
+    case sensitive, otherwise the case of the letters will be ignored
+    if casesen = CASEINSEN = FALSE.  The returned MATCH parameter will be
+    TRUE if the 2 strings match, and EXACT will be TRUE if the match is
+    exact (i.e., if no wildcard characters were used in the match).
+   Both strings must be 68 characters or less in length. <A NAME="ffcmps">&#160;</A></DL> 
+<PRE>
+  void fits_compare_str / ffcmps
+       (char *templt, char *string, int casesen, &gt; int *match, int *exact)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Test that the keyword name contains only legal characters: A-Z,0-9,
+hyphen, and underscore. <A NAME="fftkey">&#160;</A></DL> 
+<PRE>
+  int fits_test_keyword / fftkey (char *keyname, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Test that the keyword record contains only legal printable ASCII characters
+<A NAME="fftrec">&#160;</A></DL> 
+<PRE>
+  int fits_test_record / fftrec (char *card, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Test whether the current header contains any NULL (ASCII 0) characters.
+These characters are illegal in the header, but they will go undetected
+    by most of the CFITSIO keyword header routines, because the null is
+    interpreted as the normal end-of-string terminator.  This routine returns
+    the position of the first null character in the header, or zero if there
+    are no nulls.  For example a returned value of 110 would indicate that
+    the first NULL is located in the 30th character of the second keyword
+    in the header (recall that each header record is 80 characters long).
+    Note that this is one of the few CFITSIO routines in which the returned
+    value is not necessarily equal to the status value).
+   <A NAME="ffnchk">&#160;</A></DL> 
+<PRE>
+  int fits_null_check / ffnchk (char *card, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Parse a header keyword record and return the name of the keyword,
+and the length of the name.
+    The keyword name normally occupies the first 8 characters of the
+    record, except under the HIERARCH convention where the name can
+   be up to 70 characters in length. <A NAME="ffgknm">&#160;</A></DL> 
+<PRE>
+  int fits_get_keyname / ffgknm
+      (char *card, &gt; char *keyname, int *keylength, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Parse a header keyword record, returning the value (as
+a literal character string) and comment strings.  If the keyword has no
+    value (columns 9-10 not equal to '= '), then a null value string is
+    returned and the comment string is set equal to column 9 - 80 of the
+   input string. <A NAME="ffpsvc">&#160;</A></DL> 
+<PRE>
+  int fits_parse_value / ffpsvc
+      (char *card, &gt; char *value, char *comment, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>8 </STRONG>
+<DD>Construct an array indexed keyword name (ROOT + nnn).
+This routine appends the sequence number to the root string to create
+   a keyword name (e.g., 'NAXIS' + 2 = 'NAXIS2') <A NAME="ffkeyn">&#160;</A></DL> 
+<PRE>
+  int fits_make_keyn / ffkeyn
+      (char *keyroot, int value, &gt; char *keyname, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>9 </STRONG>
+<DD>Construct a sequence keyword name (n + ROOT).
+This routine concatenates the sequence number to the front of the
+   root string to create a keyword name (e.g., 1 + 'CTYP' = '1CTYP') <A NAME="ffnkey">&#160;</A></DL> 
+<PRE>
+  int fits_make_nkey / ffnkey
+      (int value, char *keyroot, &gt; char *keyname, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>10</STRONG>
+<DD>Determine the datatype of a keyword value string. This routine
+parses the keyword value string  to determine its datatype.
+    Returns 'C', 'L', 'I', 'F' or 'X', for character string, logical,
+   integer, floating point, or complex, respectively. <A NAME="ffdtyp">&#160;</A></DL> 
+<PRE>
+  int fits_get_keytype / ffdtyp
+      (char *value, &gt; char *dtype, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>11</STRONG>
+<DD>Return the class of input header record.  The record is classified
+into one of the following catagories (the class values are
+    defined in fitsio.h).  Note that this is one of the few CFITSIO
+   routines that does not return a status value. <A NAME="ffgkcl">&#160;</A></DL> 
+<PRE>
+       Class  Value             Keywords
+  TYP_STRUC_KEY  10  SIMPLE, BITPIX, NAXIS, NAXISn, EXTEND, BLOCKED,
+                     GROUPS, PCOUNT, GCOUNT, END
+                     XTENSION, TFIELDS, TTYPEn, TBCOLn, TFORMn, THEAP,
+                     and the first 4 COMMENT keywords in the primary array
+                     that define the FITS format.
+  TYP_CMPRS_KEY  20  The experimental keywords used in the compressed
+                     image format ZIMAGE, ZCMPTYPE, ZNAMEn, ZVALn,
+                     ZTILEn, ZBITPIX, ZNAXISn, ZSCALE, ZZERO, ZBLANK
+  TYP_SCAL_KEY   30  BSCALE, BZERO, TSCALn, TZEROn
+  TYP_NULL_KEY   40  BLANK, TNULLn
+  TYP_DIM_KEY    50  TDIMn
+  TYP_RANG_KEY   60  TLMINn, TLMAXn, TDMINn, TDMAXn, DATAMIN, DATAMAX
+  TYP_UNIT_KEY   70  BUNIT, TUNITn
+  TYP_DISP_KEY   80  TDISPn
+  TYP_HDUID_KEY  90  EXTNAME, EXTVER, EXTLEVEL, HDUNAME, HDUVER, HDULEVEL
+  TYP_CKSUM_KEY 100  CHECKSUM, DATASUM
+  TYP_WCS_KEY   110  CTYPEn, CUNITn, CRVALn, CRPIXn, CROTAn, CDELTn
+                     CDj_is, PVj_ms, LONPOLEs, LATPOLEs
+                     TCTYPn, TCTYns, TCUNIn, TCUNns, TCRVLn, TCRVns, TCRPXn,
+                     TCRPks, TCDn_k, TCn_ks, TPVn_m, TPn_ms, TCDLTn, TCROTn
+                     jCTYPn, jCTYns, jCUNIn, jCUNns, jCRVLn, jCRVns, iCRPXn,
+                     iCRPns, jiCDn,  jiCDns, jPVn_m, jPn_ms, jCDLTn, jCROTn
+                     (i,j,m,n are integers, s is any letter)
+  TYP_REFSYS_KEY 120 EQUINOXs, EPOCH, MJD-OBSs, RADECSYS, RADESYSs
+  TYP_COMM_KEY   130 COMMENT, HISTORY, (blank keyword)
+  TYP_CONT_KEY   140 CONTINUE
+  TYP_USER_KEY   150 all other keywords
+
+  int fits_get_keyclass / ffgkcl (char *card)
+</PRE> 
+<DL>
+<DT><STRONG>12</STRONG>
+<DD>Parse the 'TFORM' binary table column format string.
+This routine parses the input TFORM character string and returns the
+    integer datatype code, the repeat count of the field, and, in the case
+    of character string fields, the length of the unit string.  See Appendix
+    B for the allowed values for the returned typecode parameter.  A
+   null pointer may be given for any output parameters that are not needed. <A NAME="ffbnfm">&#160;</A></DL> 
+<PRE>
+   int fits_binary_tform / ffbnfm
+       (char *tform, &gt; int *typecode, long *repeat, long *width,
+        int *status)
+</PRE> 
+<DL>
+<DT><STRONG>13</STRONG>
+<DD>Parse the 'TFORM' keyword value that defines the column format in
+an ASCII table.  This routine parses the input TFORM character
+    string and returns the datatype code, the width of the column,
+    and (if it is a floating point column) the number of decimal places
+    to the right of the decimal point.  The returned datatype codes are
+    the same as for the binary table, with the following
+    additional rules:  integer columns that are between 1 and 4 characters
+    wide are defined to be short integers (code = TSHORT).  Wider integer
+    columns are defined to be regular integers (code = TLONG).  Similarly,
+    Fixed decimal point columns (with TFORM = 'Fw.d') are defined to
+    be single precision reals (code = TFLOAT) if w is between 1 and 7 characters
+    wide, inclusive.  Wider 'F' columns will return a double precision
+    data code (= TDOUBLE).  'Ew.d' format columns will have datacode = TFLOAT,
+    and 'Dw.d' format columns will have datacode = TDOUBLE. A null
+   pointer may be given for any output parameters that are not needed. <A NAME="ffasfm">&#160;</A></DL> 
+<PRE>
+  int fits_ascii_tform / ffasfm
+      (char *tform, &gt; int *typecode, long *width, int *decimals,
+       int *status)
+</PRE> 
+<DL>
+<DT><STRONG>14</STRONG>
+<DD>Calculate the starting column positions and total ASCII table width
+based on the input array of ASCII table TFORM values.  The SPACE input
+    parameter defines how many blank spaces to leave between each column
+    (it is recommended to have one space between columns for better human
+   readability). <A NAME="ffgabc">&#160;</A></DL> 
+<PRE>
+  int fits_get_tbcol / ffgabc
+      (int tfields, char **tform, int space, &gt; long *rowlen,
+       long *tbcol, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>15</STRONG>
+<DD>Parse a template header record and return a formatted 80-character string
+suitable for appending to (or deleting from) a FITS header file.
+    This routine is useful for parsing lines from an ASCII template file
+    and reformatting them into legal FITS header records.  The formatted
+    string may then be passed to the fits_write_record, ffmcrd, or
+    fits_delete_key routines
+   to append or modify a FITS header record. <A NAME="ffgthd">&#160;</A></DL> 
+<PRE>
+  int fits_parse_template / ffgthd
+      (char *templt, &gt; char *card, int *keytype, int *status)
+</PRE>    The input templt character string generally should contain 3 tokens:
+    (1) the KEYNAME, (2) the VALUE, and (3) the COMMENT string.  The
+    TEMPLATE string must adhere to the following format:
+
+<P>
+<DL>
+<DT><STRONG>- </STRONG>
+<DD>The KEYNAME token must begin in columns 1-8 and be a maximum  of 8
+characters long.  A legal FITS keyword name may only
+        contain the characters A-Z, 0-9, and '-' (minus sign) and
+        underscore.  This routine will automatically convert any lowercase
+        characters to uppercase in the output string.  If the first 8 characters
+        of the template line are
+        blank then the remainder of the line is considered to be a FITS comment
+       (with a blank keyword name).
+</DL>
+<P>
+<DL>
+<DT><STRONG>- </STRONG>
+<DD>The VALUE token must be separated from the KEYNAME token by one or more
+spaces and/or an '=' character.  The datatype of the VALUE token
+        (numeric, logical, or character string) is automatically determined
+        and  the output CARD string is formatted accordingly.  The value
+        token may be forced to be interpreted as a string (e.g. if it is a
+       string of numeric digits) by enclosing it in single quotes.
+</DL>
+<P>
+<DL>
+<DT><STRONG>- </STRONG>
+<DD>The COMMENT token is optional, but if present must be separated from
+the VALUE token by at least one blank space and a  '/' character.
+</DL>
+<P>
+<DL>
+<DT><STRONG>- </STRONG>
+<DD>One exception to the above rules is that if the first non-blank
+character in the first 8 characters of the template string is a
+        minus sign ('-') followed
+        by a single token, or a single token followed by an equal sign,
+        then it is interpreted as the name of a keyword which is to be
+       deleted from the FITS header.
+</DL>
+<P>
+<DL>
+<DT><STRONG>- </STRONG>
+<DD>The second exception is that if the template string starts with
+a minus sign and is followed by 2 tokens (without an equals sign between
+        them) then the second token
+        is interpreted as the new name for the keyword specified by
+        first token.  In this case the old keyword name (first token)
+        is returned in characters 1-8 of the returned CARD string, and
+        the new keyword name (the second token) is returned in characters
+        41-48 of the returned CARD string.  These old and new names
+        may then be passed to the ffmnam routine which will change
+       the keyword name.
+</DL>
+<P>
+The keytype output parameter indicates how the returned CARD string
+    should be interpreted:
+ 
+<PRE>
+        keytype                  interpretation
+        -------          -------------------------------------------------
+           -2            Rename the keyword with name = the first 8 characters of CARD
+                         to the new name given in characters 41 - 48 of CARD.
+
+           -1            delete the keyword with this name from the FITS header.
+
+            0            append the CARD string to the FITS header if the
+                         keyword does not already exist, otherwise update
+                         the keyword value and/or comment field if is already exists.
+
+            1            This is a HISTORY or COMMENT keyword; append it to the header
+
+            2            END record; do not explicitly write it to the FITS file.
+</PRE>     EXAMPLES:  The following lines illustrate valid input template strings:
+ 
+<PRE>
+      INTVAL 7 / This is an integer keyword
+      RVAL           34.6   /     This is a floating point keyword
+      EVAL=-12.45E-03  / This is a floating point keyword in exponential notation
+      lval F / This is a boolean keyword
+                  This is a comment keyword with a blank keyword name
+      SVAL1 = 'Hello world'   /  this is a string keyword
+      SVAL2  '123.5'  this is also a string keyword
+      sval3  123+  /  this is also a string keyword with the value '123+    '
+      # the following template line deletes the DATE keyword
+      - DATE
+      # the following template line modifies the NAME keyword to OBJECT
+      - NAME OBJECT
+</PRE> 
+<DL>
+<DT><STRONG>16</STRONG>
+<DD>Check that the Header fill bytes (if any) are all blank.  These are the bytes
+that may follow END keyword and before the beginning of data unit, or the end of
+     the HDU if there is no data unit.
+   <A NAME="ffchfl">&#160;</A></DL> 
+<PRE>
+    int ffchfl(fitsfile *fptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>17</STRONG>
+<DD>Check that the Data fill bytes (if any) are all zero (for IMAGE or BINARY Table HDU)
+or all blanks (for ASCII table HDU).  These file bytes may be
+   located after the last valid data byte in the HDU and before the physcal end of the HDU.
+     <A NAME="ffcdfl">&#160;</A></DL> 
+<PRE>
+    int ffcdfl(fitsfile *fptr, &gt; int *status)
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1177"
+ HREF="node82.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1174"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1170"
+ HREF="node80.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1176"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1178"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<B> Up:</B> <A NAME="tex2html1175"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1171"
+ HREF="node80.html">7.12 Date and Time</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

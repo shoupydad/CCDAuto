@@ -1,0 +1,65 @@
+[Version]
+Signature="$CHICAGO$"
+Class=SXVIOClass
+ClassGuid={606377C1-2270-11d4-BFD8-00207812F5D5}
+;ClassGuid={3E480F22-F067-49F1-9F03-F981723C279F}
+Provider=%USBDbyE%
+
+[Manufacturer]
+%USBDbyE%=USBDbyE
+
+[ClassInstall32]
+Addreg=SXVIOClassAddReg
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+
+[SourceDisksFiles]
+SXVIO.sys=1
+
+[USBDbyE]
+%USB\VID_4444&PID_4220.DeviceDesc%=SXVIO,USB\VID_4444&PID_4220
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[SXVIO.NT]
+CopyFiles=SXVIOCopyFiles
+
+[SXVIOCopyFiles]
+SXVIO.sys,,,2
+
+[SXVIO.NT.Services]
+AddService=SXVIO,2,SXVIOService
+
+[SXVIOService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\SXVIO.sys
+
+[SXVIOInstall.nt.hw]
+AddReg=SXVIOHwAddReg
+
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[SXVIO]
+AddReg=SXVIOAddReg
+CopyFiles=SXVIOCopyFiles
+
+[SXVIOAddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,SXVIO.sys
+						
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+USBDbyE="Starlight Xpress Ltd"
+USB\VID_4444&PID_4220.DeviceDesc="Starlight Xpress USB 2.0 Camera Driver" 
+

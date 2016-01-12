@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.12 Support for IEEE Special Values</TITLE>
+<META NAME="description" CONTENT="5.12 Support for IEEE Special Values">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node50.html">
+<LINK REL="previous" HREF="node48.html">
+<LINK REL="up" HREF="node37.html">
+<LINK REL="next" HREF="node50.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html807"
+ HREF="node50.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html804"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html798"
+ HREF="node48.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html806"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html808"
+ HREF="node50.html">5.13 When the Final</A>
+<B> Up:</B> <A NAME="tex2html805"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html799"
+ HREF="node48.html">5.11 Variable-Length Arrays in</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION006120000000000000000">
+5.12 Support for IEEE Special Values</A>
+</H1>
+
+<P>
+The ANSI/IEEE-754 floating-point number standard defines certain
+special values that are used to represent such quantities as
+Not-a-Number (NaN), denormalized, underflow, overflow, and infinity.
+(See the Appendix in the NOST FITS standard or the NOST FITS User's
+Guide for a list of these values).  The CFITSIO routines that read
+floating point data in FITS files recognize these IEEE special values
+and by default interpret the overflow and infinity values as being
+equivalent to a NaN, and convert the underflow and denormalized values
+into zeros.  In some cases programmers may want access to the raw IEEE
+values, without any modification by CFITSIO.  This can be done by
+calling the fits_read_img or fits_read_col routines while
+specifying 0.0 as the value of the NULLVAL parameter.  This will force
+CFITSIO to simply pass the IEEE values through to the application
+program without any modification.  This is not fully supported on
+VAX/VMS machines, however, where there is no easy way to bypass the
+default interpretation of the IEEE special values.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html807"
+ HREF="node50.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html804"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html798"
+ HREF="node48.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html806"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html808"
+ HREF="node50.html">5.13 When the Final</A>
+<B> Up:</B> <A NAME="tex2html805"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html799"
+ HREF="node48.html">5.11 Variable-Length Arrays in</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

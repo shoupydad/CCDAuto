@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.7 Character Strings</TITLE>
+<META NAME="description" CONTENT="5.7 Character Strings">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node45.html">
+<LINK REL="previous" HREF="node43.html">
+<LINK REL="up" HREF="node37.html">
+<LINK REL="next" HREF="node45.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html752"
+ HREF="node45.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html749"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html743"
+ HREF="node43.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html751"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html753"
+ HREF="node45.html">5.8 Implicit Data Type</A>
+<B> Up:</B> <A NAME="tex2html750"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html744"
+ HREF="node43.html">5.6 Unsigned Integers</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00670000000000000000">
+5.7 Character Strings</A>
+</H1>
+
+<P>
+The character string values in a FITS header or in an ASCII column in a
+FITS table extension are generally padded out with non-significant
+space characters (ASCII 32) to fill up the header record or the column
+width.  When reading a FITS string value, the CFITSIO routines will
+strip off these non-significant trailing spaces and will return a
+null-terminated string value containing only the significant
+characters.  Leading spaces in a FITS string are considered
+significant.  If the string contains all blanks, then CFITSIO will
+return a single blank character, i.e, the first blank is considered to
+be significant, since it distinquishes the string from a null or
+undefined string, but the remaining trailing spaces are not
+significant.
+
+<P>
+Similarly, when writing string values to a FITS file the
+CFITSIO routines expect to get a null-terminated string as input;
+CFITSIO will pad the string with blanks if necessary when writing it
+to the FITS file.
+
+<P>
+When calling CFITSIO routines that return a character string it is
+vital that the size of the char array be large enough to hold the
+entire string of characters, otherwise CFITSIO will overwrite whatever
+memory locations follow the char array, possibly causing the program to
+execute incorrectly.  This type of error can be difficult to debug, so
+programmers should always ensure that the char arrays are allocated
+enough space to hold the longest possible string, <B>including</B> the
+terminating NULL character.  The fitsio.h file contains the following
+defined constants which programmers are strongly encouraged to use
+whenever they are allocating space for char arrays:
+ 
+<PRE>
+#define FLEN_FILENAME 1025  /* max length of a filename */
+#define FLEN_KEYWORD   72  /* max length of a keyword  */
+#define FLEN_CARD      81  /* length of a FITS header card */
+#define FLEN_VALUE     71  /* max length of a keyword value string */
+#define FLEN_COMMENT   73  /* max length of a keyword comment string */
+#define FLEN_ERRMSG    81  /* max length of a CFITSIO error message */
+#define FLEN_STATUS    31  /* max length of a CFITSIO status text string */
+</PRE>For example, when declaring a char array to hold the value string
+of FITS keyword, use the following statement:
+ 
+<PRE>
+    char value[FLEN_VALUE];
+</PRE>Note that FLEN_KEYWORD is longer than needed for the nominal 8-character
+keyword name because the HIERARCH convention supports longer keyword names.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html752"
+ HREF="node45.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html749"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html743"
+ HREF="node43.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html751"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html753"
+ HREF="node45.html">5.8 Implicit Data Type</A>
+<B> Up:</B> <A NAME="tex2html750"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html744"
+ HREF="node43.html">5.6 Unsigned Integers</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

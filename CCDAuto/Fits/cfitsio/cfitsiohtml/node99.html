@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.6.4 Specialized Read Column Data Routines</TITLE>
+<META NAME="description" CONTENT="8.6.4 Specialized Read Column Data Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="previous" HREF="node98.html">
+<LINK REL="up" HREF="node95.html">
+<LINK REL="next" HREF="node100.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1397"
+ HREF="node100.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1394"
+ HREF="node95.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1390"
+ HREF="node98.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1396"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1398"
+ HREF="node100.html">9. Index of Routines</A>
+<B> Up:</B> <A NAME="tex2html1395"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<B> Previous:</B> <A NAME="tex2html1391"
+ HREF="node98.html">8.6.3 Specialized Write Column</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00964000000000000000">
+8.6.4 Specialized Read Column Data Routines</A>
+</H2>
+
+<P>
+Two types of routines are provided to get the column data which differ
+in the way undefined pixels are handled.  The first set of routines
+(ffgcv) simply return an array of data elements in which undefined
+pixels are set equal to a value specified by the user in the 'nullval'
+parameter.  If nullval = 0, then no checks for undefined pixels will be
+performed, thus increasing the speed of the program.  The second set of
+routines (ffgcf) returns the data element array and in addition a
+logical array of flags which defines whether the corresponding data
+pixel is undefined.  See Appendix B for the definition of the
+parameters used in these routines.
+
+<P>
+Any column, regardless of it's intrinsic datatype, may be read as a
+    string.  It should be noted however that reading a numeric column as
+    a string is 10 - 100 times slower than reading the same column as a number
+    due to the large overhead in constructing the formatted strings.
+    The display format of the returned strings will be
+    determined by the TDISPn keyword, if it exists, otherwise by the
+    datatype of the column.  The length of the returned strings (not
+    including the null terminating character) can be determined with
+    the fits_get_col_display_width routine.  The following TDISPn
+    display formats are currently supported:
+ 
+<PRE>
+    Iw.m   Integer
+    Ow.m   Octal integer
+    Zw.m   Hexadecimal integer
+    Fw.d   Fixed floating point
+    Ew.d   Exponential floating point
+    Dw.d   Exponential floating point
+    Gw.d   General; uses Fw.d if significance not lost, else Ew.d
+</PRE>    where w is the width in characters of the displayed values, m is
+    the minimum number of digits displayed, and d is the number of
+    digits to the right of the decimal.  The .m field is optional.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Read elements from an ASCII or binary table column (in the CDU).  These
+routines return the values of the table column array elements.  Undefined
+    array elements will be returned with a value = nulval, unless nulval = 0
+    (or = ' ' for ffgcvs) in which case no checking for undefined values will
+    be performed. The ANYF parameter is set to true if any of the returned
+   elements are undefined. <A NAME="ffgcvx">&#160;</A></DL> 
+<PRE>
+  int fits_read_col_str / ffgcvs
+      (fitsfile *fptr, int colnum, long firstrow, long firstelem,
+       long nelements, char *nulstr, &gt; char **array, int *anynul,
+       int *status)
+
+  int fits_read_col_[log,byt,sht,usht,int,uint,lng,ulng, flt, dbl, cmp, dblcmp] /
+      ffgcv[l,b,i,ui,k,uk,j,uj,e,d,c,m]
+      (fitsfile *fptr, int colnum, long firstrow, long firstelem,
+       long nelements, DTYPE nulval, &gt; DTYPE *array, int *anynul,
+       int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Read elements and null flags from an ASCII or binary table column (in the
+CHDU).  These routines return the values of the table column array elements.
+    Any undefined array elements will have the corresponding nularray element
+    set equal to TRUE.  The anynul parameter is set to true if any of the
+   returned elements are undefined. <A NAME="ffgcfx">&#160;</A></DL> 
+<PRE>
+  int fits_read_colnull_str / ffgcfs
+      (fitsfile *fptr, int colnum, long firstrow, long firstelem,
+       long nelements, &gt; char **array, char *nularray, int *anynul,
+       int *status)
+
+  int fits_read_colnull_[log,byt,sht,usht,int,uint,lng,ulng,flt,dbl,cmp,dblcmp] /
+      ffgcf[l,b,i,ui,k,uk,j,uj,e,d,c,m]
+      (fitsfile *fptr, int colnum, long firstrow,
+       long firstelem, long nelements, &gt; DTYPE *array,
+       char *nularray, int *anynul, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Read an arbitrary data subsection from an N-dimensional array
+in a binary table vector column.  Undefined pixels
+    in the array will be set equal to the value of 'nulval',
+    unless nulval=0 in which case no testing for undefined pixels will
+    be performed.  The first and last rows in the table to be read
+    are specified by fpixel(naxis+1) and lpixel(naxis+1), and hence
+    are treated as the next higher dimension of the FITS N-dimensional
+    array.  The INC parameter specifies the sampling interval in
+   each dimension between the data elements that will be returned. <A NAME="ffgsvx2">&#160;</A></DL> 
+<PRE>
+  int fits_read_subset_[byt, sht, usht, int, uint, lng, ulng, flt, dbl] /
+      ffgsv[b,i,ui,k,uk,j,uj,e,d]
+      (fitsfile *fptr, int colnum, int naxis, long *naxes, long *fpixel,
+       long *lpixel, long *inc, DTYPE nulval, &gt; DTYPE *array, int *anynul,
+       int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Read an arbitrary data subsection from an N-dimensional array
+in a binary table vector column.  Any Undefined
+    pixels in the array will have the corresponding 'nularray'
+    element set equal to TRUE.  The first and last rows in the table
+    to be read are specified by fpixel(naxis+1) and lpixel(naxis+1),
+    and hence are treated as the next higher dimension of the FITS
+    N-dimensional array.  The INC parameter specifies the sampling
+    interval in each dimension between the data elements that will be
+   returned. <A NAME="ffgsfx2">&#160;</A></DL> 
+<PRE>
+  int fits_read_subsetnull_[byt, sht, usht, int, uint, lng, ulng, flt, dbl] /
+      ffgsf[b,i,ui,k,uk,j,uj,e,d]
+      (fitsfile *fptr, int colnum, int naxis, long *naxes,
+       long *fpixel, long *lpixel, long *inc, &gt; DTYPE *array,
+       char *nularray, int *anynul, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Read bit values from a byte ('B') or bit (`X`) table column (in the
+CDU).  Larray is an array of logical values corresponding to the
+    sequence of bits to be read.  If larray is true then the
+    corresponding bit was set to 1, otherwise the bit was set to 0.
+    Note that in the case of 'X' columns, CFITSIO can read  all 8 bits
+    of each byte whether they are formally valid or not.  Thus if the
+    column is defined as '4X', and one calls ffgcx with  firstbit=1 and
+    nbits=8, then all 8 bits will be read from the first byte (as
+    opposed to reading the first 4 bits from the first row and then the
+    first 4 bits from the next row), even though the last 4 bits of
+    each byte are formally not defined.  It should also be noted that
+    it is more efficient to read 'X' columns an entire byte at a time,
+    instead of bit by bit.  Any of the CFITSIO routines that read
+    columns (e.g. fits_read_col_byt) may be used for this
+    purpose.  These routines will interpret 'X' columns as though they
+    were 'B' columns (e.g.,  '8X' is equivalent to '1B', and '16X' is
+   equivalent to '2B').  <A NAME="ffgcx">&#160;</A></DL> 
+<PRE>
+  int fits_read_col_bit / ffgcx
+      (fitsfile *fptr, int colnum, long firstrow, long firstbit,
+       long nbits, &gt; char *larray, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Read any consecutive set of bits from an 'X' or 'B' column and
+interpret them as an unsigned n-bit integer.  nbits must be less
+    than 16 or 32 in ffgcxui and ffgcxuk, respectively.  If nrows
+    is greater than 1, then the same set of bits will be read from
+    each row, starting with firstrow. The bits are numbered with
+    1 = the most significant bit of the first element of the column.
+   <A NAME="ffgcxui">&#160;</A></DL> 
+<PRE>
+  int fits_read_col_bit_[usht, uint] / ffgcx[ui,uk]
+      (fitsfile *fptr, int colnum, long firstrow, long, nrows,
+       long firstbit, long nbits, &gt; DTYPE *array, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Return the descriptor for a variable length column in a binary table.
+The descriptor consists of 2 integer parameters: the number of elements
+    in the array and the starting offset relative to the start of the heap.
+    The first routine returns a single descriptor whereas the second routine
+    returns the descriptors for a range of rows in the table.
+   <A NAME="ffgdes">&#160;</A></DL> 
+<PRE>
+  int fits_read_descript / ffgdes
+      (fitsfile *fptr, int colnum, long rownum, &gt; long *repeat,
+           long *offset, int *status)
+
+  int fits_read_descripts / ffgdess
+      (fitsfile *fptr, int colnum, long firstrow, long nrows &gt; long *repeat,
+           long *offset, int *status)
+</PRE>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1397"
+ HREF="node100.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1394"
+ HREF="node95.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1390"
+ HREF="node98.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1396"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1398"
+ HREF="node100.html">9. Index of Routines</A>
+<B> Up:</B> <A NAME="tex2html1395"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<B> Previous:</B> <A NAME="tex2html1391"
+ HREF="node98.html">8.6.3 Specialized Write Column</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

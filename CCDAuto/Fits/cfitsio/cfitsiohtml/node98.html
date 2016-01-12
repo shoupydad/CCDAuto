@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.6.3 Specialized Write Column Data Routines</TITLE>
+<META NAME="description" CONTENT="8.6.3 Specialized Write Column Data Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node99.html">
+<LINK REL="previous" HREF="node97.html">
+<LINK REL="up" HREF="node95.html">
+<LINK REL="next" HREF="node99.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1388"
+ HREF="node99.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1385"
+ HREF="node95.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1379"
+ HREF="node97.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1387"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1389"
+ HREF="node99.html">8.6.4 Specialized Read Column</A>
+<B> Up:</B> <A NAME="tex2html1386"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<B> Previous:</B> <A NAME="tex2html1380"
+ HREF="node97.html">8.6.2 Low-Level Table Access</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00963000000000000000">
+8.6.3 Specialized Write Column Data Routines</A>
+</H2>
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Write elements into an ASCII or binary table column (in the CDU).
+The datatype of the array is implied by the suffix of the
+   routine name. <A NAME="ffpcls">&#160;</A></DL> 
+<PRE>
+  int fits_write_col_str / ffpcls
+      (fitsfile *fptr, int colnum, long firstrow, long firstelem,
+       long nelements, char **array, &gt; int *status)
+
+  int fits_write_col_[log,byt,sht,usht,int,uint,lng,ulng,flt,dbl,cmp,dblcmp] /
+      ffpcl[l,b,i,ui,k,uk,j,uj,e,d,c,m]
+      (fitsfile *fptr, int colnum, long firstrow,
+           long firstelem, long nelements, DTYPE *array, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Write elements into an ASCII or binary table column
+substituting the appropriate FITS null value for any elements that
+    are equal to the nulval parameter.  This routines must not be used to
+   write to  variable length array columns.  <A NAME="ffpcnx">&#160;</A></DL> 
+<PRE>
+  int fits_write_colnull_[log, byt, sht, usht, int, uint, lng, ulng, flt, dbl] /
+      ffpcn[l,b,i,ui,k,uk,j,uj,e,d]
+      (fitsfile *fptr, int colnum, long firstrow, long firstelem,
+       long nelements, DTYPE *array, DTYPE nulval, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Write string elements into a binary table column (in the CDU)
+substituting the FITS null value for any elements that
+    are equal to the nulstr string.  This routine must NOT be
+   used to write to  variable length array columns. <A NAME="ffpcns">&#160;</A></DL> 
+<PRE>
+  int fits_write_colnull_str / ffpcns
+      (fitsfile *fptr, int colnum, long firstrow, long firstelem,
+       long nelements, char **array, char *nulstr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Write bit values into a binary byte ('B') or bit ('X') table column (in
+the CDU).  Larray is an array of logical values corresponding to the
+    sequence of bits to be written.  If larray is true then the
+    corresponding bit is set to 1, otherwise the bit is set to 0.  Note
+    that in the case of 'X' columns, CFITSIO can write to all 8 bits of
+    each byte whether they are formally valid or not.  Thus if the
+    column is defined as '4X', and one calls ffpclx with  firstbit=1
+    and nbits=8, then all 8 bits will be written into the first byte
+    (as opposed to writing the first 4 bits into the first row and then
+    the next 4 bits into the next row), even though the last 4 bits of
+    each byte are formally not defined.  It should also be noted that
+    it is more efficient to write 'X' columns an entire byte at a time,
+    instead of bit by bit.  Any of the CFITSIO routines that write to
+    columns (e.g. fits_write_col_byt) may be used for this
+    purpose.  These routines will interpret 'X' columns as though they
+    were 'B' columns (e.g.,  '8X' is equivalent to '1B', and '16X' is
+   equivalent to '2B'). <A NAME="ffpclx">&#160;</A></DL> 
+<PRE>
+  int fits_write_col_bit / ffpclx
+      (fitsfile *fptr, int colnum, long firstrow, long firstbit,
+       long nbits, char *larray, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Write the descriptor for a variable length column in a binary table.
+This routine can be used in conjunction with FFGDES to enable
+    2 or more arrays to point to the same storage location to save
+   storage space if the arrays are identical. <A NAME="ffpdes">&#160;</A></DL> 
+<PRE>
+    int fits_write_descript / ffpdes
+        (fitsfile *fptr, int colnum, long rownum, long repeat,
+         long offset, &gt; int *status)
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1388"
+ HREF="node99.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1385"
+ HREF="node95.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1379"
+ HREF="node97.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1387"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1389"
+ HREF="node99.html">8.6.4 Specialized Read Column</A>
+<B> Up:</B> <A NAME="tex2html1386"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<B> Previous:</B> <A NAME="tex2html1380"
+ HREF="node97.html">8.6.2 Low-Level Table Access</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

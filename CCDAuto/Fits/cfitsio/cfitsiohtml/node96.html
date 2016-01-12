@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.6.1 Column Information Routines</TITLE>
+<META NAME="description" CONTENT="8.6.1 Column Information Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node97.html">
+<LINK REL="previous" HREF="node95.html">
+<LINK REL="up" HREF="node95.html">
+<LINK REL="next" HREF="node97.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1366"
+ HREF="node97.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1363"
+ HREF="node95.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1357"
+ HREF="node95.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1365"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1367"
+ HREF="node97.html">8.6.2 Low-Level Table Access</A>
+<B> Up:</B> <A NAME="tex2html1364"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<B> Previous:</B> <A NAME="tex2html1358"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00961000000000000000">
+8.6.1 Column Information Routines</A>
+</H2>
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Get information about an existing ASCII table column.   A null pointer may
+be given for any of the output parameters that are not needed. <A NAME="ffgacl">&#160;</A></DL> 
+<PRE>
+int fits_get_acolparms / ffgacl
+    (fitsfile *fptr, int colnum, &gt; char *ttype, long *tbcol,
+     char *tunit, char *tform, double *scale, double *zero,
+     char *nulstr, char *tdisp, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Get information about an existing binary table column. DATATYPE is a
+character string which returns the datatype of the column as defined
+    by the TFORMn keyword (e.g., 'I', 'J','E', 'D', etc.).  In the case
+    of an ASCII character column, typecode will have a value of the
+    form 'An' where 'n' is an integer expressing the width of the field
+    in characters.  For example, if TFORM = '160A8' then ffgbcl will return
+    typechar='A8' and repeat=20.   All the returned parameters are scalar
+    quantities.   A null pointer may be given for any of the output
+   parameters that are not needed. <A NAME="ffgbcl">&#160;</A></DL> 
+<PRE>
+  int fits_get_bcolparms / ffgbcl
+      (fitsfile *fptr, int colnum, &gt; char *ttype, char *tunit,
+       char *typechar, long *repeat, double *scale, double *zero,
+       long *nulval, char *tdisp, int  *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Return optimal number of rows to read or write at one time for
+maximum I/O efficiency.  Refer to the
+    ``Optimizing Code'' section in Chapter 5 for more discussion on how
+   to use this routine. <A NAME="ffgrsz">&#160;</A></DL> 
+<PRE>
+  int fits_get_rowsize / ffgrsz
+      (fitsfile *fptr, long *nrows, *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Define the zero indexed byte offset of the 'heap' measured from
+the start of the binary table data.  By default the heap is assumed
+    to start immediately following the regular table data, i.e., at
+    location NAXIS1 x NAXIS2.  This routine is only relevant for
+    binary tables which contain variable length array columns (with
+    TFORMn = 'Pt').  This routine also automatically writes
+    the value of theap to a keyword in the extension header.  This
+    routine must be called after the required keywords have been
+    written (with ffphbn) and after the table structure has been defined
+   (with ffbdef) but before any data is written to the table. <A NAME="ffpthp">&#160;</A></DL> 
+<PRE>
+  int fits_write_theap / ffpthp
+      (fitsfile *fptr, long theap, &gt; int *status)
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1366"
+ HREF="node97.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1363"
+ HREF="node95.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1357"
+ HREF="node95.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1365"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1367"
+ HREF="node97.html">8.6.2 Low-Level Table Access</A>
+<B> Up:</B> <A NAME="tex2html1364"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<B> Previous:</B> <A NAME="tex2html1358"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

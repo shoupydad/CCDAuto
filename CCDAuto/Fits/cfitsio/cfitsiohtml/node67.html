@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.4 Header Keyword Read/Write Routines</TITLE>
+<META NAME="description" CONTENT="7.4 Header Keyword Read/Write Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node68.html">
+<LINK REL="previous" HREF="node66.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node68.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1024"
+ HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1021"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1015"
+ HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1023"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1025"
+ HREF="node68.html">7.5 Iterator Routines</A>
+<B> Up:</B> <A NAME="tex2html1022"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1016"
+ HREF="node66.html">7.3 HDU Access Routines</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00840000000000000000">
+7.4 Header Keyword Read/Write Routines</A>
+</H1>
+
+<P>
+These routines read or write keywords in the Current Header Unit
+(CHU).  Wild card characters (*, ?, or #) may be used when specifying
+the name of the keyword to be read: a '?' will match any single
+character at that position in the keyword name and a '*' will match any
+length (including zero) string of characters.  The '#' character will
+match any consecutive string of decimal digits (0 - 9).  When a wild
+card is used the routine will only search for a match from the current
+header position to the end of the header and will not resume the search
+from the top of the header back to the original header position as is
+done when no wildcards are included in the keyword name.  The
+fits_read_record routine may be used to set the starting position
+when doing wild card searchs.  A status value of KEY_NO_EXIST is
+returned if the specified keyword to be read is not found in the
+header.  See Appendix B for the definition of the parameters used in
+these routines.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Return the number of existing keywords (not counting the
+END keyword) and the amount of space currently available
+    for more keywords.
+    It returns morekeys = -1 if the header has not yet been closed.
+    Note that CFITSIO will dynamically add space if required when
+    writing new keywords to a header so in practice there is no
+    limit to the number of keywords that can be added to a header.
+    A null pointer may be entered for the morekeys parameter if it's
+   value is not needed. <A NAME="ffghsp">&#160;</A></DL> 
+<PRE>
+  int fits_get_hdrspace / ffghsp
+      (fitsfile *fptr, &gt; int *keysexist, int *morekeys, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Write (append) a new keyword of the appropriate datatype into the
+CHU.  Note that the address to the value, and not the value itself, must
+    be entered.    The datatype parameter specifies the datatype of the
+    keyword value with one of the following values:  TSTRING, TLOGICAL (== int),
+    TBYTE, TSHORT, TUSHORT, TINT, TUINT, TLONG, TULONG, TFLOAT, TDOUBLE.
+    Within the context of this routine, TSTRING corresponds to a 'char*'
+    datatype, i.e., a pointer to a character array.  A null
+    pointer may be entered for the comment parameter which will cause the
+   comment field to be left blank.  <A NAME="ffpky">&#160;</A></DL> 
+<PRE>
+  int fits_write_key / ffpky
+      (fitsfile *fptr, int datatype, char *keyname, DTYPE *value,
+          char *comment, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Write (update) a keyword of the appropriate datatype into the CHU.
+This routine will modify the value and comment field if the keyword
+    already exists in the header, otherwise it will append a new
+    keyword at the end of the header. Note that the address to the
+    value, and not the value itself, must be entered. The datatype
+    parameter specifies the datatype of the keyword value and can have
+    one of the following values:  TSTRING, TLOGICAL (== int), TBYTE,
+    TSHORT, TUSHORT, TINT, TUINT, TLONG, TULONG, TFLOAT, TDOUBLE,
+    TCOMPLEX, and TDBLCOMPLEX. Within the context of this routine,
+    TSTRING corresponds to a 'char*' datatype, i.e., a pointer to a
+    character array. A null pointer may be entered for the comment
+    parameter which will leave the comment field blank (or
+    unmodified).
+ <A NAME="ffuky">&#160;</A></DL> 
+<PRE>
+  int fits_update_key / ffuky
+      (fitsfile *fptr, int datatype, char *keyname, DTYPE *value,
+          char *comment, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Write a keyword with a null or undefined value (i.e., the value
+field in the keyword is left blank).
+    This routine will modify the value and comment field if the
+    keyword already exists in the header, otherwise it will append
+    a new null-valued keyword at the end of the header.
+    A null pointer may be entered for the comment parameter which will leave
+   the comment field blank (or unmodified). <A NAME="ffukyu">&#160;</A></DL> 
+<PRE>
+  int fits_update_key_null / ffukyu
+      (fitsfile *fptr, char *keyname, char *comment, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Write (append) a COMMENT keyword to the CHU.  The comment string will
+be split over multiple COMMENT keywords if it is longer than 70 characters.
+ <A NAME="ffpcom">&#160;</A></DL> 
+<PRE>
+  int fits_write_comment / ffpcom
+      (fitsfile *fptr, char *comment, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Write (append) a HISTORY keyword to the CHU.  The comment string will
+be split over multiple HISTORY keywords if it is longer than 70 characters.
+ <A NAME="ffphis">&#160;</A></DL> 
+<PRE>
+  int fits_write_history / ffphis
+      (fitsfile *fptr, char *history, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Write the DATE keyword to the CHU. The keyword value will contain
+the current system date as a character string in 'yyyy-mm-ddThh:mm:ss'
+    format. If a DATE keyword already exists in the header, then this
+    routine will simply update the keyword value with the current date.
+   <A NAME="ffpdat">&#160;</A></DL> 
+<PRE>
+  int fits_write_date / ffpdat
+      (fitsfile *fptr, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>8 </STRONG>
+<DD>Write a user specified keyword record into the CHU.  This is
+a low-level routine which can be used to write any arbitrary
+   record into the header.  The record must conform to the all
+  the FITS format requirements. <A NAME="ffprec">&#160;</A></DL> 
+<PRE>
+  int fits_write_record / ffprec
+      (fitsfile *fptr, char *card, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>9 </STRONG>
+<DD>Update an 80-character record in the CHU.  If a keyword with the input
+name already exists, then it is overwritten by the value of card.  This
+   could modify the keyword name as well as the value and comment fields.
+   If the keyword doesn't already exist then a new keyword card is appended
+   to the header. <A NAME="ffucrd">&#160;</A></DL> 
+<PRE>
+  int fits_update_card / ffucrd
+      (fitsfile *fptr, char *keyname, char *card, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>10</STRONG>
+<DD>Write the physical units string into an existing keyword.  This
+routine uses a local convention, shown in the following example,
+    in which the keyword units are enclosed in square brackets in the
+   beginning of the keyword comment field.  <A NAME="ffpunt">&#160;</A></DL> 
+<PRE>
+  VELOCITY=                 12.3 / [km/s] orbital speed
+
+  int fits_write_key_unit / ffpunt
+      (fitsfile *fptr, char *keyname, char *unit, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>11</STRONG>
+<DD>Rename an existing keyword preserving the current value
+and comment fields. <A NAME="ffmnam">&#160;</A></DL> 
+<PRE>
+  int fits_modify_name / ffmnam
+      (fitsfile *fptr, char *oldname, char *newname, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>12</STRONG>
+<DD>Modify (overwrite) the comment field of an existing keyword. <A NAME="ffmcom">&#160;</A></DL> 
+<PRE>
+  int fits_modify_comment / ffmcom
+      (fitsfile *fptr, char *keyname, char *comment, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>13</STRONG>
+<DD>Read the nth header record in the CHU.  The first keyword
+in the header is at keynum = 1;  if keynum = 0 then this routine
+   simply moves the internal CFITSIO pointer to the beginning of the header
+   so that subsequent keyword operations will start at the top of
+   the header (e.g., prior to searching for keywords using wild
+  cards in the keyword name). <A NAME="ffgrec">&#160;</A></DL> 
+<PRE>
+  int fits_read_record / ffgrec
+      (fitsfile *fptr, int keynum, &gt; char *card, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>14</STRONG>
+<DD>Read the header record having the specified keyword name. <A NAME="ffgcrd">&#160;</A></DL> 
+<PRE>
+  int fits_read_card / ffgcrd
+      (fitsfile *fptr, char *keyname, &gt; char *card, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>15</STRONG>
+<DD>Read a specified keyword value and comment.
+The datatype parameter specifies the returned datatype of the
+    keyword value and can have one of the following symbolic constant
+    values:  TSTRING, TLOGICAL (== int), TBYTE, TSHORT, TUSHORT, TINT,
+    TUINT, TLONG, TULONG, TFLOAT, TDOUBLE, TCOMPLEX, and TDBLCOMPLEX.
+    Within the context of this routine, TSTRING corresponds to a
+    'char*' datatype, i.e., a pointer to a character array.  Data type
+    conversion will be performed for numeric values if the keyword
+    value does not have the same datatype.  If the value of the keyword
+    is undefined (i.e., the value field is blank) then an error status
+    = VALUE_UNDEFINED will be returned. If a NULL comment pointer is
+    given on input
+   then the comment string   will not be returned.   <A NAME="ffgky">&#160;</A></DL> 
+<PRE>
+  int fits_read_key / ffgky
+      (fitsfile *fptr, int datatype, char *keyname, &gt; DTYPE *value,
+       char *comment, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>16</STRONG>
+<DD>Read the physical units string in an existing keyword.  This
+routine uses a local convention, shown in the following example,
+    in which the keyword units are enclosed in square brackets in the
+    beginning of the keyword comment field.  A null string is returned
+   if no units are defined for the keyword.  <A NAME="ffgunt">&#160;</A></DL> 
+<PRE>
+  VELOCITY=                 12.3 / [km/s] orbital speed
+
+  int fits_read_key_unit / ffgunt
+      (fitsfile *fptr, char *keyname, &gt; char *unit, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>17</STRONG>
+<DD>Delete a keyword record.  The space previously occupied by
+the keyword is reclaimed by moving all the following header records up
+    one row in the header.  The first routine deletes a keyword at a
+    specified position in the header (the first keyword is at position 1),
+    whereas the second routine deletes a specifically named keyword.
+    Wild card characters may be used when specifying the name of the keyword
+   to be deleted. <A NAME="ffdrec">&#160;</A> <A NAME="ffdkey">&#160;</A></DL> 
+<PRE>
+  int fits_delete_record / ffdrec
+      (fitsfile *fptr, int   keynum,  &gt; int *status)
+
+  int fits_delete_key / ffdkey
+      (fitsfile *fptr, char *keyname, &gt; int *status)
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1024"
+ HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1021"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1015"
+ HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1023"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1025"
+ HREF="node68.html">7.5 Iterator Routines</A>
+<B> Up:</B> <A NAME="tex2html1022"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1016"
+ HREF="node66.html">7.3 HDU Access Routines</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

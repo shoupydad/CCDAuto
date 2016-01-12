@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.3 Multiple Access to the Same FITS File</TITLE>
+<META NAME="description" CONTENT="5.3 Multiple Access to the Same FITS File">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node41.html">
+<LINK REL="previous" HREF="node39.html">
+<LINK REL="up" HREF="node37.html">
+<LINK REL="next" HREF="node41.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html708"
+ HREF="node41.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html705"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html699"
+ HREF="node39.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html707"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html709"
+ HREF="node41.html">5.4 Current Header Data</A>
+<B> Up:</B> <A NAME="tex2html706"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html700"
+ HREF="node39.html">5.2 CFITSIO Size Limitations</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00630000000000000000">
+5.3 Multiple Access to the Same FITS File</A>
+</H1>
+
+<P>
+CFITSIO supports simultaneous read and write access to multiple HDUs in
+the same FITS file.  Thus, one can open the same FITS file twice within
+a single program and move to 2 different HDUs in the file, and then
+read and write data or keywords to the 2 extensions just as if one were
+accessing 2 completely separate FITS files.   Since in general it is
+not possible to physically open the same file twice and then expect to
+be able to simultaneously (or in alternating succession) write to 2
+different locations in the file, CFITSIO recognizes when the file to be
+opened (in the call to fits_open_file) has already been opened and
+instead of actually opening the file again, just logically links the
+new file to the old file.  (This only applies if the file is opened
+more than once within the same program, and does not prevent the same
+file from being simultaneously opened by more than one program).  Then
+before CFITSIO reads or writes to either (logical) file, it makes sure
+that any modifications made to the other file have been completely
+flushed from the internal buffers to the file.  Thus, in principle, one
+could open a file twice, in one case pointing to the first extension
+and in the other pointing to the 2nd extension and then write data to
+both extensions, in any order, without danger of corrupting the file,
+There may be some efficiency penalties in doing this however, since
+CFITSIO has to flush all the internal buffers related to one file
+before switching to the  other, so it would still be prudent to
+minimize the number of times one switches back and forth between doing
+I/O to different HDUs in the same file.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html708"
+ HREF="node41.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html705"
+ HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html699"
+ HREF="node39.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html707"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html709"
+ HREF="node41.html">5.4 Current Header Data</A>
+<B> Up:</B> <A NAME="tex2html706"
+ HREF="node37.html">5. CFITSIO Conventions and</A>
+<B> Previous:</B> <A NAME="tex2html700"
+ HREF="node39.html">5.2 CFITSIO Size Limitations</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

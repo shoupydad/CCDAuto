@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.2.1.1 Notes about the root filetype</TITLE>
+<META NAME="description" CONTENT="4.2.1.1 Notes about the root filetype">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node22.html">
+<LINK REL="previous" HREF="node20.html">
+<LINK REL="up" HREF="node20.html">
+<LINK REL="next" HREF="node22.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html478"
+ HREF="node22.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html475"
+ HREF="node20.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html469"
+ HREF="node20.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html477"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html479"
+ HREF="node22.html">4.2.1.2 Notes about the</A>
+<B> Up:</B> <A NAME="tex2html476"
+ HREF="node20.html">4.2.1 Filetype</A>
+<B> Previous:</B> <A NAME="tex2html470"
+ HREF="node20.html">4.2.1 Filetype</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00521100000000000000">
+4.2.1.1 Notes about the root filetype</A>
+</H3>
+
+<P>
+The original rootd server can be obtained from:
+ 
+<PRE>
+       ftp://root.cern.ch/root/rootd.tar.gz
+</PRE>but, for it to work correctly with CFITSIO one has to use a modified
+version which supports a command to return the length of the file.
+This modified version is available in rootd subdirectory
+in the CFITSIO ftp area at
+ 
+<PRE>
+      ftp://legacy.gsfc.nasa.gov/software/fitsio/c/root/rootd.tar.gz.
+</PRE>
+<P>
+This small server is started either by inetd when a client requests a
+connection to a rootd server or by hand (i.e. from the command line).
+The rootd server works with the ROOT TNetFile class. It allows remote
+access to ROOT database files in either read or write mode. By default
+TNetFile assumes port 432 (which requires rootd to be started as root).
+To run rootd via inetd add the following line to /etc/services:
+ 
+<PRE>
+  rootd     432/tcp
+</PRE>and to /etc/inetd.conf, add the following line:
+ 
+<PRE>
+  rootd stream tcp nowait root /user/rdm/root/bin/rootd rootd -i
+</PRE>Force inetd to reread its conf file with "kill -HUP &lt;pid inetd&gt;".
+You can also start rootd by hand running directly under your private
+account (no root system priviliges needed). For example to start
+rootd listening on port 5151 just type:
+ 
+<PRE>
+  rootd -p 5151
+</PRE>Notice: no &amp; is needed. Rootd will go into background by itself.
+ 
+<PRE>
+  Rootd arguments:
+    -i                says we were started by inetd
+    -p port#          specifies a different port to listen on
+    -d level          level of debug info written to syslog
+                      0 = no debug (default)
+                      1 = minimum
+                      2 = medium
+                      3 = maximum
+</PRE>Rootd can also be configured for anonymous usage (like anonymous ftp).
+To setup rootd to accept anonymous logins do the following (while being
+logged in as root):
+ 
+<PRE>
+   - Add the following line to /etc/passwd:
+
+     rootd:*:71:72:Anonymous rootd:/var/spool/rootd:/bin/false
+
+     where you may modify the uid, gid (71, 72) and the home directory
+     to suite your system.
+
+   - Add the following line to /etc/group:
+
+     rootd:*:72:rootd
+
+     where the gid must match the gid in /etc/passwd.
+
+   - Create the directories:
+
+     mkdir /var/spool/rootd
+     mkdir /var/spool/rootd/tmp
+     chmod 777 /var/spool/rootd/tmp
+
+     Where /var/spool/rootd must match the rootd home directory as
+     specified in the rootd /etc/passwd entry.
+
+   - To make writeable directories for anonymous do, for example:
+
+     mkdir /var/spool/rootd/pub
+     chown rootd:rootd /var/spool/rootd/pub
+</PRE>That's all.  Several additional remarks:  you can login to an anonymous
+server either with the names "anonymous" or "rootd".  The password should
+be of type user@host.do.main. Only the @ is enforced for the time
+being.  In anonymous mode the top of the file tree is set to the rootd
+home directory, therefore only files below the home directory can be
+accessed.  Anonymous mode only works when the server is started via
+inetd.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html478"
+ HREF="node22.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html475"
+ HREF="node20.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html469"
+ HREF="node20.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html477"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html479"
+ HREF="node22.html">4.2.1.2 Notes about the</A>
+<B> Up:</B> <A NAME="tex2html476"
+ HREF="node20.html">4.2.1 Filetype</A>
+<B> Previous:</B> <A NAME="tex2html470"
+ HREF="node20.html">4.2.1 Filetype</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

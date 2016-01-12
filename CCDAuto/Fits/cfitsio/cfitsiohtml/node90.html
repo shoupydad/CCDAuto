@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.3.5 Specialized Read Keyword Routines</TITLE>
+<META NAME="description" CONTENT="8.3.5 Specialized Read Keyword Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node91.html">
+<LINK REL="previous" HREF="node89.html">
+<LINK REL="up" HREF="node85.html">
+<LINK REL="next" HREF="node91.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1300"
+ HREF="node91.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1297"
+ HREF="node85.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1291"
+ HREF="node89.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1299"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1301"
+ HREF="node91.html">8.3.6 Modify Keyword Routines</A>
+<B> Up:</B> <A NAME="tex2html1298"
+ HREF="node85.html">8.3 Specialized Header Keyword</A>
+<B> Previous:</B> <A NAME="tex2html1292"
+ HREF="node89.html">8.3.4 Insert Keyword Routines</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00935000000000000000">
+8.3.5  Specialized Read Keyword Routines</A>
+</H2>
+
+<P>
+Wild card characters may be used when specifying the name of the
+keyword to be read.  See Appendix B for the definition of the
+parameters used in these routines.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Read the name, value (as a string), and comment of the nth keyword in CHU.
+If a NULL comment pointer is given on input,
+    then the comment string will not be returned.  A null value string
+    will be returned if the keyword has no defined value (i.e., if the
+   value field in the keyword is blank). <A NAME="ffgkyn">&#160;</A></DL> 
+<PRE>
+  int fits_read_keyn / ffgkyn
+      (fitsfile *fptr, int keynum, &gt; char *keyname, char *value,
+       char *comment, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Read the next keyword whose name matches one of the strings in
+'inclist' but does not match any of the strings in 'exclist'.
+    The strings in inclist and exclist may contain wild card characters
+    (*, ?, and #) as described at the beginning of this section.
+    This routine searches from the current header position to the
+    end of the header, only, and does not continue the search from
+    the top of the header back to the original position.  The current
+    header position may be reset with the ffgrec routine.  Note
+    that nexc may be set = 0 if there are no keywords to be excluded.
+    This routine returns status = KEY_NO_EXIST if a matching
+   keyword is not found. <A NAME="ffgnxk">&#160;</A></DL> 
+<PRE>
+  int fits_find_nextkey / ffgnxk
+      (fitsfile *fptr, char **inclist, int ninc, char **exclist,
+       int nexc, &gt; char *card, int  *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Read the literal keyword value as a character string.  Regardless
+of the datatype of the keyword, this routine simply returns the
+    string of characters in the value field of the keyword along with
+    the comment field.   If a NULL comment pointer is given on input,
+   then the comment string will not be returned. <A NAME="ffgkey">&#160;</A></DL> 
+<PRE>
+  int fits_read_keyword / ffgkey
+      (fitsfile *fptr, char *keyname, &gt; char *value, char *comment,
+       int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Read a keyword value (with the appropriate datatype) and comment from
+the CHU.  If a NULL comment pointer is given on input, then the comment
+    string will not be returned.  If the value of the keyword is not defined
+    (i.e., the value field is blank) then an error status = VALUE_UNDEFINED
+    will be returned and the input value will not be changed.
+  <A NAME="ffgkyx">&#160;</A> <A NAME="ffgkls">&#160;</A></DL> 
+<PRE>
+  int fits_read_key_str / ffgkys
+      (fitsfile *fptr, char *keyname, &gt; char *value, char *comment,
+       int *status);
+
+  NOTE: after calling the following routine, programs must explicitly free
+        the memory allocated for 'longstr' after it is no longer needed.
+
+  int fits_read_key_longstr / ffgkls
+      (fitsfile *fptr, char *keyname, &gt; char **longstr, char *comment,
+             int *status)
+
+  int fits_read_key_[log, lng, flt, dbl, cmp, dblcmp] / ffgky[ljedcm]
+      (fitsfile *fptr, char *keyname, &gt; DTYPE *numval, char *comment,
+       int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Read a sequence of indexed keyword values.   The starting index number
+(nstart) must be greater than 0.   If the value of any of
+    the keywords is not defined (i.e., the value field is blank) then an
+    error status = VALUE_UNDEFINED will be returned and the input
+    value for the undefined keyword(s) will not be changed.  These
+   routines do not support wild card characters in the root name.<A NAME="ffgknx">&#160;</A></DL> 
+<PRE>
+  int fits_read_keys_str / ffgkns
+      (fitsfile *fptr, char *keyname, int nstart, int nkeys,
+       &gt; char **value, int *nfound,  int *status)
+
+  int fits_read_keys_[log, lng, flt, dbl] / ffgkn[ljed]
+      (fitsfile *fptr, char *keyname, int nstart, int nkeys,
+       &gt; DTYPE *numval, int *nfound, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Read the value of a floating point keyword, returning the integer and
+fractional parts of the value in separate routine arguments.
+    This routine may be used to read any keyword but is especially
+    useful for reading the 'triple precision' keywords written by ffpkyt.
+  <A NAME="ffgkyt">&#160;</A></DL> 
+<PRE>
+  int fits_read_key_triple / ffgkyt
+      (fitsfile *fptr, char *keyname, &gt; long *intval, double *frac,
+       char *comment, int *status)
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1300"
+ HREF="node91.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1297"
+ HREF="node85.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1291"
+ HREF="node89.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1299"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1301"
+ HREF="node91.html">8.3.6 Modify Keyword Routines</A>
+<B> Up:</B> <A NAME="tex2html1298"
+ HREF="node85.html">8.3 Specialized Header Keyword</A>
+<B> Previous:</B> <A NAME="tex2html1292"
+ HREF="node89.html">8.3.4 Insert Keyword Routines</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

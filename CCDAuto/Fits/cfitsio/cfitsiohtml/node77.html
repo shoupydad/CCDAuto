@@ -1,0 +1,366 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.9 Hierarchical Grouping Convention Support Routines</TITLE>
+<META NAME="description" CONTENT="7.9 Hierarchical Grouping Convention Support Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node78.html">
+<LINK REL="previous" HREF="node74.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node78.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1135"
+ HREF="node78.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1132"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1126"
+ HREF="node76.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1134"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1136"
+ HREF="node78.html">7.10 Row Selection and</A>
+<B> Up:</B> <A NAME="tex2html1133"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1127"
+ HREF="node76.html">7.8.2 WCS Routines that</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00890000000000000000">
+7.9 Hierarchical Grouping Convention Support Routines</A>
+</H1>
+
+<P>
+These functions allow for the creation and manipulation of FITS HDU Groups,
+as defined in "A Hierarchical Grouping Convention for FITS" by Jennings,
+Pence, Folk and Schlesinger
+( http: //adfwww.gsfc.nasa.gov/other/convert/group.html ). A group is a
+collection of HDUs whose association is defined by a <I>grouping table</I>.
+HDUs which are part of a group are referred to as <I>member HDUs</I> or
+simply as <I>members</I>. Grouping table member HDUs may themselves be
+grouping tables, thus allowing for the construction of open-ended
+hierarchies of HDUs.
+
+<P>
+Grouping tables contain one row for each member HDU. The grouping table columns
+provide identification information that allows applications to reference or
+"point to" the member HDUs. Member HDUs are expected, but not required, to
+contain a set of GRPIDn/GRPLCn keywords in their headers for each grouping
+table that they are referenced by. In this sense, the GRPIDn/GRPLCn keywords
+"link" the member HDU back to its Grouping table. Note that a member HDU need
+not reside in the same FITS file as its grouping table, and that a given
+HDU may be referenced by up to 999 grouping tables simultaneously.
+
+<P>
+Grouping tables are implemented as FITS binary tables with up to six
+pre-defined column TTYPEn values: 'MEMBER_XTENSION', 'MEMBER_NAME',
+'MEMBER_VERSION', 'MEMBER_POSITION', 'MEMBER_URI_TYPE' and 'MEMBER_LOCATION'.
+The first three columns allow member HDUs to be identified by reference to
+their XTENSION, EXTNAME and EXTVER keyword values. The fourth column allows
+member HDUs to be identified by HDU position within their FITS file.
+The last two columns identify the FITS file in which the member HDU resides,
+if different from the grouping table FITS file.
+
+<P>
+Additional user defined "auxiliary" columns may also be included with any
+grouping table. When a grouping table is copied or modified the presence of
+auxiliary columns is always taken into account by the grouping support
+functions; however, the grouping support functions cannot directly
+make use of this data.
+
+<P>
+If a grouping table column is defined but the corresponding member HDU
+information is unavailable then a null value of the appropriate data type
+is inserted in the column field. Integer columns (MEMBER_POSITION,
+MEMBER_VERSION) are defined with a TNULLn value of zero (0). Character field
+columns (MEMBER_XTENSION, MEMBER_NAME, MEMBER_URI_TYPE, MEMBER_LOCATION)
+utilize an ASCII null character to denote a null field value.
+
+<P>
+The grouping support functions belong to two basic categories: those that
+work with grouping table HDUs (ffgt**) and those that work with member HDUs
+(ffgm**). Two functions, fits_copy_group() and fits_remove_group(), have the
+option to recursively copy/delete entire groups. Care should be taken when
+employing these functions in recursive mode as poorly defined groups could
+cause unpredictable results. The problem of a grouping table directly or
+indirectly referencing itself (thus creating an infinite loop) is protected
+against; in fact, neither function will attempt to copy or delete an HDU
+twice.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Create (append) a grouping table at the end of the current FITS file
+pointed to by fptr. The grpname parameter provides the grouping table
+   name (GRPNAME keyword value) and may be set to NULL if no group name
+   is to be specified. The grouptype parameter specifies the desired
+   structure of the grouping table and may take on the values:
+   GT_ID_ALL_URI (all columns created), GT_ID_REF (ID by reference columns),
+   GT_ID_POS (ID by position columns), GT_ID_ALL (ID by reference and
+   position columns), GT_ID_REF_URI (ID by reference and FITS file URI
+  columns), and GT_ID_POS_URI (ID by position and FITS file URI columns). <A NAME="ffgtcr">&#160;</A></DL> 
+<PRE>
+  int fits_create_group / ffgtcr
+      (fitsfile *fptr, char *grpname, int grouptype, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Create (insert) a grouping table just after the CHDU of the current FITS
+file pointed to by fptr. All HDUs below the the insertion point will be
+   shifted downwards to make room for the new HDU. The grpname parameter
+   provides the grouping table name (GRPNAME keyword value) and may be set to
+   NULL if no group name is to be specified. The grouptype parameter specifies
+   the desired structure of the grouping table and may take on the values:
+   GT_ID_ALL_URI (all columns created), GT_ID_REF (ID by reference columns),
+   GT_ID_POS (ID by position columns), GT_ID_ALL (ID by reference and
+   position columns), GT_ID_REF_URI (ID by reference and FITS file URI
+  columns), and GT_ID_POS_URI (ID by position and FITS file URI columns) <A NAME="ffgtis">&#160;</A>.
+</DL> 
+<PRE>
+  int fits_insert_group / ffgtis
+      (fitsfile *fptr, char *grpname, int grouptype, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Change the structure of an existing grouping table pointed to by
+gfptr. The grouptype parameter (see fits_create_group() for valid
+   parameter values) specifies the new structure of the grouping table. This
+   function only adds or removes grouping table columns, it does not add
+   or delete group members (i.e., table rows). If the grouping table already
+   has the desired structure then no operations are performed and function
+   simply returns with a (0) success status code. If the requested structure
+   change creates new grouping table columns, then the column values for all
+   existing members will be filled with the null values appropriate to the
+  column type. <A NAME="ffgtch">&#160;</A></DL> 
+<PRE>
+  int fits_change_group / ffgtch
+      (fitsfile *gfptr, int grouptype, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Remove the group defined by the grouping table pointed to by gfptr, and
+optionally all the group member HDUs. The rmopt parameter specifies the
+   action to be taken for
+   all members of the group defined by the grouping table. Valid values are:
+   OPT_RM_GPT (delete only the grouping table) and OPT_RM_ALL (recursively
+   delete all HDUs that belong to the group). Any groups containing the
+   grouping table gfptr as a member are updated, and if rmopt == OPT_RM_GPT
+   all members have their GRPIDn and GRPLCn  keywords updated accordingly.
+   If rmopt == OPT_RM_ALL, then other groups that contain the deleted members
+  of gfptr are updated to reflect the deletion accordingly. <A NAME="ffgtrm">&#160;</A></DL> 
+<PRE>
+  int fits_remove_group / ffgtrm
+      (fitsfile *gfptr, int rmopt, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Copy (append) the group defined by the grouping table pointed to by infptr,
+and optionally all group member HDUs, to the FITS file pointed to by
+   outfptr. The cpopt parameter specifies the action to be taken for all
+   members of the group infptr. Valid values are: OPT_GCP_GPT (copy only
+   the grouping table) and OPT_GCP_ALL (recursively copy ALL the HDUs that
+   belong to the group defined by infptr). If the cpopt == OPT_GCP_GPT then
+   the members of infptr have their GRPIDn and GRPLCn keywords updated to
+   reflect the existence of the new grouping table outfptr, since they now
+   belong to the new group. If cpopt == OPT_GCP_ALL then the new
+   grouping table outfptr only contains pointers to the copied member HDUs
+   and not the original member HDUs of infptr. Note that, when
+   cpopt == OPT_GCP_ALL, all members of the group defined by infptr will be
+   copied to a single FITS file pointed to by outfptr regardless of their
+  file distribution in the original group.  <A NAME="ffgtcp">&#160;</A></DL> 
+<PRE>
+  int fits_copy_group / ffgtcp
+      (fitsfile *infptr, fitsfile *outfptr, int cpopt, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Merge the two groups defined by the grouping table HDUs infptr and outfptr
+by combining their members into a single grouping table. All member HDUs
+    (rows) are copied from infptr to outfptr. If mgopt == OPT_MRG_COPY then
+    infptr continues to exist unaltered after the merge. If the mgopt ==
+    OPT_MRG_MOV then infptr is deleted after the merge. In both cases,
+   the GRPIDn and GRPLCn keywords of the member HDUs are updated accordingly. <A NAME="ffgtmg">&#160;</A></DL> 
+<PRE>
+  int fits_merge_groups / ffgtmg
+      (fitsfile *infptr, fitsfile *outfptr, int mgopt, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>"Compact" the group defined by grouping table pointed to by gfptr. The
+compaction is achieved by merging (via fits_merge_groups()) all direct
+   member HDUs of gfptr that are themselves grouping tables. The cmopt
+   parameter defines whether the merged grouping table HDUs remain after
+   merging (cmopt == OPT_CMT_MBR) or if they are deleted after merging
+   (cmopt == OPT_CMT_MBR_DEL). If the grouping table contains no direct
+   member HDUs that are themselves grouping tables then this function
+   does nothing. Note that this function is not recursive, i.e., only the
+  direct member HDUs of gfptr are considered for merging. <A NAME="ffgtcm">&#160;</A></DL> 
+<PRE>
+  int fits_compact_group / ffgtcm
+      (fitsfile *gfptr, int cmopt, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>8 </STRONG>
+<DD>Verify the integrity of the grouping table pointed to by gfptr to make
+sure that all group members are accessible and that all links to other
+   grouping tables are valid. The firstfailed parameter returns the member
+   ID (row number) of the first member HDU to fail verification (if positive
+   value) or the first group link to fail (if negative value). If gfptr is
+  successfully verified then firstfailed contains a return value of 0. <A NAME="ffgtvf">&#160;</A></DL> 
+<PRE>
+  int fits_verify_group / ffgtvf
+      (fitsfile *gfptr, &gt; long *firstfailed, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>9 </STRONG>
+<DD>Open a grouping table that contains the member HDU pointed to by mfptr.
+The grouping table to open is defined by the grpid parameter, which
+    contains the keyword index value of the GRPIDn/GRPLCn keyword(s) that
+    link the member HDU mfptr to the grouping table. If the grouping table
+    resides in a file other than the member HDUs file then an attempt is
+    first made to open the file readwrite, and failing that readonly. A
+    pointer to the opened grouping table HDU is returned in gfptr.
+
+<P>
+Note that it is possible, although unlikely and undesirable, for the
+    GRPIDn/GRPLCn keywords in a member HDU header to be non-continuous, e.g.,
+    GRPID1, GRPID2, GRPID5, GRPID6. In such cases, the grpid index value
+    specified in the function call shall identify the (grpid)th GRPID value.
+    In the above example, if grpid == 3, then the group specified by GRPID5
+   would be opened. <A NAME="ffgtop">&#160;</A></DL> 
+<PRE>
+  int fits_open_group / ffgtop
+      (fitsfile *mfptr, int group, &gt; fitsfile **gfptr, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>10</STRONG>
+<DD>Add a member HDU to an existing grouping table pointed to by gfptr.
+The member HDU may either be pointed to mfptr (which must be positioned
+   to the member HDU) or, if mfptr == NULL, identified by the hdupos parameter
+   (the HDU position number, Primary array == 1) if both the grouping table
+   and the member HDU reside in the same FITS file. The new member HDU shall
+   have the appropriate GRPIDn and GRPLCn keywords created in its header.
+   Note that if the member HDU is already a member of the group then it will
+  not be added a second time. <A NAME="ffgtam">&#160;</A></DL> 
+<PRE>
+  int fits_add_group_member / ffgtam
+      (fitsfile *gfptr, fitsfile *mfptr, int hdupos, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>11</STRONG>
+<DD>Return the number of member HDUs in a grouping table gfptr. The number
+member HDUs is just the NAXIS2 value (number of rows) of the grouping
+   table. <A NAME="ffgtnm">&#160;</A></DL> 
+<PRE>
+  int fits_get_num_members / ffgtnm
+      (fitsfile *gfptr, &gt; long *nmembers, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>12</STRONG>
+<DD>Return the number of groups to which the HDU pointed to by mfptr is
+linked, as defined by the number of GRPIDn/GRPLCn keyword records that
+     appear in its header. Note that each time this function is called, the
+     indices of the GRPIDn/GRPLCn keywords are checked to make sure they
+     are continuous (ie no gaps) and are re-enumerated to eliminate gaps if
+    found.  <A NAME="ffgmng">&#160;</A></DL> 
+<PRE>
+  int fits_get_num_groups / ffgmng
+      (fitsfile *mfptr, &gt; long *nmembers, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>13</STRONG>
+<DD>Open a member of the grouping table pointed to by gfptr. The member to
+open is identified by its row number within the grouping table as given
+    by the parameter 'member' (first member == 1) . A fitsfile pointer to
+    the opened member HDU is returned as mfptr. Note that if the member HDU
+    resides in a FITS file different from the grouping table HDU then the
+   member file is first opened readwrite and, failing this, opened readonly. <A NAME="ffgmop">&#160;</A></DL> 
+<PRE>
+  int fits_open_member / ffgmop
+      (fitsfile *gfptr, long member, &gt; fitsfile **mfptr, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>14</STRONG>
+<DD>Copy (append) a member HDU of the grouping table pointed to by gfptr.
+The member HDU is identified by its row number within the grouping table
+   as given by the parameter 'member' (first member == 1). The copy of the
+   group member HDU will be appended to the FITS file pointed to by mfptr,
+   and upon return mfptr shall point to the copied member HDU. The cpopt
+   parameter may take on the following values: OPT_MCP_ADD which adds a new
+   entry in gfptr for the copied member HDU, OPT_MCP_NADD which does not add
+   an entry in gfptr for the copied member, and OPT_MCP_REPL which replaces
+  the original member entry with the copied member entry. <A NAME="ffgmcp">&#160;</A></DL> 
+<PRE>
+  int fits_copy_member / ffgmcp
+      (fitsfile *gfptr, fitsfile *mfptr, long member, int cpopt, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>15</STRONG>
+<DD>Transfer a group member HDU from the grouping table pointed to by
+infptr to the grouping table pointed to by outfptr. The member HDU to
+   transfer is identified by its row number within infptr as specified by
+   the parameter 'member' (first member == 1). If tfopt == OPT_MCP_ADD then
+   the member HDU is made
+   a member of outfptr and remains a member of infptr. If tfopt == OPT_MCP_MOV
+  then the member HDU is deleted from infptr after the transfer to outfptr. <A NAME="ffgmtf">&#160;</A></DL> 
+<PRE>
+  int fits_transfer_member / ffgmtf
+      (fitsfile *infptr, fitsfile *outfptr, long member, int tfopt,
+       &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>16</STRONG>
+<DD>Remove a member HDU from the grouping table pointed to by gfptr. The
+member HDU to be deleted is identified by its row number in the grouping
+   table as specified by the parameter 'member' (first member == 1). The rmopt
+   parameter may take on the following values: OPT_RM_ENTRY which
+   removes the member HDU entry from the grouping table and updates the
+   member's GRPIDn/GRPLCn keywords, and OPT_RM_MBR which removes the member
+  HDU entry from the grouping table and deletes the member HDU itself. <A NAME="ffgmrm">&#160;</A></DL> 
+<PRE>
+  int fits_remove_member / ffgmrm
+      (fitsfile *fptr, long member, int rmopt, &gt; int *status)
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1135"
+ HREF="node78.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1132"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1126"
+ HREF="node76.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1134"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1136"
+ HREF="node78.html">7.10 Row Selection and</A>
+<B> Up:</B> <A NAME="tex2html1133"
+ HREF="node63.html">7. Basic CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1127"
+ HREF="node76.html">7.8.2 WCS Routines that</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.7.3 Read and Write Column Data Routines</TITLE>
+<META NAME="description" CONTENT="7.7.3 Read and Write Column Data Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="previous" HREF="node72.html">
+<LINK REL="up" HREF="node70.html">
+<LINK REL="next" HREF="node74.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1091"
+ HREF="node74.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1088"
+ HREF="node70.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1084"
+ HREF="node72.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1090"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1092"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<B> Up:</B> <A NAME="tex2html1089"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<B> Previous:</B> <A NAME="tex2html1085"
+ HREF="node72.html">7.7.2 Routines to Edit</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00873000000000000000">&#160;</A> <A NAME="FFPCLS">&#160;</A>
+<BR>
+7.7.3 Read and Write Column Data Routines
+</H2>
+
+<P>
+The following routines write or read data values in the current ASCII
+or binary table extension.  If a write operation extends beyond the
+current size of the table, then the number of rows in the table will
+automatically be increased and the NAXIS2 keyword value will be
+updated.  Attempts to read beyond the end of the table will result in
+an error.
+
+<P>
+Automatic data type conversion is performed for numerical data types
+(only) if the data type of the column (defined by the TFORMn keyword)
+differs from the data type of the calling routine.  ASCII tables
+support the following datatype values:  TSTRING, TBYTE, TSHORT,
+TUSHORT, TINT, TUINT, TLONG, TULONG, TFLOAT, or TDOUBLE.  Binary tables
+also support TLOGICAL (internally mapped to the `char' datatype),
+TCOMPLEX, and TDBLCOMPLEX.
+
+<P>
+Note that within the context of these routines, the TSTRING datatype
+corresponds to a C 'char**' datatype, i.e., a pointer to an array of
+pointers to an array of characters.  This is different from the keyword
+reading and writing routines where TSTRING corresponds to a C 'char*'
+datatype, i.e., a single pointer to an array of characters.  When
+reading strings from a table, the char arrays obviously must have been
+allocated long enough to hold the whole FITS table string.
+
+<P>
+Numerical data values are automatically scaled by the TSCALn and TZEROn
+keyword values (if they exist).
+
+<P>
+In the case of binary tables with vector elements, the 'felem'
+parameter defines the starting element (beginning with 1, not 0) within
+the cell (a cell is defined as the intersection of a row and a column
+and may contain a single value or a vector of values).  The felem
+parameter is ignored when dealing with ASCII tables. Similarly, in the
+case of binary tables the 'nelements' parameter specifies the total
+number of vector values to be read or written (continuing on subsequent
+rows if required) and not the number of table cells.  See Appendix B
+for the further definitions of the parameters used in these routines.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Write elements into an ASCII or binary table column. <A NAME="ffpcl">&#160;</A></DL> 
+<PRE>
+  int fits_write_col / ffpcl
+      (fitsfile *fptr, int datatype, int colnum, long firstrow,
+       long firstelem, long nelements, DTYPE *array, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Write elements into an ASCII or binary table column,
+substituting the appropriate FITS null value for any elements that
+    are equal to the nulval parameter (note that this parameter gives the
+    address of the null value, not the null value itself).  For all ASCII
+    table columns and for integer columns in binary tables, the null value
+    to be used in the FITS file is defined  by the TNULLn keyword
+    and an error is returned if the TNULLn keyword doesn't exist.
+    For floating point columns in binary tables the special IEEE NaN
+    (Not-a-Number) value will be written into the FITS column.
+    If a null pointer is entered for nulval, then the null value is
+    ignored and this routine behaves the same as fits_write_col.
+   This routine must not be used to write to variable length array columns.  <A NAME="ffpcn">&#160;</A></DL> 
+<PRE>
+  int fits_write_colnull / ffpcn
+      (fitsfile *fptr, int datatype, int colnum, long firstrow,
+      long firstelem, long nelements, DTYPE *array, DTYPE *nulval,
+      &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Set elements in a table column as undefined.  For all ASCII
+table columns and for integer columns in binary tables, the null value
+    to be used in the FITS file is defined by the TNULLn keyword
+    and an error is returned if the TNULLn keyword doesn't exist.
+    For floating point columns in binary tables the special IEEE NaN
+   (Not-a-Number) value will be written into the FITS column.   <A NAME="ffpclu">&#160;</A></DL> 
+<PRE>
+   int fits_write_col_null / ffpclu
+       (fitsfile *fptr, int colnum, long firstrow, long firstelem,
+        long nelements, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Read elements from an ASCII or binary table column.  The datatype
+parameter specifies the datatype of the `nulval' and `array'  pointers;
+    Undefined array elements will be returned with a value = *nullval,
+    (note that this parameter gives the address of the null value, not the
+    null value itself) unless nulval = 0 or *nulval = 0, in which case no
+    checking for undefined pixels will be performed.
+
+<P>
+Any column, regardless of it's intrinsic datatype, may be read as a
+    string.  It should be noted however that reading a numeric column
+    as a string is 10 - 100 times slower than reading the same column
+    as a number due to the large overhead in constructing the formatted
+    strings.  The display format of the returned strings will be
+    determined by the TDISPn keyword, if it exists, otherwise by the
+    datatype of the column.  The length of the returned strings (not
+    including the null terminating character) can be determined with
+    the fits_get_col_display_width routine.  The following TDISPn
+    display formats are currently supported:
+ 
+<PRE>
+    Iw.m   Integer
+    Ow.m   Octal integer
+    Zw.m   Hexadecimal integer
+    Fw.d   Fixed floating point
+    Ew.d   Exponential floating point
+    Dw.d   Exponential floating point
+    Gw.d   General; uses Fw.d if significance not lost, else Ew.d
+</PRE>    where w is the width in characters of the displayed values, m is the minimum
+    number of digits displayed, and d is the number of digits to the right of the
+    decimal.  The .m field is optional.
+   <A NAME="ffgcv">&#160;</A></DL> 
+<PRE>
+  int fits_read_col / ffgcv
+      (fitsfile *fptr, int datatype, int colnum, long firstrow, long firstelem,
+       long nelements, DTYPE *nulval, DTYPE *array, int *anynul, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Read elements from an ASCII or binary table column.  The datatype
+parameter specifies the datatype of the and `array'  pointer;
+    Any undefined elements will have the corresponding nullarray element set
+   to TRUE. <A NAME="ffgcf">&#160;</A></DL> 
+<PRE>
+  int fits_read_colnull / ffgcf
+      (fitsfile *fptr, int datatype, int colnum, long firstrow, long firstelem,
+      long nelements, DTYPE *array, char *nullarray, int *anynul, int *status)
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1091"
+ HREF="node74.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1088"
+ HREF="node70.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1084"
+ HREF="node72.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1090"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1092"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<B> Up:</B> <A NAME="tex2html1089"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<B> Previous:</B> <A NAME="tex2html1085"
+ HREF="node72.html">7.7.2 Routines to Edit</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

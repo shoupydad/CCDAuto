@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.1 Specialized FITS File Access Routines</TITLE>
+<META NAME="description" CONTENT="8.1 Specialized FITS File Access Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node84.html">
+<LINK REL="previous" HREF="node82.html">
+<LINK REL="up" HREF="node82.html">
+<LINK REL="next" HREF="node84.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1216"
+ HREF="node84.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1213"
+ HREF="node82.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1207"
+ HREF="node82.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1215"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1217"
+ HREF="node84.html">8.2 Specialized HDU Access</A>
+<B> Up:</B> <A NAME="tex2html1214"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1208"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00910000000000000000">
+8.1 Specialized FITS File Access Routines</A>
+</H1>
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Open an existing FITS file residing in core computer memory.  This
+routine is analogous to fits_open_file.   The 'filename'  is
+currently ignored by this routine and may be any arbitrary string. In
+general, the application must have preallocated an initial block of
+memory to hold the FITS file prior to calling this routine:  'memptr'
+points to the starting address and 'memsize' gives the initial size of
+the block of memory.  'mem_realloc' is a pointer to an optional
+function that CFITSIO can call to allocate additional memory, if needed
+(only if mode = READWRITE), and is modeled after the standard C
+'realloc' function;  a null pointer may be given if the initial
+allocation of memory is all that will be required (e.g., if the file is
+opened with mode = READONLY).  The 'deltasize' parameter may be used to
+suggest a minimum amount of additional memory that should be allocated
+during each call to the memory reallocation function.  By default,
+CFITSIO will reallocate enough additional space to hold the entire
+currently defined FITS file (as given by the NAXISn keywords) or 1 FITS
+block (= 2880 bytes), which ever is larger.  Values of deltasize less
+than 2880 will be ignored.  Since the memory reallocation operation can
+be computationally expensive, allocating a larger initial block of
+memory, and/or specifying a larger deltasize value may help to reduce
+the number of reallocation calls and make the application program run
+faster. <A NAME="ffomem">&#160;</A></DL> 
+<PRE>
+  int fits_open_memfile / ffomem
+      (fitsfile **fptr, const char *filename, int mode, void **memptr,
+       size_t *memsize, size_t deltasize,
+       void *(*mem_realloc)(void *p, size_t newsize), int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Create a new FITS file residing in core computer memory.  This
+routine is analogous to fits_create_file.    In general, the
+application must have preallocated an initial block of memory to hold
+the FITS file prior to calling this routine:  'memptr' points to the
+starting address and 'memsize' gives the initial size of the block of
+memory.  'mem_realloc' is a pointer to an optional function that
+CFITSIO can call to allocate additional memory, if needed, and is
+modeled after the standard C 'realloc' function;  a null pointer may be
+given if the initial allocation of memory is all that will be
+required.  The 'deltasize' parameter may be used to suggest a minimum
+amount of additional memory that should be allocated during each call
+to the memory reallocation function.  By default, CFITSIO will
+reallocate enough additional space to hold 1 FITS block (= 2880 bytes)
+and  values of deltasize less than 2880 will be ignored.  Since the
+memory reallocation operation can be computationally expensive,
+allocating a larger initial block of memory, and/or specifying a larger
+deltasize value may help to reduce the number of reallocation calls
+and make the application program run
+faster. <A NAME="ffimem">&#160;</A></DL> 
+<PRE>
+  int fits_create_memfile / ffimem
+      (fitsfile **fptr, void **memptr,
+       size_t *memsize, size_t deltasize,
+       void *(*mem_realloc)(void *p, size_t newsize), int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Flush any internal buffers of data to the output FITS file. This
+routine rarely needs to be called, but can be useful when writing to
+   the FITS files in memory, and will ensure
+   that if the program subsequently aborts then the FITS file will
+  have been closed properly. <A NAME="ffflus">&#160;</A></DL> 
+<PRE>
+  int fits_flush_file / ffflus
+      (fitsfile *fptr, &gt; int *status)
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1216"
+ HREF="node84.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1213"
+ HREF="node82.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1207"
+ HREF="node82.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1215"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1217"
+ HREF="node84.html">8.2 Specialized HDU Access</A>
+<B> Up:</B> <A NAME="tex2html1214"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<B> Previous:</B> <A NAME="tex2html1208"
+ HREF="node82.html">8. Specialized CFITSIO Interface</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8.6.2 Low-Level Table Access Routines</TITLE>
+<META NAME="description" CONTENT="8.6.2 Low-Level Table Access Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node98.html">
+<LINK REL="previous" HREF="node96.html">
+<LINK REL="up" HREF="node95.html">
+<LINK REL="next" HREF="node98.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1377"
+ HREF="node98.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1374"
+ HREF="node95.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1368"
+ HREF="node96.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1376"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1378"
+ HREF="node98.html">8.6.3 Specialized Write Column</A>
+<B> Up:</B> <A NAME="tex2html1375"
+ HREF="node95.html">8.6 Specialized FITS ASCII</A>
+<B> Previous:</B> <A NAME="tex2html1369"
+ HREF="node96.html">8.6.1 Column Information Routines</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00962000000000000000">&#160;</A> <A NAME="FFGTBB">&#160;</A>
+<BR>
+8.6.2 Low-Level Table Access Routines
+</H2>
+
+<P>
+The following 2 routines provide low-level access to the data in ASCII
+or binary tables and are mainly useful as an efficient way to copy all
+or part of a table from one location to another.  These routines simply
+read or write the specified number of consecutive bytes in an ASCII or
+binary table, without regard for column boundaries or the row length in
+the table.  These routines do not perform any machine dependent data
+conversion or byte swapping.  See Appendix B for the definition of the
+parameters used in these routines.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Read a consecutive array of bytes from an ASCII or binary table <A NAME="ffgtbb">&#160;</A></DL> 
+<PRE>
+  int fits_read_tblbytes / ffgtbb
+      (fitsfile *fptr, long firstrow, long firstchar, long nchars,
+       &gt; unsigned char *values, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Write a consecutive array of bytes to an ASCII or binary table <A NAME="ffptbb">&#160;</A></DL> 
+<PRE>
+  int fits_write_tblbytes / ffptbb
+      (fitsfile *fptr, long firstrow, long firstchar, long nchars,
+       unsigned char *values, &gt; int *status)
+</PRE>
+<P>
+<BR><HR>
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

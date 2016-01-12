@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.7.2 Routines to Edit Rows or Columns</TITLE>
+<META NAME="description" CONTENT="7.7.2 Routines to Edit Rows or Columns">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node73.html">
+<LINK REL="previous" HREF="node71.html">
+<LINK REL="up" HREF="node70.html">
+<LINK REL="next" HREF="node73.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1082"
+ HREF="node73.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1079"
+ HREF="node70.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1073"
+ HREF="node71.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1081"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1083"
+ HREF="node73.html">7.7.3 Read and Write</A>
+<B> Up:</B> <A NAME="tex2html1080"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<B> Previous:</B> <A NAME="tex2html1074"
+ HREF="node71.html">7.7.1 Column Information Routines</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00872000000000000000">&#160;</A> <A NAME="FFIROW">&#160;</A>
+<BR>
+7.7.2 Routines to Edit Rows or Columns
+</H2>
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Insert blank rows into an ASCII or binary table. All the rows following
+row FROW are shifted down by NROWS rows.  If FROW = 0 then the blank rows
+    are inserted at the beginning of the table.  This routine updates the
+    NAXIS2 keyword to reflect the new
+   number of rows in the table. <A NAME="ffirow">&#160;</A></DL> 
+<PRE>
+  int fits_insert_rows / ffirow
+      (fitsfile *fptr, long firstrow, long nrows, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Delete rows from an ASCII or binary table (in the CDU).
+The NROWS number of rows are deleted, starting with row FROW.
+    Any remaining rows in the table are shifted up to fill in the space.
+    This routine modifies the NAXIS2 keyword to reflect the new number
+   of rows in the table.   <A NAME="ffdrow">&#160;</A></DL> 
+<PRE>
+  int fits_delete_rows / ffdrow
+      (fitsfile *fptr, long firstrow, long nrows, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Delete a list of rows from an ASCII or binary table (in the CDU).
+rowlist is an array of row numbers to be deleted from the table.
+    (The first row in the table is 1 not 0).  The list of
+    row numbers must be sorted in ascending order.  nrows is the
+   number of row numbers in the list. <A NAME="ffdrws">&#160;</A></DL> 
+<PRE>
+  int fits_delete_rowlist / ffdrws
+      (fitsfile *fptr, long *rowlist, long nrows, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Insert a blank column (or columns) into an ASCII or binary
+table.  COLNUM specifies the column number that the (first)
+    new column should occupy in the table.  NCOLS specifies how many
+    columns are to be inserted. Any existing columns from this position and
+    higher are shifted over to allow room for the new column(s).
+    The index number on all the following keywords will be incremented
+    if necessary to reflect the new position of the column(s) in the table:
+    TBCOLn, TFORMn, TTYPEn, TUNITn, TNULLn, TSCALn, TZEROn, TDISPn, TDIMn,
+    TLMINn, TLMAXn, TDMINn, TDMAXn, TCTYPn, TCRPXn, TCRVLn, TCDLTn, TCROTn,
+   and TCUNIn. <A NAME="fficol">&#160;</A> <A NAME="fficls">&#160;</A></DL> 
+<PRE>
+  int fits_insert_col / fficol
+      (fitsfile *fptr, int colnum, char *ttype, char *tform,
+       &gt; int *status)
+
+  int fits_insert_cols / fficls
+      (fitsfile *fptr, int colnum, int ncols, char **ttype,
+       char **tform, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Modify the vector length of a binary table column (e.g.,
+change a column from TFORMn = '1E' to '20E').  The vector
+   length may be increased or decreased from the current value. <A NAME="ffmvec">&#160;</A></DL> 
+<PRE>
+  int fits_modify_vector_len / ffmvec
+      (fitsfile *fptr, int colnum, long newveclen, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Delete a column from an  ASCII or binary table (in the CDU).
+The index number of all the keywords listed above will be
+    decremented if necessary to reflect the new position of the column(s) in
+    the table.    The physical size of the FITS file may
+    not be reduced by this operation, and the empty FITS blocks if any
+   at the end of the file will be padded with zeros. <A NAME="ffdcol">&#160;</A></DL> 
+<PRE>
+  int fits_delete_col / ffdcol(fitsfile *fptr, int colnum, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Copy a column from one HDU to another (or to the same HDU).  If
+create_col = TRUE, then a new column will be inserted in the output
+    table, at position `outcolumn', otherwise the existing output column will
+    be overwritten (in which case it must have a compatible datatype).
+   Note that the first column in a table is at colnum = 1. <A NAME="ffcpcl">&#160;</A></DL> 
+<PRE>
+int fits_copy_col / ffcpcl
+    (fitsfile *infptr, fitsfile *outfptr, int incolnum, int outcolnum,
+     int create_col, &gt; int *status);
+</PRE><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1082"
+ HREF="node73.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1079"
+ HREF="node70.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1073"
+ HREF="node71.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1081"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1083"
+ HREF="node73.html">7.7.3 Read and Write</A>
+<B> Up:</B> <A NAME="tex2html1080"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<B> Previous:</B> <A NAME="tex2html1074"
+ HREF="node71.html">7.7.1 Column Information Routines</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

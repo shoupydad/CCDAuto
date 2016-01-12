@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.8.2 WCS Routines that require the WCS library</TITLE>
+<META NAME="description" CONTENT="7.8.2 WCS Routines that require the WCS library">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="previous" HREF="node75.html">
+<LINK REL="up" HREF="node74.html">
+<LINK REL="next" HREF="node77.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1124"
+ HREF="node77.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1121"
+ HREF="node74.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1117"
+ HREF="node75.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1123"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1125"
+ HREF="node77.html">7.9 Hierarchical Grouping Convention</A>
+<B> Up:</B> <A NAME="tex2html1122"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<B> Previous:</B> <A NAME="tex2html1118"
+ HREF="node75.html">7.8.1 Self-contained WCS Routines</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00882000000000000000">
+7.8.2 WCS Routines that require the WCS library</A>
+</H2>
+
+<P>
+The routines described in this section use the WCS library written
+by Doug Mink at SAO.  This library is available at
+
+<P>
+<PRE>
+http://tdc-www.harvard.edu/software/wcstools/    and
+http://tdc-www.harvard.edu/software/wcstools/wcs.html
+</PRE>
+<P>
+You do not need the entire WCSTools package to use the routines
+described here.  Instead, you only need to install the World Coordinate
+System Subroutine library.  It is available from the
+ftp site as a gzipped .tar file (e.g., wcssubs-2.5.tar.gz) or as a
+zipped file (e.g., wcssub25.zip).  Any questions about using this
+library should be sent to the author at dmink@cfa.harvard.edu.
+
+<P>
+The advantage of using the WCS library instead of the self-contained WCS
+routines decribed in the previous section is that they provide support
+for all currently defined projection geometries, and they also support
+most standard as well as many non-standard WCS keyword conventions that
+have been used by different observatories in the past.  This library is
+also actively maintained so it is likely that it will support
+any new FITS WCS keyword conventions that are adopted in the
+future.
+
+<P>
+The first 3 routines described below are CFITSIO routines that create a
+character string array containing all the WCS keywords that are needed
+as input to the WCS library 'wcsinit' routine.  These 3 routines
+provide a convenient interface for calling the WCS library routines
+from CFITSIO, but do not actually call any routines in the WCS library
+themselves.
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Copy all the WCS-related keywords from the header of the primary
+array or an image extension into a single long character string array.  The
+80-char header keywords are simply concatinated one after the other in
+the returned string.  The character array is dynamically allocated and must be
+freed by the calling program when it is no longer needed.  In the current
+implementation, all the header keywords are copied into the array.
+</DL>
+<P>
+<PRE>
+  int fits_get_image_wcs_keys / ffgiwcs
+      (fitsfile *fptr, char **header, int *status)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Copy all the WCS-related keywords for a given pair of columns in
+a table extension into a single long character string array. The pair
+of columns must contain a list of the X and Y coordinates of each event
+in the image (i.e., this is an image in pixel-list or event-list
+format).  The names of the WCS keywords in the table header are
+translated into the keywords that would correspond to an image HDU
+(e.g., TCRPXn for the X column becomes the CRPIX1 keyword).  The
+80-char header keywords are simply concatinated one after the other in
+the string. The character array is dynamically allocated and must be
+freed by the calling program when it is no longer needed.
+</DL>
+<P>
+<PRE>
+  int fits_get_table_wcs_keys / ffgtwcs
+      (fitsfile *fptr, int xcol, int ycol, char **header, int *status)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Copy all the WCS-related keywords for an image that is contained
+in a single vector cell of a binary table extension into a single long
+character string array. In this type of image format, the table column
+is a 2-dimensional vector and each row of the table contains an image.
+The names of the WCS keywords in the table header are translated into
+the keywords corresponding to an image (e.g., 1CRPn becomes the CRPIX1
+keyword).  The 80-char header keywords are simply concatinated one
+after the other in the string. The character array is dynamically
+allocated and must be freed by the calling program when it is no longer
+needed.
+</DL>
+<P>
+<PRE>
+  int fits_get_imagecell_wcs_keys / ffgicwcs
+      (fitsfile *fptr, int column, long row, char **header, int *status)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>This WCS library routine returns a pointer to a structure that
+contains all the WCS parameters extracted from the input header
+keywords.  The input  header keyword string can be produced by any of
+the 3 previous routines.  The returned WorldCoor structure is used as
+input to the next 2 WCS library routines that convert between sky
+coordinates and pixel coordinates.  This routine dynamically allocates
+the WorldCoor structure, so it must be freed by calling the wcsfree
+routine when it is no longer needed.
+</DL>
+<P>
+<PRE>
+  struct WorldCoor *wcsinit (char *header)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Calculate the sky coordinate corresponding to the input pixel
+coordinate using the conversion parameters defined in the wcs
+structure.  This is a WCS library routine.
+</DL>
+<P>
+<PRE>
+  void pix2wcs (struct WorldCoor *wcs, double xpix, double ypix,
+        &gt; double *xpos, double *ypos)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Calculate the pixel coordinate corresponding to the input sky coordinate
+using the conversion parameters defined in the wcs structure.  The returned
+offscale parameter equals 0 if the coordinate is within bounds of the image.
+This is a WCS library routine.
+</DL>
+<P>
+<PRE>
+  void wcs2pix (struct WorldCoor *wcs, double xpos, double ypos,
+       &gt; double *xpix, double *ypix, int *offscale)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Free the WCS structure that was created by wcsinit.  This is a WCS
+library routine.
+</DL> 
+<PRE>
+  void wcsfree(struct WorldCoor *wcs)
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1124"
+ HREF="node77.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1121"
+ HREF="node74.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1117"
+ HREF="node75.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1123"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1125"
+ HREF="node77.html">7.9 Hierarchical Grouping Convention</A>
+<B> Up:</B> <A NAME="tex2html1122"
+ HREF="node74.html">7.8 Celestial Coordinate System</A>
+<B> Previous:</B> <A NAME="tex2html1118"
+ HREF="node75.html">7.8.1 Self-contained WCS Routines</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

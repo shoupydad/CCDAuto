@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>StarLight Xpress CCD software, tips, tricks</title>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+</head>
+<body text="#ffff66" bgcolor="#000033" link="#66ffff" vlink="#990099"
+ alink="#33ffff">
+<div align="center"><big><big><b>Starlight Xpress Camera Hackers Page</b></big></big><br>
+</div>
+<big><br style="font-weight: bold; text-decoration: underline;">
+<span style="font-weight: bold; text-decoration: underline;">New!</span></big>
+Windows SDK info <a href="#WinSDK">here</a>.<br>
+<br>
+The Starlight Xpress Cameras are great for the coder. &nbsp;If you want
+to write drivers for the cameras themselves, or control the cameras for
+specialized tasks, this is the place. &nbsp;Terry Platt has been the
+force behind these cameras and has always provided very generous support
+for those who wanted to write code for his cameras. &nbsp;You can find
+links to his original source code on the <a
+ href="http://www.starlight-xpress.co.uk">Starlight Xpress</a> site.<br>
+<br>
+The USB interface that SX designed for the parallel port cameras was an
+ingenious way to improve the performance of the cameras while retaining
+the investment people had made in their cameras. &nbsp;It also a most
+hackable interface. &nbsp;It is based on the Anchor single chip USB
+interface with built-in 8051. &nbsp;It works by showing up as a generic
+USB device. &nbsp;A special driver for the generic device downloads code
+onto on-board RAM and resets the chip. &nbsp;The device renumerates as
+another device which then has all the functionality of the downloaded
+code. &nbsp;This makes code updates a simple matter of installing a new
+HEX file on the host PC. &nbsp;The newer SXV cameras have a more
+advanced USB chip built right into the camera, but the concept is the
+same.<br>
+<u><big><b><br>
+Getting the new HEX file<br>
+</b></big></u><br>
+The new camera's code isn't publically available yet, but I've
+backported the functionality to the original USB interface and made it
+available under the GPL. &nbsp;To build, you need a free 8051 compiler
+available at <a href="http://sdcc.sourceforge.net">sdcc.sourceforge.net</a>.
+&nbsp;They have both *nix and Windows versions of the compiler
+available for download. &nbsp;The two source files you need from here
+are the EZUSB header file and the main source file:<br>
+<br>
+<a href="tarfiles/ezusb.h">ezusb.h</a><br>
+<a href="tarfiles/sx_ezusb.c">sx_ezusb.c</a><br>
+<br>
+Once the compiler is installed properly, build the hex file like such:<br>
+<br>
+sdcc --stack-after-data sx_ezusb.c<br>
+Update: &nbsp;the latest CVS version of the compiler doesn't require
+the stack-after-data flag.<br>
+<br>
+This will create a universal HEX file with an uninitialized camera
+model. &nbsp;You will need to tell the USB interface which camera is
+attached. &nbsp;To do that, you need to know the programmers interface
+to the USB device. &nbsp;The programmers reference is available here:<br>
+<br>
+<a href="tarfiles/sx_usb_prog_ref.txt">StarlightXpress USB Interface
+Programmers Reference</a><br>
+<br>
+<a name="sx_ezusb_hex"></a>Universal HEX file for original USB
+interface.<br>
+<br>
+<a href="tarfiles/sx_ezusb.hex">SX_EZUSB.HEX</a><br>
+<br>
+You can also build the HEX file with an initialized camera model by
+adding one of the following:<br>
+<br>
+-D CAMERA_MODEL=0x45&nbsp;&nbsp;&nbsp; /* &nbsp;MX5 */<br>
+-D CAMERA_MODEL=0xC5&nbsp;&nbsp;&nbsp; /* &nbsp;MX5C */<br>
+-D CAMERA_MODEL=0x47 &nbsp;&nbsp; /* &nbsp;MX7 */<br>
+-D CAMERA_MODEL=0xC7 &nbsp;&nbsp; /* &nbsp;MX7C */<br>
+-D CAMERA_MODEL=0x49 &nbsp;&nbsp; /* &nbsp;MX9 */<br>
+-D CAMERA_MODEL=0x05&nbsp;&nbsp;&nbsp; /* &nbsp;HX5 */<br>
+-D CAMERA_MODEL=0x09 &nbsp;&nbsp; /* &nbsp;HX9 */<br>
+<br>
+Or, you can download prebuilt versions below:<br>
+<br>
+<a href="tarfiles/mx5.hex">MX5.HEX</a><br>
+<a href="tarfiles/mx5c.hex">MX5C.HEX</a><br>
+<a href="tarfiles/mx7.hex">MX7.HEX</a><br>
+<a href="tarfiles/mx7c.hex">MX7C.HEX</a><br>
+<a href="tarfiles/mx9.hex">MX9.HEX</a><br>
+<a href="tarfiles/hx5.hex">HX5.HEX</a><br>
+<a href="tarfiles/hx9.hex">HX9.HEX</a><br>
+<br>
+These HEX files need to be renamed 05472131.HEX and copied into the
+\WINDOWS\SYSTEM32\DRIVERS directory. &nbsp;<span
+ style="font-weight: bold;">Beware!</span> &nbsp;These HEX files are not
+compatible with the HEX files on the SX website or downloaded with
+third party software. &nbsp;When support for the new SXV cameras
+becomes available, you should be able to substitute this HEX file and
+have it show up as a compatible SXV camera. &nbsp;Save your current HEX
+file! &nbsp;You can always download the original HEX file or re-install
+your third party software to revert to original functionality.
+&nbsp;You may need a more up-to-date USB driver, now named <a
+ href="tarfiles/sxvio.sys">SXVIO.SYS</a> in the SXV install.
+&nbsp;Install it with this <a href="tarfiles/sxvio.inf">INF</a> file.
+&nbsp;If you have the SXV camera, you already have the correct HEX file
+for your camera but probably want the new <a href="tarfiles/sxvio.sys">SXVIO.SYS</a>
+file anyway.<br>
+<br>
+<big style="text-decoration: underline;"><span
+ style="font-weight: bold;"><a name="WinSDK"></a>NEW!</span></big> <br>
+<big><span style="text-decoration: underline; font-weight: bold;">Windows
+SDK</span></big> <br>
+<br>
+For connecting and using the cameras. &nbsp;This SDK takes care of
+low-level intefacing to the SX USB and USB2 cameras. &nbsp;It also
+manages the model setting of the original USB interface and saving it in
+the registry for future reference when using the <a
+ href="#sx_ezusb_hex">universal HEX file</a>. &nbsp;You will need an
+updated <a href="tarfiles/sxvio.sys">SXVIO.SYS</a> file installed with <a
+ href="tarfiles/sxvio.inf">SXVIO.INF</a> to work correctly with the SDK.
+&nbsp;To simplify the interface to the camera, use the SX USB camera
+DLL, <a href="tarfiles/sxusbcam.dll">sxusbcam.dll</a>. &nbsp;In your
+code, include the <a href="tarfiles/sxusbcam.h">sxusbcam.h</a> file and
+link to <a href="tarfiles/sxusbcam.lib">sxusbcam.lib</a>. &nbsp;You can
+look at the source to sxusbcam.dll in <a href="tarfiles/sxusbcam.c">sxusbcam.c</a>.<br>
+<br>
+I used the free Borland C++ compiler to build the DLL and sample
+programs. &nbsp;The first program, <a href="tarfiles/sxusbparams.exe">sxusbparams.exe</a>
+(<a href="tarfiles/sxusbparams.c">sxusbparams.c</a>), opens all the
+available cameras and prints out all the camera parameters and
+capabilites. &nbsp;It is a console application. &nbsp;If nothing is
+returned, no cameras were found. &nbsp;If you have a camera plugged in
+and nothing was printed out, make sure the latest <a
+ href="tarfiles/sxvio.sys">SXVIO.SYS</a> was <a
+ href="tarfiles/sxvio.inf">installed</a>. &nbsp;The second application
+is a little more fun. &nbsp;<a href="tarfiles/sxvideo.exe">Sxvideo.exe</a>
+(<a href="tarfiles/sxvideo.c">sxvideo.c</a>) treats your camera as a
+low-light level video camera similar to the AstroVid StellaCam.
+&nbsp;Use the F1 through F10 keys to set the exposure on a semi-log
+scale. &nbsp;The space bar cycles through the available palettes.
+&nbsp;The <a href="tarfiles/README_sxvideo.txt">README</a> files gives
+more details. &nbsp;I hope to port over the TDI (drift scanning)
+application from Linux, but I'm not sure if it will have an interactive
+mode like the Linux version.<br>
+<br>
+<hr style="width: 100%; height: 2px;"><br>
+OK, now for some fun..<small>.<br>
+<big><big><br>
+<u><b>Serial Port Hack</b></u></big></big><br>
+<br>
+<big>One thing that really bugs me is the tangle of cables required to
+hook all the devices up for imaging. &nbsp;The USB interface chip has a
+built-in 8051 MCU which also has its own built-in serial ports.
+&nbsp;On the new SXV camera it was easy to build the serial ports into
+the camera form the outset. &nbsp;But the idea came from my hacking the
+original USB controller to give up one of its serial ports for device
+control. &nbsp;Now I didn't want to add a lot of hardware and had
+limited resources. &nbsp;The RS-232 interface spec sets the pin logic
+to use -12V for a 1 and +12V for a 0. &nbsp;There was no way to easily
+add that kind of control to the existing controller, so I just used a
+7404 hex inverter to use 0V for 1 and +5V for 0. &nbsp;For simple
+devices, it actually works. &nbsp;<a href="serhack.html">Here</a> is the
+link for more info.<br>
+</big><br>
+</small><big><u><b>Drift scanning</b></u></big><br>
+<br>
+Drift scanning, or Time Delay Integration, is a method for imaging
+large chunks of the sky with a fixed camera. &nbsp;In essence, you align
+the camera's pixel rows with lines of right ascension. &nbsp;The image
+on the CCD is clocked out at sidereal time, thus imaging the sky as it
+passes over the CCD. &nbsp;You need to know the focal length of the
+camera/telescope and the declination it is pointing in order to
+calculate the sidereal readout rate. &nbsp;Look in the samples directory
+for tdi.c. &nbsp;This implements a basic drift scan program.
+&nbsp;There is also tdi_cal.c which creates calibration frames for drift
+scanning.<br>
+<br>
+<big><u><b>Autoguiding</b></u></big><br>
+<br>
+One feature of the new SXV cameras that I'm particularly fond of is the
+autoguider mode. &nbsp;The SXV camera has built-in firmware that
+communicates through the serial port by default. &nbsp;If the camera is
+powered up with a special patch cord, a handheld device like a PalmPilot
+can talk to the camera and autoguide. &nbsp;I have written a PalmPilot
+app to do just this. &nbsp;It is available under the GPL <a
+ href="tarfiles/sxvpilot.tgz">here</a>. &nbsp;The name it builds under
+is star_pilot, but there are already many apps named Star Pilot
+avaialable so the new name is SXV Pilot. &nbsp;The build process just
+doesn't reflect the name change yet. &nbsp;You can get the pre-built prc
+file <a href="tarfiles/sxv_pilot.prc">here</a>. <br>
+<br>
+<br>
+<br>
+</body>
+</html>

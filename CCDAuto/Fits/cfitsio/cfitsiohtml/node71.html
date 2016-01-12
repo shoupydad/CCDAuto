@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7.7.1 Column Information Routines</TITLE>
+<META NAME="description" CONTENT="7.7.1 Column Information Routines">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node72.html">
+<LINK REL="previous" HREF="node70.html">
+<LINK REL="up" HREF="node70.html">
+<LINK REL="next" HREF="node72.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1071"
+ HREF="node72.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1068"
+ HREF="node70.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1062"
+ HREF="node70.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1070"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1072"
+ HREF="node72.html">7.7.2 Routines to Edit</A>
+<B> Up:</B> <A NAME="tex2html1069"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<B> Previous:</B> <A NAME="tex2html1063"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00871000000000000000">&#160;</A> <A NAME="FFGCNO">&#160;</A>
+<BR>
+7.7.1 Column Information Routines
+</H2>
+
+<P>
+<DL>
+<DT><STRONG>1 </STRONG>
+<DD>Get the number of rows or columns in the current FITS table.
+The number of rows is given by the NAXIS2 keyword and the
+     number of columns is given by the TFIELDS keyword in the header
+    of the table. <A NAME="ffgnrw">&#160;</A></DL> 
+<PRE>
+  int fits_get_num_rows / ffgnrw
+      (fitsfile *fptr, &gt; long *nrows, int *status);
+
+  int fits_get_num_cols / ffgncl
+      (fitsfile *fptr, &gt; int *ncols, int *status);
+</PRE>
+<P>
+<DL>
+<DT><STRONG>2 </STRONG>
+<DD>Get the table column number (and name) of the column whose name
+matches an input template name.   If casesen  = CASESEN then the column
+name match will be case-sensitive, whereas if casesen = CASEINSEN then
+the case will be ignored.  As a general rule, the column names should
+be treated as case INsensitive.
+<P>
+The input column name template may be either the exact name of the
+column to be searched for, or it may contain wild card characters (*,
+?, or #), or it may contain the integer number of the desired column
+(with the first column = 1).  The `*' wild card character matches any
+sequence of characters (including zero characters) and the `?'
+character matches any single character.  The # wildcard will match any
+consecutive string of decimal digits (0-9).  If more than one column
+name in the table matches the template string, then the first match is
+returned and the status value will be set to COL_NOT_UNIQUE  as a
+warning that a unique match was not found.  To find the other cases
+that match the template, call the routine again leaving the input
+status value equal to COL_NOT_UNIQUE and the next matching name will
+then be returned.  Repeat this process until a status =
+COL_NOT_FOUND  is returned.
+
+<P>
+The FITS Standard recommends that only letters, digits, and the
+underscore character be used in column names (with no embedded
+spaces).  Trailing blank characters are not significant.  It is
+recommended that all the column names in a given table be unique within
+the first 8 characters, and strongly recommended that the names be
+ unique within the first 16 characters. <A NAME="ffgcno">&#160;</A> <A NAME="ffgcnn">&#160;</A></DL> 
+<PRE>
+  int fits_get_colnum / ffgcno
+      (fitsfile *fptr, int casesen, char *templt, &gt; int *colnum,
+       int *status)
+
+  int fits_get_colname / ffgcnn
+      (fitsfile *fptr, int casesen, char *templt, &gt; char *colname,
+       int *colnum, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>3 </STRONG>
+<DD>Return the datatype, vector repeat value, and the width in bytes
+of a column in an ASCII or binary table.  Allowed values for the
+    datatype in ASCII tables are:  TSTRING, TSHORT, TLONG, TFLOAT, and
+    TDOUBLE.  Binary tables also support these types: TLOGICAL, TBIT,
+    TBYTE, TCOMPLEX and TDBLCOMPLEX.  The negative of the datatype code
+    value is returned if it is a variable length array column.  Note
+    that in the case of a 'J' 32-bit integer binary table column, this
+    routine will return datatype = TINT32BIT (which in fact is
+    equivalent to TLONG).  With most current C compilers, a value in a
+    'J' column has the same size as an 'int' variable, and may not be
+    equivalent to a 'long' variable, which is 64-bits long on an
+    increasing number of compilers.
+
+<P>
+The 'repeat' parameter returns the vector repeat count on the binary
+    table TFORMn keyword value; ASCII table columns always have repeat
+    = 1.  The 'width' parameter returns the width in bytes of a single
+    column value (e.g., a '10D' binary table column will have width =
+    8; an ASCII table 'F12.2' column will have width = 12);  Note that
+    this routine supports the local convention for specifying arrays of
+    fixed length strings within a binary table character column using
+    the syntax TFORM = 'rAw' where 'r' is the total number of
+    characters (= the width of the column) and 'w' is the width of a
+    unit string within the column.  Thus if the column has TFORM =
+    '60A12' then this routine will return typecode = TSTRING, repeat =
+    60, and width = 12.  A null pointer may be given for any of
+   the output parameters that are not needed. <A NAME="ffgtcl">&#160;</A></DL> 
+<PRE>
+  int fits_get_coltype / ffgtcl
+      (fitsfile *fptr, int colnum, &gt; int *typecode, long *repeat,
+       long *width, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>4 </STRONG>
+<DD>Return the display width of a column.  This is the length
+of the string that will be returned by the fits_read_col routine
+    when reading the column as a formatted string.  The display width is
+    determined by the TDISPn keyword, if present, otherwise by the data
+   type of the column. <A NAME="ffgcdw">&#160;</A></DL> 
+<PRE>
+  int fits_get_col_display_width / ffgcdw
+      (fitsfile *fptr, int colnum, &gt; int *dispwidth, int *status)
+</PRE>
+<P>
+<DL>
+<DT><STRONG>5 </STRONG>
+<DD>Write (append) a TDIMn keyword whose value has the form '(l,m,n...)'
+where l, m, n... are the dimensions of a multidimension array
+   column in a binary table. <A NAME="ffptdm">&#160;</A></DL> 
+<PRE>
+  int fits_write_tdim / ffptdm
+      (fitsfile *fptr, int colnum, int naxis, long *naxes, &gt; int *status)
+</PRE> 
+<DL>
+<DT><STRONG>6 </STRONG>
+<DD>Return the number of and size of the dimensions of a table column in
+a binary table. Normally this information is given by the TDIMn keyword,
+    but if this keyword is not present then this routine returns naxis = 1
+   and naxes[0] equal to the repeat count in the TFORM keyword. <A NAME="ffgtdm">&#160;</A></DL> 
+<PRE>
+  int fits_read_tdim / ffgtdm
+      (fitsfile *fptr, int colnum, int maxdim, &gt; int *naxis,
+       long *naxes, int *status)
+</PRE> 
+<DL>
+<DT><STRONG>7 </STRONG>
+<DD>Decode the input TDIMn keyword string (e.g. '(100,200)') and return the
+number of and size of the dimensions of a binary table column. If the input
+    tdimstr character string is null, then this routine returns naxis = 1
+    and naxes[0] equal to the repeat count in the TFORM keyword. This routine
+   is called by fits_read_tdim.  <A NAME="ffdtdm">&#160;</A></DL> 
+<PRE>
+  int fits_decode_tdim / ffdtdm
+      (fitsfile *fptr, char *tdimstr, int colnum, int maxdim, &gt; int *naxis,
+       long *naxes, int *status)
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1071"
+ HREF="node72.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1068"
+ HREF="node70.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1062"
+ HREF="node70.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1070"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1072"
+ HREF="node72.html">7.7.2 Routines to Edit</A>
+<B> Up:</B> <A NAME="tex2html1069"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<B> Previous:</B> <A NAME="tex2html1063"
+ HREF="node70.html">7.7 ASCII and Binary</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>

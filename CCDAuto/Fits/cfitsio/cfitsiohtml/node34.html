@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.2.7 Column and Keyword Filtering Specification</TITLE>
+<META NAME="description" CONTENT="4.2.7 Column and Keyword Filtering Specification">
+<META NAME="keywords" CONTENT="cfitsio">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cfitsio.css">
+<LINK REL="next" HREF="node35.html">
+<LINK REL="previous" HREF="node33.html">
+<LINK REL="up" HREF="node19.html">
+<LINK REL="next" HREF="node35.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html623"
+ HREF="node35.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html620"
+ HREF="node19.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html614"
+ HREF="node33.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html622"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html624"
+ HREF="node35.html">4.2.8 Row Filtering Specification</A>
+<B> Up:</B> <A NAME="tex2html621"
+ HREF="node19.html">4.2 Detailed Filename Syntax</A>
+<B> Previous:</B> <A NAME="tex2html615"
+ HREF="node33.html">4.2.6 Image Section</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00527000000000000000">
+4.2.7 Column and Keyword Filtering Specification</A>
+</H2>
+
+<P>
+The optional column/keyword filtering specifier is used to modify the
+column structure and/or the header keywords in the HDU that was
+selected with the previous HDU location specifier. This filtering
+specifier must be enclosed in square brackets and can be distinguished
+from a general row filter specifier (described below) by the fact that
+it begins with the string 'col ' and is not immediately followed by an
+equals sign.  The original file is not changed by this filtering
+operation, and instead the modifications are made on a copy of the
+input FITS file (usually in memory), which also contains a copy of all
+the other HDUs in the file.  This temporary file is passed to the
+application program and will persist only until the file is closed or
+until the program exits, unless the outfile specifier (see above) is
+also supplied.
+
+<P>
+The column/keyword filter can be used to perform the following
+operations.  More than one operation may be specified by separating
+them with semi-colons.
+
+<P>
+<UL>
+<LI>
+Delete a column or keyword by listing the name preceeded by an
+exclamation mark (!), e.g., '!TIME' will delete the TIME column if it
+exists, otherwise the TIME keyword.  An error is returned if neither a
+column nor keyword with this name exists.  Note  that the exclamation
+point,  '!', is a special UNIX character, so if it is used  on the
+command line rather than entered at a task prompt, it must be  preceded
+by a backslash to force the UNIX shell to ignore it.
+
+<P>
+<LI>
+Rename an existing column or keyword with the syntax 'NewName ==
+OldName'.  An error is returned if neither a column nor keyword with
+this name exists.
+
+<P>
+<LI>
+Append a new column or keyword to the table.  To create a column,
+give the new name, optionally followed by the datatype in parentheses,
+followed by a single equals sign and an  expression to be used to
+compute the value (e.g., 'newcol(1J) = 0' will create a new 32-bit
+integer column called 'newcol' filled with zeros).  The datatype is
+specified using the same syntax that is allowed for the value of the
+FITS TFORMn keyword (e.g., 'I', 'J', 'E', 'D', etc. for binary tables,
+and 'I8', F12.3', 'E20.12', etc. for ASCII tables).  If the datatype is
+not specified then an appropriate datatype will be chosen depending on
+the form of the expression (may be a character string, logical, bit, long
+integer, or double column). An appropriate vector count (in the case
+of binary tables) will also be added if not explicitly specified.
+
+<P>
+When creating a new keyword, the keyword name must be preceeded by a
+pound sign '#', and the expression must evaluate to a scalar
+(i.e., cannot have a column name in the expression).  The comment
+string for the keyword may be specified in parentheses immediately
+following the keyword name (instead of supplying a datatype as in
+the case of creating a new column).
+
+<P>
+<LI>
+Recompute (overwrite) the values in an existing column or keyword by
+giving the name followed by an equals sign and an arithmetic
+expression.
+</UL>
+<P>
+The expression that is used when appending or recomuting columns or
+keywords can be arbitrarily complex and may be a function of other
+header keyword values and other columns (in the same row).  The full
+syntax and available functions for the expression are described below
+in the row filter specification section.
+
+<P>
+For  complex  or commonly used operations,  one  can also  place the
+operations into a text  file and  import it  into the  column filter
+using  the syntax '[col @filename.txt]'.   The operations can extend
+over multiple lines of the  file, but multiple operations must still
+be separated by semicolons.
+
+<P>
+Examples:
+ 
+<PRE>
+   [col !TIME; Good == STATUS]   - deletes the TIME column and
+                                   renames the status column to 'Good'
+
+   [col PI=PHA * 1.1 + 0.2]      - creates new PI column from PHA values
+
+   [col rate = rate/exposure]   - recomputes the rate column by dividing
+                                   it by the EXPOSURE keyword value.
+</PRE>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html623"
+ HREF="node35.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html620"
+ HREF="node19.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html614"
+ HREF="node33.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html622"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A>   <A HREF="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITSIO Home</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html624"
+ HREF="node35.html">4.2.8 Row Filtering Specification</A>
+<B> Up:</B> <A NAME="tex2html621"
+ HREF="node19.html">4.2 Detailed Filename Syntax</A>
+<B> Previous:</B> <A NAME="tex2html615"
+ HREF="node33.html">4.2.6 Image Section</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+ 
+</ADDRESS>
+</BODY>
+</HTML>
