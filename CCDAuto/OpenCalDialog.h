@@ -11,6 +11,9 @@ using namespace System::Drawing;
 #include "doRoutines.h"
 
 
+// Local constant definitions
+
+
 namespace CCDAuto {
 
 	/// <summary>
@@ -35,12 +38,12 @@ namespace CCDAuto {
 			InitializeComponent();
 			FormPtr = this;
 			OpenCalDialogExists = true;
-			DarkDir = (char *) malloc(161);
-			FlatDir = (char *) malloc(161);
-			strcpy_s(DarkDir, 161, "");
-			strcpy_s(FlatDir, 161, "");
-			DarkOption = 3;
-			FlatOption = 0;
+			DarkDir = (char *) malloc(MAX_SIZE_PATH_CHARS);
+			FlatDir = (char *) malloc(MAX_SIZE_PATH_CHARS);
+			strcpy_s(DarkDir, MAX_SIZE_PATH_CHARS, DEFAULT_IMAGE_DIRECTORY);
+			strcpy_s(FlatDir, MAX_SIZE_PATH_CHARS, DEFAULT_IMAGE_DIRECTORY);
+			DarkOption = 2;
+			FlatOption = 2;
 			//
 			//TODO: Add the constructor code here
 			//
@@ -399,14 +402,19 @@ public: static void GetFlatDirTextBox(char *text) {
 		}
 public: static void ShowTheDialog(void) {
 
+			FormPtr->SetDarkDirTextBox(FormPtr->DarkDir);
+			FormPtr->SetFlatDirTextBox(FormPtr->FlatDir);
+			FormPtr->DarkFrameOptionComboBox->SelectedIndex = FormPtr->DarkOption;
+			FormPtr->FlatFrameOptionComboBox->SelectedIndex = FormPtr->FlatOption;
 			FormPtr->ShowDialog();
 		}
 private: System::Void PickDarkFolderButton_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
-			 char path[180];
+			 char path[MAX_SIZE_PATH_CHARS];
 
+			 strcpy_s(path, this->DarkDir);
 			 GetAFolder("Pick Dark Frame Folder", path);
-			 strcpy_s(this->FormPtr->DarkDir, 161, path);
+			 strcpy_s(this->FormPtr->DarkDir, MAX_SIZE_PATH_CHARS, path);
 			 this->FormPtr->SetDarkDirTextBox(this->FormPtr->DarkDir);
 			 return;
 			 }
@@ -414,8 +422,9 @@ private: System::Void PickFlatFolderButton_Clicked(System::Object^  sender, Syst
 
 			 char path[180];
 
+			 strcpy_s(path, this->FlatDir);
 			 GetAFolder("Pick Flat Frame Folder", path);
-			 strcpy_s(this->FormPtr->FlatDir, 161, path);
+			 strcpy_s(this->FormPtr->FlatDir, MAX_SIZE_PATH_CHARS, path);
 			 this->FormPtr->SetFlatDirTextBox(this->FormPtr->FlatDir);
 			 return;
 		 }

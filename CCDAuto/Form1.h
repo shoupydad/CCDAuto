@@ -1562,7 +1562,7 @@ private: System::Void OpenMenuItem_Click(System::Object^  sender, System::EventA
 		 }
 private: System::Void openCalibrateToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
-			 char fileName[160], Message[160], DarkDir[161], FlatDir[161];
+			 char fileName[160], Message[160], DarkDir[MAX_SIZE_PATH_CHARS], FlatDir[MAX_SIZE_PATH_CHARS];
 			 int i, Success, DarkOption, FlatOption;
 			 String ^ImageDir;
 
@@ -1576,7 +1576,7 @@ private: System::Void openCalibrateToolStripMenuItem_Click(System::Object^  send
 			 if (strlen(singleSettings.ImageDir) > 0)
 				 ImageDir = gcnew String(singleSettings.ImageDir);
 			 else
-				 ImageDir = gcnew String("C:\\Users\\shoup.31\\Documents\\Observatory\\ImageData");
+				 ImageDir = gcnew String(DEFAULT_IMAGE_DIRECTORY);
 			 this->OpenFileDialog->InitialDirectory = ImageDir;
 			 delete ImageDir;
 			 this->OpenFileDialog->Filter = "fits files (*.fits)|*.fits|All files (*.*)|*.*";

@@ -6321,10 +6321,13 @@ int imedian(int *data, int num) {
 bool GetAFolder(char *description, char *folder) {
 
 	int i;
-	String ^buffer;
+	String ^buffer, ^InitFolder;
+
 	buffer = gcnew String(description);
+	InitFolder = gcnew String(folder);
 
 	Form1::CCDAutoForm->FolderBrowserDialog->Description = buffer;
+	Form1::CCDAutoForm->FolderBrowserDialog->SelectedPath = InitFolder;
 	System::Windows::Forms::DialogResult res = Form1::CCDAutoForm->FolderBrowserDialog->ShowDialog();
 	if ( res != System::Windows::Forms::DialogResult::OK) {
 		delete buffer;

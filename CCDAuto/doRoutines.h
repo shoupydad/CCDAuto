@@ -288,7 +288,7 @@ typedef struct {
 
 typedef struct {
   char Filter[2];     /* UBVRI or A = H-alpha, G = Grating */
-  char FileName[160];
+  char FileName[MAX_SIZE_PATH_CHARS];
   char ObjectName[21];
   PLATESOLU plateSolution;
   int saved;
@@ -380,8 +380,8 @@ typedef struct {
 typedef struct {
   char ObjectName[21];
   char ImageDir[81];
-  char DarkDir[161];
-  char FlatDir[161];
+  char DarkDir[MAX_SIZE_PATH_CHARS];
+  char FlatDir[MAX_SIZE_PATH_CHARS];
   float exposureTime;
   int darkOption;
   int flatOption;
@@ -394,8 +394,8 @@ typedef struct {
   FILTERSET filterSeq;
   char objectName[20];
   char imageDir[80];
-  char DarkDir[161];
-  char FlatDir[161];
+  char DarkDir[MAX_SIZE_PATH_CHARS];
+  char FlatDir[MAX_SIZE_PATH_CHARS];
   int darkOption;
   int flatOption;
   int whichCCD;
@@ -424,7 +424,7 @@ typedef struct {
 typedef struct {
   FILTERSET filterSeq;
   char imageDir[80];
-  char DarkDir[161];
+  char DarkDir[MAX_SIZE_PATH_CHARS];
   int whichCCD;
   int binning;
   int x, y, h, w;
@@ -437,8 +437,8 @@ typedef struct {
 
 typedef struct {
   char imageDir[80];
-  char DarkDir[161];
-  char FlatDir[161];
+  char DarkDir[MAX_SIZE_PATH_CHARS];
+  char FlatDir[MAX_SIZE_PATH_CHARS];
   char ObjectName[20];
   int whichCCD;
   int binning;
@@ -465,10 +465,10 @@ typedef struct {
   bool   autoFind;
   bool  logCCDAutoFormat;
   bool  logAAVSOFormat;
-  char  logDir[161];
+  char  logDir[MAX_SIZE_PATH_CHARS];
   char  logBaseName[80];
-  char  logCCDAutoFileName[200];
-  char  logAAVSOFileName[200];
+  char  logCCDAutoFileName[MAX_SIZE_PATH_CHARS];
+  char  logAAVSOFileName[MAX_SIZE_PATH_CHARS];
   FILE  *logCCDAutoFilePtr;
   FILE  *logAAVSOFilePtr;
   char  AAVSOCompStarID[15];

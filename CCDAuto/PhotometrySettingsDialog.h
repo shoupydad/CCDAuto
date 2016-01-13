@@ -1049,7 +1049,7 @@ private: System::Void CancelButton_Click(System::Object^  sender, System::EventA
 		 }
 private: System::Void StartBatchButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
-			 char *cptr, buffer[160], dirName[160], fileName[80], DarkDir[161], FlatDir[161];
+			 char *cptr, buffer[160], dirName[160], fileName[80], DarkDir[MAX_SIZE_PATH_CHARS], FlatDir[MAX_SIZE_PATH_CHARS];
 			 int nFiles, success, reTry, answer, iFile, i, DarkOption, FlatOption, MaxiFile;
 			 FILE *names_fptr=NULL;
 
@@ -1469,8 +1469,10 @@ public:  static void GetFWHMRadioButton(bool *state) {
 		 }
 private: System::Void SelectLogFolderButton_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
-			 char path[180];
-
+			 char path[MAX_SIZE_PATH_CHARS], *cptr;
+			 
+			 cptr = strrchr(ccd->Image.FileName, '\\');
+			 strncpy_s(path, sizeof(path), ccd->Image.FileName, (cptr - ccd->Image.FileName) + 1);
 			 GetAFolder("Select Photometry Log Folder", path);
 			 strcpy_s(photometrySettings.logDir, sizeof(photometrySettings.logDir), path);
 			 this->FormPtr->SetLogDirTextBox(photometrySettings.logDir);

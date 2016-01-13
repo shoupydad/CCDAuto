@@ -153,9 +153,9 @@ int main(array<System::String ^> ^args)
   singleSettings.darkOption = 1;  /* Reuse dark frames */
   singleSettings.flatOption = 1;  /* Do not do flat fielding */
   strcpy_s(singleSettings.ObjectName,"");
-  strcpy_s(singleSettings.ImageDir,"");
-  strcpy_s(singleSettings.DarkDir,"");
-  strcpy_s(singleSettings.FlatDir,"");
+  strcpy_s(singleSettings.ImageDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(singleSettings.DarkDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(singleSettings.FlatDir, DEFAULT_IMAGE_DIRECTORY);
 
   guideImageSettings.exposureTime = 5.0;
   guideImageSettings.whichCCD = 0;   /* 0 = imaging, 1 = tracking */
@@ -167,18 +167,18 @@ int main(array<System::String ^> ^args)
   guideImageSettings.darkOption = 4;  /* Don't do darks */
   guideImageSettings.flatOption = 1;  /* Do not do flat fielding */
   strcpy_s(guideImageSettings.ObjectName,"");
-  strcpy_s(guideImageSettings.ImageDir,"");
-  strcpy_s(guideImageSettings.DarkDir,"");
-  strcpy_s(guideImageSettings.FlatDir,"");
+  strcpy_s(guideImageSettings.ImageDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(guideImageSettings.DarkDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(guideImageSettings.FlatDir, DEFAULT_IMAGE_DIRECTORY);
 
   seriesSettings.startHours = 19.0;
   seriesSettings.duration   = 1.0;
   seriesSettings.interval   = 0.0;
   seriesSettings.startSeqNum = 0;
   strcpy_s(seriesSettings.objectName,"");
-  strcpy_s(seriesSettings.imageDir,"");
-  strcpy_s(seriesSettings.DarkDir,"");
-  strcpy_s(seriesSettings.FlatDir,"");
+  strcpy_s(seriesSettings.imageDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(seriesSettings.DarkDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(seriesSettings.FlatDir, DEFAULT_IMAGE_DIRECTORY);
   seriesSettings.filterSeq.Use[0] = false; /* U */
   seriesSettings.filterSeq.Use[1] = false; /* B */
   seriesSettings.filterSeq.Use[2] = false; /* V */
@@ -210,7 +210,7 @@ int main(array<System::String ^> ^args)
   darkFrameSettings.binning=1;       /* 0 = 1x1, 1 = 2x2, 2 = 3x3 */
   darkFrameSettings.whichCCD = 0;    /* 0 = imaging, 1 = tracking */
   darkFrameSettings.exposureTime = 1.0;
-  strcpy_s(darkFrameSettings.imageDir,"");
+  strcpy_s(darkFrameSettings.imageDir, DEFAULT_IMAGE_DIRECTORY);
 
   flatFrameSettings.numFrames = 5;
   flatFrameSettings.combineMethod = 1;  /* 1=median, 2=mean */
@@ -222,8 +222,8 @@ int main(array<System::String ^> ^args)
   flatFrameSettings.whichCCD = 0;    /* 0 = imaging, 1 = tracking */
   flatFrameSettings.exposureTime = 1.0;
   flatFrameSettings.darkOption = 1;  /* Reuse dark frames */
-  strcpy_s(flatFrameSettings.imageDir,"");
-  strcpy_s(flatFrameSettings.DarkDir,"");
+  strcpy_s(flatFrameSettings.imageDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(flatFrameSettings.DarkDir, DEFAULT_IMAGE_DIRECTORY);
   flatFrameSettings.filterSeq.Use[0] = false; /* U */
   flatFrameSettings.filterSeq.Use[1] = false; /* B */
   flatFrameSettings.filterSeq.Use[2] = true; /* V */
@@ -245,9 +245,9 @@ int main(array<System::String ^> ^args)
   stackSettings.binning=1;       /* 0 = 1x1, 1 = 2x2, 2 = 3x3 */
   stackSettings.whichCCD = 0;    /* 0 = imaging, 1 = tracking */
   stackSettings.exposureTime = 60.0;
-  strcpy_s(stackSettings.imageDir,"");
-  strcpy_s(stackSettings.DarkDir,"");
-  strcpy_s(stackSettings.FlatDir,"");
+  strcpy_s(stackSettings.imageDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(stackSettings.DarkDir, DEFAULT_IMAGE_DIRECTORY);
+  strcpy_s(stackSettings.FlatDir, DEFAULT_IMAGE_DIRECTORY);
 
   /* Init the Observatory settings */
 

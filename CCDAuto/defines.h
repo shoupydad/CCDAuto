@@ -16,7 +16,8 @@ namespace CCDAuto {
 #define YES 3
 #define NO 4
 #define OKAY 5
-//#define OK 6
+
+#define MAX_SIZE_PATH_CHARS 200  // Max # of chars in buffers for direction (path) names
 
 #define OBJECTSTRINGLENGTH 11
 

@@ -25,6 +25,8 @@ namespace CCDAuto {
 			//
 			//TODO: Add the constructor code here
 			//
+			FormPtr = this;
+			PhotometryPlotWindowExists = true;
 		}
 
 	protected:
@@ -37,6 +39,8 @@ namespace CCDAuto {
 			{
 				delete components;
 			}
+			FormPtr = nullptr;
+			PhotometryPlotWindowExists = false;
 		}
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel1;
 	protected:
