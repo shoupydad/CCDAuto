@@ -1054,6 +1054,9 @@ private: System::Void StartBatchButton_Click(System::Object^  sender, System::Ev
 			 int nFiles, success, reTry, answer, iFile, i, DarkOption, FlatOption, MaxiFile;
 			 FILE *names_fptr=NULL;
 
+			 // Hide the dialog box to make room to process batch images
+
+			 FormPtr->Hide();
 			 GetPhotometrySettingsDialogValues();
 			 strcpy_s(CurrentImageFileName, sizeof(CurrentImageFileName),
 						ccd->Image.FileName);
@@ -1125,7 +1128,9 @@ private: System::Void StartBatchButton_Click(System::Object^  sender, System::Ev
 				 }
 				 updateStatusInfo();
 				 if (photometrySettings.Interactive) {
-					 answer = MessageBox("Want to measure this image (Yes=yes, No=skip, Cancel=abort?", YESNO, true);
+					 do {
+						 answer = MessageBox("Want to measure this image (Yes=yes, No=skip, Cancel=abort?", YESNO, false);
+					 } while (answer == NOANSWER);
 					 if (answer == CANCEL)
 						 return;
 					 else if (answer == NO) {

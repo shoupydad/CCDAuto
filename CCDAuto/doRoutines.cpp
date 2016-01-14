@@ -53,7 +53,6 @@ int MessageBox(char *prompt, int buttons, bool Modal)
 			OkayDialog::SetMessage(prompt);
 			MessageBoxAnswer = NOANSWER;
 			OkayDialog::ShowTheDialog(Modal);
-			return MessageBoxAnswer;
 			break;
 		case YESNO:
 			if (! YesNoDialogExists) {
@@ -62,8 +61,15 @@ int MessageBox(char *prompt, int buttons, bool Modal)
 			YesNoDialog::SetMessage(prompt);
 			MessageBoxAnswer = NOANSWER;
 			YesNoDialog::ShowTheDialog(Modal);
-			return MessageBoxAnswer;
 			break;
+	}
+	if (Modal)
+		return MessageBoxAnswer;
+	else {
+		while (MessageBoxAnswer == NOANSWER) {
+			usleep(100000);
+		}
+		return MessageBoxAnswer;
 	}
 	return NOANSWER;
 }
@@ -846,7 +852,6 @@ void loadImageImaging(unsigned short *sp, int x, int y, int w, int h, int binnin
   }
   CurrentImageWindow::FormPtr->CurrentImagePictureBox->Height = fullh;
   CurrentImageWindow::FormPtr->CurrentImagePictureBox->Width = fullw;
-  CurrentImageWindow::FormPtr->FlipImageIfRequested();
 
   /* get min and max */
 
@@ -888,27 +893,32 @@ void loadImageImaging(unsigned short *sp, int x, int y, int w, int h, int binnin
   if (max == min)
     min = max - 1;
   //for (j = 0; j < fullh; ++j) {
-  for (j = fullh-1; j >= 0; --j) {  // Reversed so that (0,0) origin in lower left instead of upper left ALS 04-03-09
-    for (i = 0; i < fullw; ++i) {
-      //      if ((j >= y) && (j < y+h) && (i >= x) && (i < x+w)) {
-	f = ((double)*sp++ - min)/(max - min);
-	if (f < 0.0) f=0.0;
-	d = (int)(255.0*pow(f, 0.33));	/* gamma correct */
-	if (d < 0) {
-	  d = 0;
-	} else if (d > 255) {
-	  d = 255;
-	}
-	//if (*(sp-1) == 65000) {
-	//	pixel = Color::FromArgb(255,0,0);
-	//} else {
-	pixel = Color::FromArgb(d,d,d);
-	//}
-	CurrentImageWindow::FormPtr->CurrentImageBitmap->SetPixel(i,j,pixel);
+  for (j = fullh - 1; j >= 0; --j) {  // Reversed so that (0,0) origin in lower left instead of upper left ALS 04-03-09
+	  for (i = 0; i < fullw; ++i) {
+		  //      if ((j >= y) && (j < y+h) && (i >= x) && (i < x+w)) {
+		  f = ((double)*sp++ - min) / (max - min);
+		  if (f < 0.0) f = 0.0;
+		  d = (int)(255.0*pow(f, 0.33));	/* gamma correct */
+		  if (d < 0) {
+			  d = 0;
+		  }
+		  else if (d > 255) {
+			  d = 255;
+		  }
+		  //if (*(sp-1) == 65000) {
+		  //	pixel = Color::FromArgb(255,0,0);
+		  //} else {
+		  pixel = Color::FromArgb(d, d, d);
+		  //}
+		  CurrentImageWindow::FormPtr->CurrentImageBitmap->SetPixel(i, j, pixel);
+	  }
   }
-}
 
   CurrentImageWindow::ClearMarkedStarList();
+  CurrentImageWindow::FormPtr->ImageIsFlippedVertical = false;
+  CurrentImageWindow::FormPtr->ImageIsFlippedHorizontal = false;
+  CurrentImageWindow::FormPtr->FlipImageIfRequested();
+
   CurrentImageWindow::ShowThisDialog();
 }
 
@@ -1900,11 +1910,11 @@ bool readDark(char *Dir, IMAGE *Image)
   /* Form compatible file name and open it */
   
   if (Image->light_frame.exposure >= 10.0) {
-	  sprintf_s(fileName, sizeof(fileName), "%s/Dark%s_%d.fits",
+	  sprintf_s(fileName, sizeof(fileName), "%s\\Dark%s_%d.fits",
 		  Dir, binningString[Image->light_frame.binning], 
 		  ((int)Image->light_frame.exposure));
   } else {
-	  sprintf_s(fileName, sizeof(fileName), "%s/Dark%s_%dms.fits",
+	  sprintf_s(fileName, sizeof(fileName), "%s\\Dark%s_%dms.fits",
 		  Dir, binningString[Image->light_frame.binning], 
 		  ((int)(Image->light_frame.exposure*1000)));
   }
@@ -6330,7 +6340,7 @@ bool GetAFolder(char *description, char *folder) {
 	Form1::CCDAutoForm->OpenFileDialog->InitialDirectory = InitFolder;
 	Form1::CCDAutoForm->OpenFileDialog->Title = buffer;
 	Form1::CCDAutoForm->OpenFileDialog->RestoreDirectory = true;
-	Form1::CCDAutoForm->OpenFileDialog->Filter = "*.*";
+	Form1::CCDAutoForm->OpenFileDialog->Filter = "All Files|*.*";
 //	System::Windows::Forms::DialogResult res = Form1::CCDAutoForm->FolderBrowserDialog->ShowDialog();
 	System::Windows::Forms::DialogResult res = Form1::CCDAutoForm->OpenFileDialog->ShowDialog();
 	if ( res != System::Windows::Forms::DialogResult::OK) {
