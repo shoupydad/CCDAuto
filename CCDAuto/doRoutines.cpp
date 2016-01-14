@@ -6321,23 +6321,34 @@ int imedian(int *data, int num) {
 bool GetAFolder(char *description, char *folder) {
 
 	int i;
+	char *cptr;
 	String ^buffer, ^InitFolder;
 
 	buffer = gcnew String(description);
 	InitFolder = gcnew String(folder);
 
-	Form1::CCDAutoForm->FolderBrowserDialog->Description = buffer;
-	Form1::CCDAutoForm->FolderBrowserDialog->SelectedPath = InitFolder;
-	System::Windows::Forms::DialogResult res = Form1::CCDAutoForm->FolderBrowserDialog->ShowDialog();
+	Form1::CCDAutoForm->OpenFileDialog->InitialDirectory = InitFolder;
+	Form1::CCDAutoForm->OpenFileDialog->Title = buffer;
+	Form1::CCDAutoForm->OpenFileDialog->RestoreDirectory = true;
+	Form1::CCDAutoForm->OpenFileDialog->Filter = "*.*";
+//	System::Windows::Forms::DialogResult res = Form1::CCDAutoForm->FolderBrowserDialog->ShowDialog();
+	System::Windows::Forms::DialogResult res = Form1::CCDAutoForm->OpenFileDialog->ShowDialog();
 	if ( res != System::Windows::Forms::DialogResult::OK) {
 		delete buffer;
+		delete InitFolder;
 		return false;
 	}
-	String^ path = Form1::CCDAutoForm->FolderBrowserDialog->SelectedPath;
-	for (i=0; i<path->Length; i++) folder[i] = (char) path[i];
-		folder[i] = '\0';
+	String ^path = Form1::CCDAutoForm->OpenFileDialog->FileName;
+//	String^ path = Form1::CCDAutoForm->FolderBrowserDialog->SelectedPath;
+	for (i = 0; i < path->Length; i++) {
+		folder[i] = (char)path[i];
+	}
+	folder[i] = '\0';
+	cptr = strrchr(folder, '\\');
+	*cptr = 0;
 
 	 delete buffer;
+	 delete InitFolder;
 	 return true;
 }
 

@@ -216,7 +216,7 @@ namespace CCDAuto {
     private: System::Windows::Forms::Label^  label17;
     private: System::Windows::Forms::TextBox^  TimeToNextExpTextBox;
     private: System::Windows::Forms::TextBox^  TimeToSeriesEndTextBox;
-	private: System::Windows::Forms::OpenFileDialog^  OpenFileDialog;
+	public: System::Windows::Forms::OpenFileDialog^  OpenFileDialog;
 private: System::ComponentModel::IContainer^  components;
 
 
@@ -1577,6 +1577,7 @@ private: System::Void openCalibrateToolStripMenuItem_Click(System::Object^  send
 				 ImageDir = gcnew String(singleSettings.ImageDir);
 			 else
 				 ImageDir = gcnew String(DEFAULT_IMAGE_DIRECTORY);
+			 this->OpenFileDialog->Title = "Open & Calibrate Image file";
 			 this->OpenFileDialog->InitialDirectory = ImageDir;
 			 delete ImageDir;
 			 this->OpenFileDialog->Filter = "fits files (*.fits)|*.fits|All files (*.*)|*.*";

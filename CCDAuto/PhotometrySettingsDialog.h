@@ -1049,7 +1049,8 @@ private: System::Void CancelButton_Click(System::Object^  sender, System::EventA
 		 }
 private: System::Void StartBatchButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
-			 char *cptr, buffer[160], dirName[160], fileName[80], DarkDir[MAX_SIZE_PATH_CHARS], FlatDir[MAX_SIZE_PATH_CHARS];
+			 char *cptr, buffer[MAX_SIZE_PATH_CHARS+80], dirName[MAX_SIZE_PATH_CHARS], fileName[MAX_SIZE_PATH_CHARS],
+				 DarkDir[MAX_SIZE_PATH_CHARS], FlatDir[MAX_SIZE_PATH_CHARS];
 			 int nFiles, success, reTry, answer, iFile, i, DarkOption, FlatOption, MaxiFile;
 			 FILE *names_fptr=NULL;
 

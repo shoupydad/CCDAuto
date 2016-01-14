@@ -409,7 +409,7 @@ private: System::Void FromFileButton_Clicked(System::Object^  sender, System::Ev
 				 return;
 			 }
 
-			 this->OpenFileDialog->InitialDirectory = "C:\\Users\\shoup.31\\Documents\\Observatory\\CCDAuto\\PhotometricStandards";
+			 this->OpenFileDialog->InitialDirectory = DEFAULT_PHOTOMETRY_STANDARDS_DIRECTORY;
 			 this->OpenFileDialog->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 			 this->OpenFileDialog->FilterIndex = 1;
 			 this->OpenFileDialog->RestoreDirectory = true;

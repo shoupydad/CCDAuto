@@ -31,6 +31,7 @@ namespace CCDAuto {
 #define OBJECT_LIST_FILE_NAME BASE_PATH "CCDAuto\\ObjectList.lst"
 #define USNOB_CATALOG_PATH BASE_PATH "Catalogs\\USNO-B1.0\\"
 #define DEFAULT_PHOTOMETRY_LOG_DIRECTORY BASE_PATH "ImageData"
+#define DEFAULT_PHOTOMETRY_STANDARDS_DIRECTORY BASE_PATH "CCDAuto\\PhotometricStandards"
 
 	// Macros
 
