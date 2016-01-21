@@ -150,7 +150,7 @@
     <ClCompile Include="YesNoDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyForm.cpp">
+    <ClCompile Include="AutoFocusDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -293,10 +293,10 @@
     <ClInclude Include="YesNoDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyForm.h">
+    <ClInclude Include="PhotometryPlotWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhotometryPlotWindow.h">
+    <ClInclude Include="AutoFocusDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

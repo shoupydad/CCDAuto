@@ -27,6 +27,10 @@ namespace CCDAuto {
 	{
 	public:
 		static CurrentImageWindow^ FormPtr;
+		bool MouseLeftButtonDown;
+		int FirstMouseDownX, FirstMouseDownY;
+		int LastMouseDownX, LastMouseDownY;
+
 	//private: System::Windows::Forms::ToolStripButton^  ClearMarkedStarsButton;
 
 	private: System::Windows::Forms::Panel^  panel1;
@@ -49,35 +53,36 @@ namespace CCDAuto {
 	private: System::Windows::Forms::CheckBox^  AutoScaleCheckBox;
 	private: System::Windows::Forms::CheckBox^  FlipVerticalCheckBox;
 	private: System::Windows::Forms::CheckBox^  FlipHorizontalCheckBox;
-	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  newToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  openToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator;
-	private: System::Windows::Forms::ToolStripMenuItem^  saveToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  saveAsToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator1;
-	private: System::Windows::Forms::ToolStripMenuItem^  printToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  printPreviewToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator2;
-	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  editToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  undoToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  redoToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator3;
-	private: System::Windows::Forms::ToolStripMenuItem^  cutToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  copyToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  pasteToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator4;
-	private: System::Windows::Forms::ToolStripMenuItem^  selectAllToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  toolsToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  customizeToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  optionsToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  helpToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  contentsToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  indexToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  searchToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator5;
-	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  autoFocusToolStripMenuItem;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -105,6 +110,8 @@ namespace CCDAuto {
 				gcnew System::Windows::Forms::MouseEventHandler(this, &CurrentImageWindow::MouseMoveHandler);
 			this->CurrentImagePictureBox->Paint +=
 				gcnew System::Windows::Forms::PaintEventHandler(this, &CurrentImageWindow::PaintHandler);
+			this->MouseLeftButtonDown = false;
+
 		}
 
 	protected:
@@ -254,35 +261,7 @@ namespace CCDAuto {
 			this->clearMarksToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->astrometryToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->centerToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->newToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripSeparator = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->saveAsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->printToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->printPreviewToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripSeparator2 = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->editToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->undoToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->redoToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->cutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->copyToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->pasteToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripSeparator4 = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->selectAllToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->customizeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->optionsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->contentsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->indexToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->searchToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripSeparator5 = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->autoFocusToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel2->SuspendLayout();
 			this->CurrentImagePixelGroupBox->SuspendLayout();
@@ -315,7 +294,7 @@ namespace CCDAuto {
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 6.114398F)));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 74.05405F)));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 19.86486F)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(787, 740);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(915, 740);
 			this->tableLayoutPanel1->TabIndex = 0;
 			// 
 			// tableLayoutPanel2
@@ -333,13 +312,12 @@ namespace CCDAuto {
 			this->tableLayoutPanel2->Controls->Add(this->CurrentImageStellarPSFGroupBox, 1, 0);
 			this->tableLayoutPanel2->Controls->Add(this->CurrentImagePhotometryGroupBox, 2, 0);
 			this->tableLayoutPanel2->Controls->Add(this->CurrentImageDisplayParametersGroupBox, 3, 0);
-			this->tableLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel2->Location = System::Drawing::Point(3, 595);
 			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
 			this->tableLayoutPanel2->RowCount = 1;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 142)));
-			this->tableLayoutPanel2->Size = System::Drawing::Size(781, 142);
+			this->tableLayoutPanel2->Size = System::Drawing::Size(793, 142);
 			this->tableLayoutPanel2->TabIndex = 2;
 			// 
 			// CurrentImagePixelGroupBox
@@ -348,7 +326,7 @@ namespace CCDAuto {
 			this->CurrentImagePixelGroupBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->CurrentImagePixelGroupBox->Location = System::Drawing::Point(3, 3);
 			this->CurrentImagePixelGroupBox->Name = L"CurrentImagePixelGroupBox";
-			this->CurrentImagePixelGroupBox->Size = System::Drawing::Size(182, 136);
+			this->CurrentImagePixelGroupBox->Size = System::Drawing::Size(185, 136);
 			this->CurrentImagePixelGroupBox->TabIndex = 0;
 			this->CurrentImagePixelGroupBox->TabStop = false;
 			this->CurrentImagePixelGroupBox->Text = L"Current Pixel/Image";
@@ -383,14 +361,14 @@ namespace CCDAuto {
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
-			this->tableLayoutPanel3->Size = System::Drawing::Size(176, 117);
+			this->tableLayoutPanel3->Size = System::Drawing::Size(179, 117);
 			this->tableLayoutPanel3->TabIndex = 0;
 			// 
 			// CurrentImageAvePixTextBox
 			// 
 			this->CurrentImageAvePixTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageAvePixTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageAvePixTextBox->Location = System::Drawing::Point(133, 87);
+			this->CurrentImageAvePixTextBox->Location = System::Drawing::Point(135, 87);
 			this->CurrentImageAvePixTextBox->Name = L"CurrentImageAvePixTextBox";
 			this->CurrentImageAvePixTextBox->ReadOnly = true;
 			this->CurrentImageAvePixTextBox->Size = System::Drawing::Size(37, 20);
@@ -402,7 +380,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageMaxPixTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageMaxPixTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageMaxPixTextBox->Location = System::Drawing::Point(133, 48);
+			this->CurrentImageMaxPixTextBox->Location = System::Drawing::Point(135, 48);
 			this->CurrentImageMaxPixTextBox->Name = L"CurrentImageMaxPixTextBox";
 			this->CurrentImageMaxPixTextBox->ReadOnly = true;
 			this->CurrentImageMaxPixTextBox->Size = System::Drawing::Size(37, 20);
@@ -414,7 +392,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageMinPixTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageMinPixTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageMinPixTextBox->Location = System::Drawing::Point(133, 9);
+			this->CurrentImageMinPixTextBox->Location = System::Drawing::Point(135, 9);
 			this->CurrentImageMinPixTextBox->Name = L"CurrentImageMinPixTextBox";
 			this->CurrentImageMinPixTextBox->ReadOnly = true;
 			this->CurrentImageMinPixTextBox->Size = System::Drawing::Size(37, 20);
@@ -426,7 +404,7 @@ namespace CCDAuto {
 			// 
 			this->label4->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(100, 13);
+			this->label4->Location = System::Drawing::Point(102, 13);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(27, 13);
 			this->label4->TabIndex = 6;
@@ -436,7 +414,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageXTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageXTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageXTextBox->Location = System::Drawing::Point(49, 9);
+			this->CurrentImageXTextBox->Location = System::Drawing::Point(50, 9);
 			this->CurrentImageXTextBox->Name = L"CurrentImageXTextBox";
 			this->CurrentImageXTextBox->ReadOnly = true;
 			this->CurrentImageXTextBox->Size = System::Drawing::Size(36, 20);
@@ -448,7 +426,7 @@ namespace CCDAuto {
 			// 
 			this->label1->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(26, 13);
+			this->label1->Location = System::Drawing::Point(27, 13);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(17, 13);
 			this->label1->TabIndex = 0;
@@ -458,7 +436,7 @@ namespace CCDAuto {
 			// 
 			this->label2->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(26, 52);
+			this->label2->Location = System::Drawing::Point(27, 52);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(17, 13);
 			this->label2->TabIndex = 1;
@@ -468,7 +446,7 @@ namespace CCDAuto {
 			// 
 			this->label3->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(6, 91);
+			this->label3->Location = System::Drawing::Point(7, 91);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(37, 13);
 			this->label3->TabIndex = 2;
@@ -478,7 +456,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageYTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageYTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageYTextBox->Location = System::Drawing::Point(49, 48);
+			this->CurrentImageYTextBox->Location = System::Drawing::Point(50, 48);
 			this->CurrentImageYTextBox->Name = L"CurrentImageYTextBox";
 			this->CurrentImageYTextBox->ReadOnly = true;
 			this->CurrentImageYTextBox->Size = System::Drawing::Size(36, 20);
@@ -491,7 +469,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImagePixValTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImagePixValTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImagePixValTextBox->Location = System::Drawing::Point(49, 87);
+			this->CurrentImagePixValTextBox->Location = System::Drawing::Point(50, 87);
 			this->CurrentImagePixValTextBox->Name = L"CurrentImagePixValTextBox";
 			this->CurrentImagePixValTextBox->ReadOnly = true;
 			this->CurrentImagePixValTextBox->Size = System::Drawing::Size(36, 20);
@@ -503,7 +481,7 @@ namespace CCDAuto {
 			// 
 			this->label5->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(97, 52);
+			this->label5->Location = System::Drawing::Point(99, 52);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(30, 13);
 			this->label5->TabIndex = 7;
@@ -513,7 +491,7 @@ namespace CCDAuto {
 			// 
 			this->label6->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label6->AutoSize = true;
-			this->label6->Location = System::Drawing::Point(98, 91);
+			this->label6->Location = System::Drawing::Point(100, 91);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(29, 13);
 			this->label6->TabIndex = 8;
@@ -523,7 +501,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageStellarPSFGroupBox->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->CurrentImageStellarPSFGroupBox->Controls->Add(this->tableLayoutPanel4);
-			this->CurrentImageStellarPSFGroupBox->Location = System::Drawing::Point(192, 14);
+			this->CurrentImageStellarPSFGroupBox->Location = System::Drawing::Point(196, 14);
 			this->CurrentImageStellarPSFGroupBox->Name = L"CurrentImageStellarPSFGroupBox";
 			this->CurrentImageStellarPSFGroupBox->Size = System::Drawing::Size(205, 114);
 			this->CurrentImageStellarPSFGroupBox->TabIndex = 1;
@@ -712,9 +690,9 @@ namespace CCDAuto {
 			// 
 			this->CurrentImagePhotometryGroupBox->Controls->Add(this->tableLayoutPanel5);
 			this->CurrentImagePhotometryGroupBox->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->CurrentImagePhotometryGroupBox->Location = System::Drawing::Point(404, 3);
+			this->CurrentImagePhotometryGroupBox->Location = System::Drawing::Point(410, 3);
 			this->CurrentImagePhotometryGroupBox->Name = L"CurrentImagePhotometryGroupBox";
-			this->CurrentImagePhotometryGroupBox->Size = System::Drawing::Size(172, 136);
+			this->CurrentImagePhotometryGroupBox->Size = System::Drawing::Size(175, 136);
 			this->CurrentImagePhotometryGroupBox->TabIndex = 2;
 			this->CurrentImagePhotometryGroupBox->TabStop = false;
 			this->CurrentImagePhotometryGroupBox->Text = L"Photometry";
@@ -740,14 +718,14 @@ namespace CCDAuto {
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
-			this->tableLayoutPanel5->Size = System::Drawing::Size(166, 117);
+			this->tableLayoutPanel5->Size = System::Drawing::Size(169, 117);
 			this->tableLayoutPanel5->TabIndex = 0;
 			// 
 			// label15
 			// 
 			this->label15->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label15->AutoSize = true;
-			this->label15->Location = System::Drawing::Point(27, 91);
+			this->label15->Location = System::Drawing::Point(28, 91);
 			this->label15->Name = L"label15";
 			this->label15->Size = System::Drawing::Size(31, 13);
 			this->label15->TabIndex = 4;
@@ -757,7 +735,7 @@ namespace CCDAuto {
 			// 
 			this->label13->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label13->AutoSize = true;
-			this->label13->Location = System::Drawing::Point(10, 13);
+			this->label13->Location = System::Drawing::Point(11, 13);
 			this->label13->Name = L"label13";
 			this->label13->Size = System::Drawing::Size(48, 13);
 			this->label13->TabIndex = 2;
@@ -767,7 +745,7 @@ namespace CCDAuto {
 			// 
 			this->label14->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label14->AutoSize = true;
-			this->label14->Location = System::Drawing::Point(11, 52);
+			this->label14->Location = System::Drawing::Point(12, 52);
 			this->label14->Name = L"label14";
 			this->label14->Size = System::Drawing::Size(47, 13);
 			this->label14->TabIndex = 3;
@@ -777,7 +755,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageStarFluxTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageStarFluxTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageStarFluxTextBox->Location = System::Drawing::Point(64, 9);
+			this->CurrentImageStarFluxTextBox->Location = System::Drawing::Point(65, 9);
 			this->CurrentImageStarFluxTextBox->Name = L"CurrentImageStarFluxTextBox";
 			this->CurrentImageStarFluxTextBox->ReadOnly = true;
 			this->CurrentImageStarFluxTextBox->Size = System::Drawing::Size(77, 20);
@@ -789,7 +767,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageSkyFluxTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageSkyFluxTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageSkyFluxTextBox->Location = System::Drawing::Point(64, 48);
+			this->CurrentImageSkyFluxTextBox->Location = System::Drawing::Point(65, 48);
 			this->CurrentImageSkyFluxTextBox->Name = L"CurrentImageSkyFluxTextBox";
 			this->CurrentImageSkyFluxTextBox->ReadOnly = true;
 			this->CurrentImageSkyFluxTextBox->Size = System::Drawing::Size(77, 20);
@@ -801,7 +779,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageMagTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageMagTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageMagTextBox->Location = System::Drawing::Point(64, 87);
+			this->CurrentImageMagTextBox->Location = System::Drawing::Point(65, 87);
 			this->CurrentImageMagTextBox->Name = L"CurrentImageMagTextBox";
 			this->CurrentImageMagTextBox->ReadOnly = true;
 			this->CurrentImageMagTextBox->Size = System::Drawing::Size(91, 20);
@@ -813,9 +791,9 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageDisplayParametersGroupBox->Controls->Add(this->tableLayoutPanel6);
 			this->CurrentImageDisplayParametersGroupBox->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->CurrentImageDisplayParametersGroupBox->Location = System::Drawing::Point(582, 3);
+			this->CurrentImageDisplayParametersGroupBox->Location = System::Drawing::Point(591, 3);
 			this->CurrentImageDisplayParametersGroupBox->Name = L"CurrentImageDisplayParametersGroupBox";
-			this->CurrentImageDisplayParametersGroupBox->Size = System::Drawing::Size(196, 136);
+			this->CurrentImageDisplayParametersGroupBox->Size = System::Drawing::Size(199, 136);
 			this->CurrentImageDisplayParametersGroupBox->TabIndex = 3;
 			this->CurrentImageDisplayParametersGroupBox->TabStop = false;
 			this->CurrentImageDisplayParametersGroupBox->Text = L"Display Parameters";
@@ -848,14 +826,14 @@ namespace CCDAuto {
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel6->Size = System::Drawing::Size(190, 117);
+			this->tableLayoutPanel6->Size = System::Drawing::Size(193, 117);
 			this->tableLayoutPanel6->TabIndex = 0;
 			// 
 			// label16
 			// 
 			this->label16->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label16->AutoSize = true;
-			this->label16->Location = System::Drawing::Point(13, 8);
+			this->label16->Location = System::Drawing::Point(14, 8);
 			this->label16->Name = L"label16";
 			this->label16->Size = System::Drawing::Size(35, 13);
 			this->label16->TabIndex = 3;
@@ -865,7 +843,7 @@ namespace CCDAuto {
 			// 
 			this->label17->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label17->AutoSize = true;
-			this->label17->Location = System::Drawing::Point(6, 37);
+			this->label17->Location = System::Drawing::Point(7, 37);
 			this->label17->Name = L"label17";
 			this->label17->Size = System::Drawing::Size(42, 13);
 			this->label17->TabIndex = 4;
@@ -875,9 +853,9 @@ namespace CCDAuto {
 			// 
 			this->label18->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label18->AutoSize = true;
-			this->label18->Location = System::Drawing::Point(5, 59);
+			this->label18->Location = System::Drawing::Point(3, 66);
 			this->label18->Name = L"label18";
-			this->label18->Size = System::Drawing::Size(43, 26);
+			this->label18->Size = System::Drawing::Size(46, 13);
 			this->label18->TabIndex = 5;
 			this->label18->Text = L"Gamma:";
 			// 
@@ -885,7 +863,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageBgndTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageBgndTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageBgndTextBox->Location = System::Drawing::Point(54, 4);
+			this->CurrentImageBgndTextBox->Location = System::Drawing::Point(55, 4);
 			this->CurrentImageBgndTextBox->Name = L"CurrentImageBgndTextBox";
 			this->CurrentImageBgndTextBox->Size = System::Drawing::Size(33, 20);
 			this->CurrentImageBgndTextBox->TabIndex = 10;
@@ -896,7 +874,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageRangeTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageRangeTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageRangeTextBox->Location = System::Drawing::Point(54, 33);
+			this->CurrentImageRangeTextBox->Location = System::Drawing::Point(55, 33);
 			this->CurrentImageRangeTextBox->Name = L"CurrentImageRangeTextBox";
 			this->CurrentImageRangeTextBox->Size = System::Drawing::Size(33, 20);
 			this->CurrentImageRangeTextBox->TabIndex = 11;
@@ -907,7 +885,7 @@ namespace CCDAuto {
 			// 
 			this->CurrentImageGammaTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->CurrentImageGammaTextBox->BackColor = System::Drawing::Color::White;
-			this->CurrentImageGammaTextBox->Location = System::Drawing::Point(54, 62);
+			this->CurrentImageGammaTextBox->Location = System::Drawing::Point(55, 62);
 			this->CurrentImageGammaTextBox->Name = L"CurrentImageGammaTextBox";
 			this->CurrentImageGammaTextBox->Size = System::Drawing::Size(33, 20);
 			this->CurrentImageGammaTextBox->TabIndex = 12;
@@ -917,7 +895,7 @@ namespace CCDAuto {
 			// ApplyButton
 			// 
 			this->ApplyButton->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->ApplyButton->Location = System::Drawing::Point(114, 4);
+			this->ApplyButton->Location = System::Drawing::Point(116, 4);
 			this->ApplyButton->Name = L"ApplyButton";
 			this->ApplyButton->Size = System::Drawing::Size(52, 21);
 			this->ApplyButton->TabIndex = 13;
@@ -939,7 +917,7 @@ namespace CCDAuto {
 			// AutoScaleCheckBox
 			// 
 			this->AutoScaleCheckBox->AutoSize = true;
-			this->AutoScaleCheckBox->Location = System::Drawing::Point(93, 32);
+			this->AutoScaleCheckBox->Location = System::Drawing::Point(95, 32);
 			this->AutoScaleCheckBox->Name = L"AutoScaleCheckBox";
 			this->AutoScaleCheckBox->Size = System::Drawing::Size(75, 17);
 			this->AutoScaleCheckBox->TabIndex = 15;
@@ -950,7 +928,7 @@ namespace CCDAuto {
 			// FlipVerticalCheckBox
 			// 
 			this->FlipVerticalCheckBox->AutoSize = true;
-			this->FlipVerticalCheckBox->Location = System::Drawing::Point(93, 61);
+			this->FlipVerticalCheckBox->Location = System::Drawing::Point(95, 61);
 			this->FlipVerticalCheckBox->Name = L"FlipVerticalCheckBox";
 			this->FlipVerticalCheckBox->Size = System::Drawing::Size(80, 17);
 			this->FlipVerticalCheckBox->TabIndex = 16;
@@ -961,7 +939,7 @@ namespace CCDAuto {
 			// FlipHorizontalCheckBox
 			// 
 			this->FlipHorizontalCheckBox->AutoSize = true;
-			this->FlipHorizontalCheckBox->Location = System::Drawing::Point(93, 90);
+			this->FlipHorizontalCheckBox->Location = System::Drawing::Point(95, 90);
 			this->FlipHorizontalCheckBox->Name = L"FlipHorizontalCheckBox";
 			this->FlipHorizontalCheckBox->Size = System::Drawing::Size(92, 17);
 			this->FlipHorizontalCheckBox->TabIndex = 17;
@@ -977,7 +955,7 @@ namespace CCDAuto {
 			this->panel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->panel1->Location = System::Drawing::Point(3, 48);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(781, 541);
+			this->panel1->Size = System::Drawing::Size(909, 541);
 			this->panel1->TabIndex = 3;
 			// 
 			// CurrentImagePictureBox
@@ -985,27 +963,29 @@ namespace CCDAuto {
 			this->CurrentImagePictureBox->BackColor = System::Drawing::Color::White;
 			this->CurrentImagePictureBox->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->CurrentImagePictureBox->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->CurrentImagePictureBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->CurrentImagePictureBox->Location = System::Drawing::Point(0, 0);
 			this->CurrentImagePictureBox->MaximumSize = System::Drawing::Size(3326, 2504);
 			this->CurrentImagePictureBox->MinimumSize = System::Drawing::Size(256, 256);
 			this->CurrentImagePictureBox->Name = L"CurrentImagePictureBox";
-			this->CurrentImagePictureBox->Size = System::Drawing::Size(760, 541);
+			this->CurrentImagePictureBox->Size = System::Drawing::Size(909, 541);
 			this->CurrentImagePictureBox->TabIndex = 1;
 			this->CurrentImagePictureBox->TabStop = false;
 			this->CurrentImagePictureBox->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &CurrentImageWindow::MouseClickHandler);
+			this->CurrentImagePictureBox->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &CurrentImageWindow::CurrentImagePictureBox_MouseDown);
+			this->CurrentImagePictureBox->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &CurrentImageWindow::CurrentImagePictureBox_MouseUp);
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(12) {
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(9) {
 				this->closeToolStripMenuItem,
 					this->exposeToolStripMenuItem, this->defineListToolStripMenuItem, this->measureListToolStripMenuItem, this->photometrySettingsToolStripMenuItem,
-					this->clearMarksToolStripMenuItem, this->astrometryToolStripMenuItem, this->centerToolStripMenuItem, this->fileToolStripMenuItem,
-					this->editToolStripMenuItem, this->toolsToolStripMenuItem, this->helpToolStripMenuItem
+					this->clearMarksToolStripMenuItem, this->astrometryToolStripMenuItem, this->centerToolStripMenuItem, this->autoFocusToolStripMenuItem
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(0, 2, 0, 2);
-			this->menuStrip1->Size = System::Drawing::Size(787, 27);
+			this->menuStrip1->Size = System::Drawing::Size(915, 27);
 			this->menuStrip1->TabIndex = 4;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -1081,222 +1061,20 @@ namespace CCDAuto {
 			this->centerToolStripMenuItem->Text = L"Center";
 			this->centerToolStripMenuItem->Click += gcnew System::EventHandler(this, &CurrentImageWindow::CenterMenuItem_Clicked);
 			// 
-			// fileToolStripMenuItem
+			// autoFocusToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(10) {
-				this->newToolStripMenuItem,
-					this->openToolStripMenuItem, this->toolStripSeparator, this->saveToolStripMenuItem, this->saveAsToolStripMenuItem, this->toolStripSeparator1,
-					this->printToolStripMenuItem, this->printPreviewToolStripMenuItem, this->toolStripSeparator2, this->exitToolStripMenuItem
-			});
-			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 23);
-			this->fileToolStripMenuItem->Text = L"&File";
-			// 
-			// newToolStripMenuItem
-			// 
-			this->newToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"newToolStripMenuItem.Image")));
-			this->newToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->newToolStripMenuItem->Name = L"newToolStripMenuItem";
-			this->newToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::N));
-			this->newToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->newToolStripMenuItem->Text = L"&New";
-			// 
-			// openToolStripMenuItem
-			// 
-			this->openToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"openToolStripMenuItem.Image")));
-			this->openToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::O));
-			this->openToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->openToolStripMenuItem->Text = L"&Open";
-			// 
-			// toolStripSeparator
-			// 
-			this->toolStripSeparator->Name = L"toolStripSeparator";
-			this->toolStripSeparator->Size = System::Drawing::Size(6, 6);
-			// 
-			// saveToolStripMenuItem
-			// 
-			this->saveToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"saveToolStripMenuItem.Image")));
-			this->saveToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::S));
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->saveToolStripMenuItem->Text = L"&Save";
-			// 
-			// saveAsToolStripMenuItem
-			// 
-			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
-			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->saveAsToolStripMenuItem->Text = L"Save &As";
-			// 
-			// toolStripSeparator1
-			// 
-			this->toolStripSeparator1->Name = L"toolStripSeparator1";
-			this->toolStripSeparator1->Size = System::Drawing::Size(6, 6);
-			// 
-			// printToolStripMenuItem
-			// 
-			this->printToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"printToolStripMenuItem.Image")));
-			this->printToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->printToolStripMenuItem->Name = L"printToolStripMenuItem";
-			this->printToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::P));
-			this->printToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->printToolStripMenuItem->Text = L"&Print";
-			// 
-			// printPreviewToolStripMenuItem
-			// 
-			this->printPreviewToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"printPreviewToolStripMenuItem.Image")));
-			this->printPreviewToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->printPreviewToolStripMenuItem->Name = L"printPreviewToolStripMenuItem";
-			this->printPreviewToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->printPreviewToolStripMenuItem->Text = L"Print Pre&view";
-			// 
-			// toolStripSeparator2
-			// 
-			this->toolStripSeparator2->Name = L"toolStripSeparator2";
-			this->toolStripSeparator2->Size = System::Drawing::Size(6, 6);
-			// 
-			// exitToolStripMenuItem
-			// 
-			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->exitToolStripMenuItem->Text = L"E&xit";
-			// 
-			// editToolStripMenuItem
-			// 
-			this->editToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(8) {
-				this->undoToolStripMenuItem,
-					this->redoToolStripMenuItem, this->toolStripSeparator3, this->cutToolStripMenuItem, this->copyToolStripMenuItem, this->pasteToolStripMenuItem,
-					this->toolStripSeparator4, this->selectAllToolStripMenuItem
-			});
-			this->editToolStripMenuItem->Name = L"editToolStripMenuItem";
-			this->editToolStripMenuItem->Size = System::Drawing::Size(39, 23);
-			this->editToolStripMenuItem->Text = L"&Edit";
-			// 
-			// undoToolStripMenuItem
-			// 
-			this->undoToolStripMenuItem->Name = L"undoToolStripMenuItem";
-			this->undoToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::Z));
-			this->undoToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->undoToolStripMenuItem->Text = L"&Undo";
-			// 
-			// redoToolStripMenuItem
-			// 
-			this->redoToolStripMenuItem->Name = L"redoToolStripMenuItem";
-			this->redoToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::Y));
-			this->redoToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->redoToolStripMenuItem->Text = L"&Redo";
-			// 
-			// toolStripSeparator3
-			// 
-			this->toolStripSeparator3->Name = L"toolStripSeparator3";
-			this->toolStripSeparator3->Size = System::Drawing::Size(6, 6);
-			// 
-			// cutToolStripMenuItem
-			// 
-			this->cutToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"cutToolStripMenuItem.Image")));
-			this->cutToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->cutToolStripMenuItem->Name = L"cutToolStripMenuItem";
-			this->cutToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::X));
-			this->cutToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->cutToolStripMenuItem->Text = L"Cu&t";
-			// 
-			// copyToolStripMenuItem
-			// 
-			this->copyToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"copyToolStripMenuItem.Image")));
-			this->copyToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->copyToolStripMenuItem->Name = L"copyToolStripMenuItem";
-			this->copyToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::C));
-			this->copyToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->copyToolStripMenuItem->Text = L"&Copy";
-			// 
-			// pasteToolStripMenuItem
-			// 
-			this->pasteToolStripMenuItem->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pasteToolStripMenuItem.Image")));
-			this->pasteToolStripMenuItem->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->pasteToolStripMenuItem->Name = L"pasteToolStripMenuItem";
-			this->pasteToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::V));
-			this->pasteToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->pasteToolStripMenuItem->Text = L"&Paste";
-			// 
-			// toolStripSeparator4
-			// 
-			this->toolStripSeparator4->Name = L"toolStripSeparator4";
-			this->toolStripSeparator4->Size = System::Drawing::Size(6, 6);
-			// 
-			// selectAllToolStripMenuItem
-			// 
-			this->selectAllToolStripMenuItem->Name = L"selectAllToolStripMenuItem";
-			this->selectAllToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->selectAllToolStripMenuItem->Text = L"Select &All";
-			// 
-			// toolsToolStripMenuItem
-			// 
-			this->toolsToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->customizeToolStripMenuItem,
-					this->optionsToolStripMenuItem
-			});
-			this->toolsToolStripMenuItem->Name = L"toolsToolStripMenuItem";
-			this->toolsToolStripMenuItem->Size = System::Drawing::Size(48, 23);
-			this->toolsToolStripMenuItem->Text = L"&Tools";
-			// 
-			// customizeToolStripMenuItem
-			// 
-			this->customizeToolStripMenuItem->Name = L"customizeToolStripMenuItem";
-			this->customizeToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->customizeToolStripMenuItem->Text = L"&Customize";
-			// 
-			// optionsToolStripMenuItem
-			// 
-			this->optionsToolStripMenuItem->Name = L"optionsToolStripMenuItem";
-			this->optionsToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->optionsToolStripMenuItem->Text = L"&Options";
-			// 
-			// helpToolStripMenuItem
-			// 
-			this->helpToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
-				this->contentsToolStripMenuItem,
-					this->indexToolStripMenuItem, this->searchToolStripMenuItem, this->toolStripSeparator5, this->aboutToolStripMenuItem
-			});
-			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
-			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 23);
-			this->helpToolStripMenuItem->Text = L"&Help";
-			// 
-			// contentsToolStripMenuItem
-			// 
-			this->contentsToolStripMenuItem->Name = L"contentsToolStripMenuItem";
-			this->contentsToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->contentsToolStripMenuItem->Text = L"&Contents";
-			// 
-			// indexToolStripMenuItem
-			// 
-			this->indexToolStripMenuItem->Name = L"indexToolStripMenuItem";
-			this->indexToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->indexToolStripMenuItem->Text = L"&Index";
-			// 
-			// searchToolStripMenuItem
-			// 
-			this->searchToolStripMenuItem->Name = L"searchToolStripMenuItem";
-			this->searchToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->searchToolStripMenuItem->Text = L"&Search";
-			// 
-			// toolStripSeparator5
-			// 
-			this->toolStripSeparator5->Name = L"toolStripSeparator5";
-			this->toolStripSeparator5->Size = System::Drawing::Size(6, 6);
-			// 
-			// aboutToolStripMenuItem
-			// 
-			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
-			this->aboutToolStripMenuItem->Size = System::Drawing::Size(32, 19);
-			this->aboutToolStripMenuItem->Text = L"&About...";
+			this->autoFocusToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 9.75F, System::Drawing::FontStyle::Bold,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->autoFocusToolStripMenuItem->Name = L"autoFocusToolStripMenuItem";
+			this->autoFocusToolStripMenuItem->Size = System::Drawing::Size(92, 23);
+			this->autoFocusToolStripMenuItem->Text = L"Auto Focus";
+			this->autoFocusToolStripMenuItem->Click += gcnew System::EventHandler(this, &CurrentImageWindow::autoFocusToolStripMenuItem_Click);
 			// 
 			// CurrentImageWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(787, 740);
+			this->ClientSize = System::Drawing::Size(915, 740);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"CurrentImageWindow";
@@ -1340,51 +1118,68 @@ private: void ClosingEventHandler(Object^ sender, System::Windows::Forms::FormCl
 			 }
 		   }
 
+
 public: static void ShowThisDialog(void) {
 			CurrentImageWindow::FormPtr->Show();
 		}
+
+
 public: static void SetCurrentImageXTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageXTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageYTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageYTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImagePixValTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImagePixValTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageMinPixTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageMinPixTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageMaxPixTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageMaxPixTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageAvePixTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageAvePixTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageStarXTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageStarXTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageStarXTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1394,6 +1189,8 @@ public: static void GetCurrentImageStarXTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageStarYTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1403,18 +1200,24 @@ public: static void GetCurrentImageStarYTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageStarYTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageStarYTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageStarMaxTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageStarMaxTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageStarMaxTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1424,12 +1227,16 @@ public: static void GetCurrentImageStarMaxTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageFWHMTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageFWHMTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageFWHMTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1439,12 +1246,16 @@ public: static void GetCurrentImageFWHMTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageRATextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageRATextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageRATextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1454,12 +1265,16 @@ public: static void GetCurrentImageRATextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageDECTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageDECTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageDECTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1469,12 +1284,16 @@ public: static void GetCurrentImageDECTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageStarFluxTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageStarFluxTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageStarFluxTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1484,12 +1303,16 @@ public: static void GetCurrentImageStarFluxTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageSkyFluxTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageSkyFluxTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageSkyFluxTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1499,12 +1322,16 @@ public: static void GetCurrentImageSkyFluxTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageMagTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageMagTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageMagTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1514,12 +1341,16 @@ public: static void GetCurrentImageMagTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageBgndTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageBgndTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageBgndTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1529,12 +1360,16 @@ public: static void GetCurrentImageBgndTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageRangeTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageRangeTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageRangeTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1544,12 +1379,16 @@ public: static void GetCurrentImageRangeTextBox(char *text) {
 		text[i] = 0;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageGammaTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		CurrentImageWindow::FormPtr->CurrentImageGammaTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void GetCurrentImageGammaTextBox(char *text) {
 		int i;
 		String ^buffer;
@@ -1565,13 +1404,19 @@ private: System::Void CloseMenuItem_Clicked(System::Object^  sender, System::Eve
 			 CurrentImageWindowCloseButtonClicked = true;
 			 CurrentImageWindow::FormPtr->Hide();
 		 }
+
+
 private: System::Void ExposeMenuItem_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
 			 ExposeSingleFrame();
 		 }
+
+
 private: System::Void DefineListMenuItem_Clicked(System::Object^  sender, System::EventArgs^  e) {
 			 ShowDefineListDialog();
 		 }
+
+
 private: System::Void MeasureListMenuItem_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
 			 bool success;
@@ -1581,13 +1426,21 @@ private: System::Void MeasureListMenuItem_Clicked(System::Object^  sender, Syste
 			 if (! success) return;
 			 measureListStars(&ccd->Image, CurrentStarList);
 		 }
+
+
 private: System::Void PhotometrySettingsMenuItem_Clicked(System::Object^  sender, System::EventArgs^  e) {
 			 ShowPhotometrySettingsDialog();
 		 }
+
+
 public: static void CurrentImageXTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
+
+
 private: System::Void CurrentImageYTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
+
+
 private: System::Void MouseClickHandler(Object^ sender,System::Windows::Forms::MouseEventArgs^ e ) {
 
 			 int xmin, ymin, xmax, ymax;
@@ -1599,12 +1452,14 @@ private: System::Void MouseClickHandler(Object^ sender,System::Windows::Forms::M
 			 light = &ccd->Image.light_frame;
 			 PictureToFrame(e->X, e->Y, &frameX, &frameY, light);
 			 if (e->Button == ::MouseButtons::Left) {
-				 if (! PickAlignStarDialogExists)
+				 if (PickAlignStarDialogExists) {
+					 sprintf_s(buffer, sizeof(buffer), "%d", frameX);
+					 PickAlignStarDialog::SetStarXTextBox(buffer);
+					 sprintf_s(buffer, sizeof(buffer), "%d", frameY);
+					 PickAlignStarDialog::SetStarYTextBox(buffer);
+				 } else {
 					 return;
-				 sprintf_s(buffer, sizeof(buffer), "%d", frameX);
-				 PickAlignStarDialog::SetStarXTextBox(buffer);
-				 sprintf_s(buffer, sizeof(buffer), "%d", frameY);
-				 PickAlignStarDialog::SetStarYTextBox(buffer);
+				 }
 			 } else if (e->Button == ::MouseButtons::Right) {
 				 xmin = (int) (frameX - photometrySettings.findRadius);
 				 if (xmin < 0)
@@ -1700,12 +1555,19 @@ private: System::Void MouseDoubleClickHandler(System::Object^  sender, System::W
 				 }
 			 }
 		 }
+
+
 private: System::Void MouseMoveHandler(Object^ sender,System::Windows::Forms::MouseEventArgs^ e ) {
 	     char buffer[80];
 		 int x, y, frameX, frameY, ipix;
 		 FRAME *light;
 		 String^ str;
 
+		 if (this->MouseLeftButtonDown) {
+			 this->LastMouseDownX = e->X;
+			 this->LastMouseDownY = e->Y;
+			 this->CurrentImagePictureBox->Refresh();
+		 }
 		 light = &ccd->Image.light_frame;
 		 x = light->x;
 		 y = light->y;
@@ -1729,6 +1591,8 @@ private: System::Void MouseMoveHandler(Object^ sender,System::Windows::Forms::Mo
 		 CurrentImageWindow::FormPtr->CurrentImagePixValTextBox->Text = str;
 		 delete str;
       }
+
+
 public: static int PlotCheckBoxChecked(void) {
 
 			int state;
@@ -1736,6 +1600,8 @@ public: static int PlotCheckBoxChecked(void) {
 			state = CurrentImageWindow::FormPtr->CurrentImagePlotCheckBox->Checked;
 			return state;
 		 }
+
+
 public: static void ClearMarkedStarList(void) {
 
 			MARKSTAR *sptr, *next;
@@ -1748,6 +1614,8 @@ public: static void ClearMarkedStarList(void) {
 			CurrentImageWindow::MarkedStarList = NULL;
 			return;
 		}
+
+
 public: static void MarkStar(float x, float y) {
 
 			MARKSTAR *newptr, *sptr, *prev;
@@ -1777,6 +1645,8 @@ public: static void MarkStar(float x, float y) {
 			CurrentImageWindow::FormPtr->Refresh();
 			return;
 		}
+
+
 public: static void UnmarkStar(float x, float y) {
 
 			MARKSTAR *sptr, *head, *prev;
@@ -1799,6 +1669,8 @@ public: static void UnmarkStar(float x, float y) {
 			}
 			return;
 		}
+
+
 private: void PaintHandler( Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 
 			 MARKSTAR *sptr;
@@ -1806,6 +1678,19 @@ private: void PaintHandler( Object^ sender, System::Windows::Forms::PaintEventAr
 			 float AperRad, SkyInnerRad, SkyOuterRad;
 			 char text[10];
 			 FRAME *light;
+
+			 if (this->MouseLeftButtonDown) {
+				 if (this->FirstMouseDownX < this->LastMouseDownX) {
+					 x1 = this->FirstMouseDownX;
+					 y1 = this->FirstMouseDownY;
+				 } else {
+					 x1 = this->LastMouseDownX;
+					 y1 = this->LastMouseDownY;
+				 }
+				 w = abs(this->LastMouseDownX - this->FirstMouseDownX);
+				 h = abs(this->LastMouseDownY - this->FirstMouseDownY);
+				 e->Graphics->DrawRectangle(System::Drawing::Pens::GhostWhite, x1, y1, w, h);
+			 }
 
 			 light = &ccd->Image.light_frame;
 			 AperRad = photometrySettings.aperatureRadius;
@@ -1845,21 +1730,31 @@ private: void PaintHandler( Object^ sender, System::Windows::Forms::PaintEventAr
 			 }
 			 return;
 		 }
+
+
 private: System::Void ClearMarksMenuItem_Clicked(System::Object^  sender, System::EventArgs^  e) {
 			 CurrentImageWindow::FormPtr->ClearMarkedStarList();
 			 CurrentImageWindow::FormPtr->Refresh();
 		 }
+
+
 private: System::Void ApplyButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			 
 			 UpdateImage();
 		 }
+
+
 private: System::Void CurrentImagePictureBox_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
+
+
 private: System::Void AstrometryMenuItem_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
 			 ShowAstrometryWindow();
 
 		 }
+
+
 private: System::Void CenterMenuItem_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
 			 double x, y, delra, deldec;
@@ -1882,6 +1777,7 @@ private: System::Void CenterMenuItem_Clicked(System::Object^  sender, System::Ev
 			 BumpScope(delra, deldec);
 		 }
 
+
 private: System::Void HistogramButton_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (! HistogramWindowExists) {
@@ -1890,8 +1786,11 @@ private: System::Void HistogramButton_Clicked(System::Object^  sender, System::E
 			 HistogramWindow::FormPtr->ccd = ccd;
 			 HistogramWindow::FormPtr->ShowTheWindow();
 		 }
+
+
 private: System::Void AutoScaleCheckBox_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
+
 
 private: System::Void FlipVerticalCheckBox_CheckChanged(System::Object^  sender, System::EventArgs^  e) {
 
@@ -1899,11 +1798,13 @@ private: System::Void FlipVerticalCheckBox_CheckChanged(System::Object^  sender,
 			this->Refresh();
 		}
 
+
 private: System::Void FlipHorizontalCheckBox_CheckChanged(System::Object^  sender, System::EventArgs^  e) {
 
 			this->FormPtr->CurrentImagePictureBox->Image->RotateFlip(System::Drawing::RotateFlipType::RotateNoneFlipX);
 			this->Refresh();
 		}
+
 
 public: static System::Void FlipImageIfRequested() {
 
@@ -1932,5 +1833,36 @@ public: static System::Void FlipImageIfRequested() {
 		}
 		CurrentImageWindow::FormPtr->Refresh();
 }
+
+
+private: System::Void autoFocusToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+	// Make sure Autofocus dialog exi
+}
+
+
+private: System::Void CurrentImagePictureBox_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+
+			// Mouse down used to drag mouse to define/select a region of the current image
+
+		if (e->Button == ::MouseButtons::Left) {
+			this->MouseLeftButtonDown = true;
+			this->FirstMouseDownX = e->X;
+			this->FirstMouseDownY = e->Y;
+			this->LastMouseDownX = e->X+1;
+			this->LastMouseDownY = e->Y+1;
+		}
+}
+
+
+private: System::Void CurrentImagePictureBox_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+
+		if (e->Button == ::MouseButtons::Left) {
+			this->MouseLeftButtonDown = false;
+			this->LastMouseDownX = e->X;
+			this->LastMouseDownY = e->Y;
+		}
+}
+
 };
 }

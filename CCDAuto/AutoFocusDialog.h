@@ -10,12 +10,12 @@ namespace CCDAuto {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for MyForm
+	/// Summary for AutoFocusDialog
 	/// </summary>
-	public ref class MyForm : public System::Windows::Forms::Form
+	public ref class AutoFocusDialog : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm(void)
+		AutoFocusDialog(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace CCDAuto {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm()
+		~AutoFocusDialog()
 		{
 			if (components)
 			{
@@ -48,11 +48,17 @@ namespace CCDAuto {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"MyForm";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->SuspendLayout();
+			// 
+			// AutoFocusDialog
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(633, 607);
+			this->Name = L"AutoFocusDialog";
+			this->Text = L"AutoFocusDialog";
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
 	};
