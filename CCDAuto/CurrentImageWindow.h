@@ -10,6 +10,7 @@ using namespace System::Drawing;
 #include "doRoutines.h"
 #include "PickAlignStarDialog.h"
 #include "HistogramWindow.h"
+#include "AutoFocusDialog.h"
 
 
 namespace CCDAuto {
@@ -1837,7 +1838,11 @@ public: static System::Void FlipImageIfRequested() {
 
 private: System::Void autoFocusToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
-	// Make sure Autofocus dialog exi
+	// Make sure Autofocus dialog exists
+
+	if (!AutoFocusDialgoExists) {
+		gcnew AutoFocusDialog();
+	}
 }
 
 
