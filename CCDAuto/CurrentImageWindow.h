@@ -1840,9 +1840,10 @@ private: System::Void autoFocusToolStripMenuItem_Click(System::Object^  sender, 
 
 	// Make sure Autofocus dialog exists
 
-	if (!AutoFocusDialgoExists) {
+	if (!AutoFocusDialogExists) {
 		gcnew AutoFocusDialog();
 	}
+	AutoFocusDialog::FormPtr->ShowTheDialog();
 }
 
 

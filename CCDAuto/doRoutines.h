@@ -488,6 +488,20 @@ typedef struct {
 } PHOTOMETRYSETTINGS;
 
 typedef struct {
+	int NumFramesPerPoint;
+	int StartingVCurveSide;		// -1 means left, 0 means unknown, +1 means right
+	int CalNumFramesPerPoint;
+	bool GotVCurveParams;		// True if auto focus calibrated
+	double CurStarX;
+	double CurStarY;
+	int CurStarMax;
+	double CurStarHFD;
+	int CurStarFlux;
+	double LeftVCurveSlope;
+	double RightVCurveSlope;
+} AUTOFOCUS;
+
+typedef struct {
   char name[OBJECTSTRINGLENGTH];
   char objectType[OBJECTSTRINGLENGTH];
   char specType[OBJECTSTRINGLENGTH];
@@ -817,7 +831,7 @@ extern SCOPE ScopeList[5];
 
 extern bool AAVSOPhotoDialogExists;
 extern bool AstrometryWindowExists;
-extern bool AutoFocusDialgoExists;
+extern bool AutoFocusDialogExists;
 extern bool CameraSettingsDialogExists;
 extern bool CurrentImageWindowExists;
 extern bool DarkFrameSettingsDialogExists;
