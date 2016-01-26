@@ -32,6 +32,7 @@ namespace CCDAuto {
 #define USNOB_CATALOG_PATH BASE_PATH "Catalogs\\USNO-B1.0\\"
 #define DEFAULT_PHOTOMETRY_LOG_DIRECTORY BASE_PATH "ImageData"
 #define DEFAULT_PHOTOMETRY_STANDARDS_DIRECTORY BASE_PATH "CCDAuto\\PhotometricStandards"
+#define DEFAULT_AUTOFOCUS_SETTINGS_FILENAME BASE_PATH "CCDAuto\\AutoFocusSettings.txt"
 
 	// Macros
 
@@ -491,6 +492,12 @@ typedef struct {
 	int NumFramesPerPoint;
 	int StartingVCurveSide;		// -1 means left, 0 means unknown, +1 means right
 	int CalNumFramesPerPoint;
+	int CalStarMaxMax;			// Range of allowable star maximum (saturation)
+	int CalStarMinMax;
+	int CalStartFocusPosition;	// Starting focus position
+	int CalEndFocusPosition;	// Ending focus position
+	int CalFocusStepSize;		// Step size in focus position values
+	int CalFieldSize;			// Square field in pixels
 	bool GotVCurveParams;		// True if auto focus calibrated
 	double CurStarX;
 	double CurStarY;
@@ -499,7 +506,7 @@ typedef struct {
 	int CurStarFlux;
 	double LeftVCurveSlope;
 	double RightVCurveSlope;
-} AUTOFOCUS;
+} AUTOFOCUSSETTINGS;
 
 typedef struct {
   char name[OBJECTSTRINGLENGTH];
@@ -877,6 +884,7 @@ extern double ScopeRA;
 extern double ScopeDEC;
 extern int GetScopeRADEC;
 
+extern AUTOFOCUSSETTINGS autoFocusSettings;
 extern SINGLESETTINGS singleSettings;
 extern SINGLESETTINGS singleSettings_Save;
 extern SINGLESETTINGS guideImageSettings;

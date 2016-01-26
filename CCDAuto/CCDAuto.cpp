@@ -21,6 +21,8 @@ static void OnUnhandled(Object^ sender, ThreadExceptionEventArgs^ e)
 int main(array<System::String ^> ^args)
 {
 
+	FILE *fptr;
+	char line[160];
 	String^ DefaultDir = DEFAULT_IMAGE_DIRECTORY;
 
 	// Enabling Windows XP visual effects before any controls are created
@@ -294,6 +296,76 @@ int main(array<System::String ^> ^args)
   plateSolution.InitFieldCenterDEC = 0.0;  // deg.
   plateSolution.InitFieldCenterRA = 0.0;   // hours.
   plateSolution.PixelScale = 0.74;  // "/pixel
+
+  // Read in auto focus settings/calibrations
+
+  errno_t status = fopen_s(&fptr, DEFAULT_AUTOFOCUS_SETTINGS_FILENAME, "r");
+  if (status != 0) {
+	  autoFocusSettings.CalNumFramesPerPoint = 1;
+	  autoFocusSettings.GotVCurveParams = false;
+	  autoFocusSettings.LeftVCurveSlope = 0.0;
+	  autoFocusSettings.NumFramesPerPoint = 1;
+	  autoFocusSettings.RightVCurveSlope = 0.0;
+	  autoFocusSettings.StartingVCurveSide = 0;
+	  autoFocusSettings.CalEndFocusPosition = -9999;
+	  autoFocusSettings.CalStartFocusPosition = -9999;
+	  autoFocusSettings.CalFieldSize = 100;
+	  autoFocusSettings.CalFocusStepSize = 10;
+	  autoFocusSettings.CalStarMaxMax = 50000;
+	  autoFocusSettings.CalStarMinMax = 1000;
+  } else {
+	  int i = 1;
+	  int ivalue;
+	  while (!feof(fptr)) {
+		  if (fgets(line, sizeof(line), fptr) == nullptr)
+			  break;
+		  switch (i) {
+		  case 1:  // CalNumFramesPerPoint
+			  sscanf_s(line, "%d", &ivalue);
+			  if ((ivalue > 0) && (ivalue < 10)) {
+				  autoFocusSettings.CalNumFramesPerPoint = ivalue;
+			  }
+			  break;
+		  case 2:  // CalStartFocusPosition
+			  sscanf_s(line, "%d", &ivalue);
+			  if ((ivalue > 0) && (ivalue < 9999)) {
+				  autoFocusSettings.CalStartFocusPosition = ivalue;
+			  }
+			  break;
+		  case 3:  // CalEndFocusPosition
+			  sscanf_s(line, "%d", &ivalue);
+			  if ((ivalue > autoFocusSettings.CalStartFocusPosition) && (ivalue < 9999)) {
+				  autoFocusSettings.CalEndFocusPosition = ivalue;
+			  }
+			  break;
+		  case 4:  // CalFocusStepSize
+			  sscanf_s(line, "%d", &ivalue);
+			  if ((ivalue > 0) && (ivalue < 100)) {
+				  autoFocusSettings.CalFocusStepSize = ivalue;
+			  }
+			  break;
+		  case 5:  // CalFieldSize
+			  sscanf_s(line, "%d", &ivalue);
+			  if ((ivalue > 0) && (ivalue < 1000)) {
+				  autoFocusSettings.CalFieldSize = ivalue;
+			  }
+			  break;
+		  case 6:  // CalStarMaxMax
+			  sscanf_s(line, "%d", &ivalue);
+			  if ((ivalue > 0) && (ivalue < 60000)) {
+				  autoFocusSettings.CalStarMaxMax = ivalue;
+			  }
+			  break;
+		  case 7:  // CalStarMinMax
+			  sscanf_s(line, "%d", &ivalue);
+			  if ((ivalue > 0) && (ivalue < 60000)) {
+				  autoFocusSettings.CalStarMinMax = ivalue;
+			  }
+			  break;
+		  }
+	  }
+  }
+
 
 	// Create the main window and run it
 

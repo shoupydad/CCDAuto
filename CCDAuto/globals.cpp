@@ -101,6 +101,7 @@ double ScopeRA=0.0;
 double ScopeDEC=0.0;
 int GetScopeRADEC=true;
 
+AUTOFOCUSSETTINGS autoFocusSettings;
 SINGLESETTINGS singleSettings;
 SINGLESETTINGS singleSettings_Save;
 SINGLESETTINGS guideImageSettings;
