@@ -26,6 +26,7 @@ namespace CCDAuto {
 			//
 			FormPtr = this;
 			AutoFocusDialogExists = true;
+			this->FocusImageBitmap = gcnew System::Drawing::Bitmap(MIN_FOCUS_FIELD_SIZE, MIN_FOCUS_FIELD_SIZE);
 		}
 
 	protected:
@@ -40,6 +41,8 @@ namespace CCDAuto {
 			}
 			AutoFocusDialogExists = false;
 		}
+	public:  System::Drawing::Bitmap^ FocusImageBitmap;
+
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel1;
 	protected:
 	private: System::Windows::Forms::TabControl^  tabControl;
@@ -57,19 +60,19 @@ namespace CCDAuto {
 	private: System::Windows::Forms::GroupBox^  groupBox1;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel5;
 	private: System::Windows::Forms::Label^  label1;
-	private: System::Windows::Forms::TextBox^  FocusStartPosTextBox;
+
 	private: System::Windows::Forms::Label^  label2;
 
 	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::TextBox^  FocusStepSizeTextBox;
-	private: System::Windows::Forms::TextBox^  FocusEndPosTextBox;
+
+
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::Label^  label5;
 	private: System::Windows::Forms::Label^  label6;
-	private: System::Windows::Forms::TextBox^  MaxPeakTextBox;
-	private: System::Windows::Forms::TextBox^  MinPeakTextBox;
-	private: System::Windows::Forms::TextBox^  FieldSizeTextBox;
-	private: System::Windows::Forms::TextBox^  CalNumFramesPerPointTextBox;
+
+
+
+
 
 	private: System::Windows::Forms::Label^  label7;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel6;
@@ -107,15 +110,21 @@ namespace CCDAuto {
 	private: System::Windows::Forms::GroupBox^  groupBox7;
 	private: System::Windows::Forms::GroupBox^  groupBox8;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel11;
-	private: System::Windows::Forms::Button^  button3;
-	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  StopButton;
+
+	private: System::Windows::Forms::Button^  PauseButton;
+
+
+	private: System::Windows::Forms::Button^  StartButton;
+
+
+
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel12;
 	private: System::Windows::Forms::RadioButton^  radioButton1;
 	private: System::Windows::Forms::RadioButton^  radioButton2;
 	private: System::Windows::Forms::RadioButton^  radioButton3;
 	private: System::Windows::Forms::Label^  label16;
-	private: System::Windows::Forms::TextBox^  NumFramesPerPointTextBox;
+
 private: System::Windows::Forms::TextBox^  CalFocuserPositionTextBox;
 
 private: System::Windows::Forms::Label^  label17;
@@ -134,6 +143,20 @@ private: System::Windows::Forms::Label^  label23;
 private: System::Windows::Forms::TextBox^  FrameNumTextBox;
 private: System::Windows::Forms::TextBox^  CalFrameNumTextBox;
 private: System::Windows::Forms::Label^  label24;
+private: System::Windows::Forms::NumericUpDown^  CalFramesPerPointNumericUpDown;
+private: System::Windows::Forms::NumericUpDown^  CalFieldSizeNumericUpDown;
+private: System::Windows::Forms::NumericUpDown^  MaxStarPeakNumericUpDown;
+private: System::Windows::Forms::NumericUpDown^  MinStarPeakNumericUpDown;
+
+
+private: System::Windows::Forms::NumericUpDown^  CalEndFocusPositionNumericUpDown;
+
+private: System::Windows::Forms::NumericUpDown^  CalStartFocusPositionNumericUpDown;
+private: System::Windows::Forms::NumericUpDown^  CalStepSizeNumericUpDown;
+private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
+
+
+
 
 
 
@@ -658,7 +681,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
 			this->label16 = (gcnew System::Windows::Forms::Label());
-			this->NumFramesPerPointTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->FramesPerPointNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
 			this->groupBox8 = (gcnew System::Windows::Forms::GroupBox());
 			this->tableLayoutPanel13 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->label20 = (gcnew System::Windows::Forms::Label());
@@ -673,10 +696,6 @@ private: System::Windows::Forms::Label^  label24;
 			this->FocuserPositionTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label23 = (gcnew System::Windows::Forms::Label());
 			this->FrameNumTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->tableLayoutPanel11 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 			this->tableLayoutPanel3 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -711,23 +730,27 @@ private: System::Windows::Forms::Label^  label24;
 			this->CalFocusFramePictureBox = (gcnew System::Windows::Forms::PictureBox());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->CalNumFramesPerPointTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->CalEndFocusPositionNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->CalStartFocusPositionNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->MinStarPeakNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label7 = (gcnew System::Windows::Forms::Label());
-			this->MaxPeakTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->FocusStepSizeTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->FocusStartPosTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->FocusEndPosTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
-			this->MinPeakTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->FieldSizeTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->CalFramesPerPointNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->CalFieldSizeNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->MaxStarPeakNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+			this->CalStepSizeNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
 			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->CloseButton = (gcnew System::Windows::Forms::Button());
+			this->tableLayoutPanel11 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->StopButton = (gcnew System::Windows::Forms::Button());
+			this->PauseButton = (gcnew System::Windows::Forms::Button());
+			this->StartButton = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tabControl->SuspendLayout();
 			this->tabPage1->SuspendLayout();
@@ -739,9 +762,9 @@ private: System::Windows::Forms::Label^  label24;
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->FocusFramePictureBox))->BeginInit();
 			this->groupBox7->SuspendLayout();
 			this->tableLayoutPanel12->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->FramesPerPointNumericUpDown))->BeginInit();
 			this->groupBox8->SuspendLayout();
 			this->tableLayoutPanel13->SuspendLayout();
-			this->tableLayoutPanel11->SuspendLayout();
 			this->tabPage2->SuspendLayout();
 			this->tableLayoutPanel3->SuspendLayout();
 			this->tableLayoutPanel4->SuspendLayout();
@@ -756,7 +779,15 @@ private: System::Windows::Forms::Label^  label24;
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalFocusFramePictureBox))->BeginInit();
 			this->groupBox1->SuspendLayout();
 			this->tableLayoutPanel5->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalEndFocusPositionNumericUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalStartFocusPositionNumericUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MinStarPeakNumericUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalFramesPerPointNumericUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalFieldSizeNumericUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MaxStarPeakNumericUpDown))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalStepSizeNumericUpDown))->BeginInit();
 			this->tableLayoutPanel2->SuspendLayout();
+			this->tableLayoutPanel11->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -770,9 +801,9 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 2;
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 94.61539F)));
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 5.384615F)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(633, 650);
+			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 93.50453F)));
+			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 6.495468F)));
+			this->tableLayoutPanel1->Size = System::Drawing::Size(633, 662);
 			this->tableLayoutPanel1->TabIndex = 0;
 			// 
 			// tabControl
@@ -784,7 +815,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->tabControl->Location = System::Drawing::Point(3, 3);
 			this->tabControl->Name = L"tabControl";
 			this->tabControl->SelectedIndex = 0;
-			this->tabControl->Size = System::Drawing::Size(627, 609);
+			this->tabControl->Size = System::Drawing::Size(627, 613);
 			this->tabControl->TabIndex = 1;
 			// 
 			// tabPage1
@@ -793,7 +824,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->tabPage1->Location = System::Drawing::Point(4, 22);
 			this->tabPage1->Name = L"tabPage1";
 			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage1->Size = System::Drawing::Size(619, 583);
+			this->tabPage1->Size = System::Drawing::Size(619, 587);
 			this->tabPage1->TabIndex = 0;
 			this->tabPage1->Text = L"Auto Focus";
 			this->tabPage1->UseVisualStyleBackColor = true;
@@ -819,7 +850,6 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel9->Controls->Add(this->tableLayoutPanel10, 0, 1);
 			this->tableLayoutPanel9->Controls->Add(this->groupBox7, 0, 0);
 			this->tableLayoutPanel9->Controls->Add(this->groupBox8, 0, 2);
-			this->tableLayoutPanel9->Controls->Add(this->tableLayoutPanel11, 0, 3);
 			this->tableLayoutPanel9->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel9->Location = System::Drawing::Point(3, 16);
 			this->tableLayoutPanel9->Name = L"tableLayoutPanel9";
@@ -1318,12 +1348,12 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel12->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				49.72678F)));
 			this->tableLayoutPanel12->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				128)));
+				135)));
 			this->tableLayoutPanel12->Controls->Add(this->radioButton1, 2, 0);
 			this->tableLayoutPanel12->Controls->Add(this->radioButton2, 2, 1);
 			this->tableLayoutPanel12->Controls->Add(this->radioButton3, 2, 2);
 			this->tableLayoutPanel12->Controls->Add(this->label16, 0, 0);
-			this->tableLayoutPanel12->Controls->Add(this->NumFramesPerPointTextBox, 1, 0);
+			this->tableLayoutPanel12->Controls->Add(this->FramesPerPointNumericUpDown, 1, 0);
 			this->tableLayoutPanel12->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel12->Location = System::Drawing::Point(3, 16);
 			this->tableLayoutPanel12->Name = L"tableLayoutPanel12";
@@ -1338,7 +1368,7 @@ private: System::Windows::Forms::Label^  label24;
 			// radioButton1
 			// 
 			this->radioButton1->AutoSize = true;
-			this->radioButton1->Location = System::Drawing::Point(185, 3);
+			this->radioButton1->Location = System::Drawing::Point(178, 3);
 			this->radioButton1->Name = L"radioButton1";
 			this->radioButton1->Size = System::Drawing::Size(98, 17);
 			this->radioButton1->TabIndex = 0;
@@ -1349,7 +1379,7 @@ private: System::Windows::Forms::Label^  label24;
 			// radioButton2
 			// 
 			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(185, 28);
+			this->radioButton2->Location = System::Drawing::Point(178, 28);
 			this->radioButton2->Name = L"radioButton2";
 			this->radioButton2->Size = System::Drawing::Size(105, 17);
 			this->radioButton2->TabIndex = 1;
@@ -1360,7 +1390,7 @@ private: System::Windows::Forms::Label^  label24;
 			// radioButton3
 			// 
 			this->radioButton3->AutoSize = true;
-			this->radioButton3->Location = System::Drawing::Point(185, 53);
+			this->radioButton3->Location = System::Drawing::Point(178, 53);
 			this->radioButton3->Name = L"radioButton3";
 			this->radioButton3->Size = System::Drawing::Size(71, 17);
 			this->radioButton3->TabIndex = 2;
@@ -1372,19 +1402,21 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label16->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label16->AutoSize = true;
-			this->label16->Location = System::Drawing::Point(15, 6);
+			this->label16->Location = System::Drawing::Point(12, 6);
 			this->label16->Name = L"label16";
 			this->label16->Size = System::Drawing::Size(73, 13);
 			this->label16->TabIndex = 3;
 			this->label16->Text = L"Frames/Point:";
 			// 
-			// NumFramesPerPointTextBox
+			// FramesPerPointNumericUpDown
 			// 
-			this->NumFramesPerPointTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
-			this->NumFramesPerPointTextBox->Location = System::Drawing::Point(94, 3);
-			this->NumFramesPerPointTextBox->Name = L"NumFramesPerPointTextBox";
-			this->NumFramesPerPointTextBox->Size = System::Drawing::Size(38, 20);
-			this->NumFramesPerPointTextBox->TabIndex = 4;
+			this->FramesPerPointNumericUpDown->Location = System::Drawing::Point(91, 3);
+			this->FramesPerPointNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->FramesPerPointNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+			this->FramesPerPointNumericUpDown->Name = L"FramesPerPointNumericUpDown";
+			this->FramesPerPointNumericUpDown->Size = System::Drawing::Size(45, 20);
+			this->FramesPerPointNumericUpDown->TabIndex = 4;
+			this->FramesPerPointNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			// 
 			// groupBox8
 			// 
@@ -1478,6 +1510,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->StarXTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->StarXTextBox->Location = System::Drawing::Point(58, 9);
 			this->StarXTextBox->Name = L"StarXTextBox";
+			this->StarXTextBox->ReadOnly = true;
 			this->StarXTextBox->Size = System::Drawing::Size(38, 20);
 			this->StarXTextBox->TabIndex = 8;
 			// 
@@ -1486,6 +1519,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->StarYTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->StarYTextBox->Location = System::Drawing::Point(58, 47);
 			this->StarYTextBox->Name = L"StarYTextBox";
+			this->StarYTextBox->ReadOnly = true;
 			this->StarYTextBox->Size = System::Drawing::Size(38, 20);
 			this->StarYTextBox->TabIndex = 9;
 			// 
@@ -1494,6 +1528,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->StarMaxTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->StarMaxTextBox->Location = System::Drawing::Point(178, 9);
 			this->StarMaxTextBox->Name = L"StarMaxTextBox";
+			this->StarMaxTextBox->ReadOnly = true;
 			this->StarMaxTextBox->Size = System::Drawing::Size(38, 20);
 			this->StarMaxTextBox->TabIndex = 10;
 			// 
@@ -1502,6 +1537,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->StarHFDTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->StarHFDTextBox->Location = System::Drawing::Point(178, 47);
 			this->StarHFDTextBox->Name = L"StarHFDTextBox";
+			this->StarHFDTextBox->ReadOnly = true;
 			this->StarHFDTextBox->Size = System::Drawing::Size(38, 20);
 			this->StarHFDTextBox->TabIndex = 11;
 			// 
@@ -1520,6 +1556,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->FocuserPositionTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->FocuserPositionTextBox->Location = System::Drawing::Point(314, 9);
 			this->FocuserPositionTextBox->Name = L"FocuserPositionTextBox";
+			this->FocuserPositionTextBox->ReadOnly = true;
 			this->FocuserPositionTextBox->Size = System::Drawing::Size(38, 20);
 			this->FocuserPositionTextBox->TabIndex = 13;
 			// 
@@ -1538,60 +1575,9 @@ private: System::Windows::Forms::Label^  label24;
 			this->FrameNumTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->FrameNumTextBox->Location = System::Drawing::Point(314, 47);
 			this->FrameNumTextBox->Name = L"FrameNumTextBox";
+			this->FrameNumTextBox->ReadOnly = true;
 			this->FrameNumTextBox->Size = System::Drawing::Size(38, 20);
 			this->FrameNumTextBox->TabIndex = 15;
-			// 
-			// tableLayoutPanel11
-			// 
-			this->tableLayoutPanel11->ColumnCount = 3;
-			this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				47.84946F)));
-			this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				52.15054F)));
-			this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				92)));
-			this->tableLayoutPanel11->Controls->Add(this->button3, 2, 0);
-			this->tableLayoutPanel11->Controls->Add(this->button2, 1, 0);
-			this->tableLayoutPanel11->Controls->Add(this->button1, 0, 0);
-			this->tableLayoutPanel11->Location = System::Drawing::Point(3, 413);
-			this->tableLayoutPanel11->Name = L"tableLayoutPanel11";
-			this->tableLayoutPanel11->RowCount = 1;
-			this->tableLayoutPanel11->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel11->Size = System::Drawing::Size(278, 33);
-			this->tableLayoutPanel11->TabIndex = 3;
-			// 
-			// button3
-			// 
-			this->button3->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->button3->BackColor = System::Drawing::Color::Red;
-			this->button3->Location = System::Drawing::Point(194, 5);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(75, 23);
-			this->button3->TabIndex = 2;
-			this->button3->Text = L"Stop";
-			this->button3->UseVisualStyleBackColor = false;
-			// 
-			// button2
-			// 
-			this->button2->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->button2->BackColor = System::Drawing::Color::Yellow;
-			this->button2->Location = System::Drawing::Point(99, 5);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 23);
-			this->button2->TabIndex = 1;
-			this->button2->Text = L"Pause";
-			this->button2->UseVisualStyleBackColor = false;
-			// 
-			// button1
-			// 
-			this->button1->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->button1->BackColor = System::Drawing::Color::ForestGreen;
-			this->button1->Location = System::Drawing::Point(6, 5);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 23);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"Start";
-			this->button1->UseVisualStyleBackColor = false;
 			// 
 			// tabPage2
 			// 
@@ -1599,7 +1585,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->tabPage2->Location = System::Drawing::Point(4, 22);
 			this->tabPage2->Name = L"tabPage2";
 			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage2->Size = System::Drawing::Size(619, 583);
+			this->tabPage2->Size = System::Drawing::Size(619, 587);
 			this->tabPage2->TabIndex = 1;
 			this->tabPage2->Text = L"Calibrate";
 			this->tabPage2->UseVisualStyleBackColor = true;
@@ -1617,7 +1603,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel3->RowCount = 2;
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 17.15771F)));
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 82.84229F)));
-			this->tableLayoutPanel3->Size = System::Drawing::Size(613, 577);
+			this->tableLayoutPanel3->Size = System::Drawing::Size(613, 581);
 			this->tableLayoutPanel3->TabIndex = 0;
 			// 
 			// tableLayoutPanel4
@@ -1632,12 +1618,12 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel4->Controls->Add(this->groupBox3, 1, 1);
 			this->tableLayoutPanel4->Controls->Add(this->tableLayoutPanel6, 0, 0);
 			this->tableLayoutPanel4->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->tableLayoutPanel4->Location = System::Drawing::Point(3, 101);
+			this->tableLayoutPanel4->Location = System::Drawing::Point(3, 102);
 			this->tableLayoutPanel4->Name = L"tableLayoutPanel4";
 			this->tableLayoutPanel4->RowCount = 2;
 			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 77.59036F)));
 			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 22.40964F)));
-			this->tableLayoutPanel4->Size = System::Drawing::Size(607, 473);
+			this->tableLayoutPanel4->Size = System::Drawing::Size(607, 476);
 			this->tableLayoutPanel4->TabIndex = 0;
 			// 
 			// VCurveScope
@@ -1767,7 +1753,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->VCurveScope->Location = System::Drawing::Point(306, 3);
 			this->VCurveScope->Name = L"VCurveScope";
 			this->VCurveScope->RefreshInterval = static_cast<System::UInt32>(100);
-			this->VCurveScope->Size = System::Drawing::Size(298, 361);
+			this->VCurveScope->Size = System::Drawing::Size(298, 363);
 			this->VCurveScope->SizeLimit = static_cast<System::UInt32>(0);
 			this->VCurveScope->TabIndex = 0;
 			this->VCurveScope->Text = L"V Curve";
@@ -2077,9 +2063,9 @@ private: System::Windows::Forms::Label^  label24;
 			this->groupBox2->BackColor = System::Drawing::Color::SkyBlue;
 			this->groupBox2->Controls->Add(this->tableLayoutPanel7);
 			this->groupBox2->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->groupBox2->Location = System::Drawing::Point(3, 370);
+			this->groupBox2->Location = System::Drawing::Point(3, 372);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(297, 100);
+			this->groupBox2->Size = System::Drawing::Size(297, 101);
 			this->groupBox2->TabIndex = 2;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Results";
@@ -2114,14 +2100,15 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50.90909F)));
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 49.09091F)));
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 28)));
-			this->tableLayoutPanel7->Size = System::Drawing::Size(291, 81);
+			this->tableLayoutPanel7->Size = System::Drawing::Size(291, 82);
 			this->tableLayoutPanel7->TabIndex = 0;
 			// 
 			// CalFrameNumTextBox
 			// 
 			this->CalFrameNumTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
-			this->CalFrameNumTextBox->Location = System::Drawing::Point(220, 56);
+			this->CalFrameNumTextBox->Location = System::Drawing::Point(220, 57);
 			this->CalFrameNumTextBox->Name = L"CalFrameNumTextBox";
+			this->CalFrameNumTextBox->ReadOnly = true;
 			this->CalFrameNumTextBox->Size = System::Drawing::Size(56, 20);
 			this->CalFrameNumTextBox->TabIndex = 12;
 			// 
@@ -2129,7 +2116,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label24->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label24->AutoSize = true;
-			this->label24->Location = System::Drawing::Point(165, 60);
+			this->label24->Location = System::Drawing::Point(165, 61);
 			this->label24->Name = L"label24";
 			this->label24->Size = System::Drawing::Size(49, 13);
 			this->label24->TabIndex = 11;
@@ -2138,8 +2125,9 @@ private: System::Windows::Forms::Label^  label24;
 			// CalFocuserPositionTextBox
 			// 
 			this->CalFocuserPositionTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
-			this->CalFocuserPositionTextBox->Location = System::Drawing::Point(80, 56);
+			this->CalFocuserPositionTextBox->Location = System::Drawing::Point(80, 57);
 			this->CalFocuserPositionTextBox->Name = L"CalFocuserPositionTextBox";
+			this->CalFocuserPositionTextBox->ReadOnly = true;
 			this->CalFocuserPositionTextBox->Size = System::Drawing::Size(56, 20);
 			this->CalFocuserPositionTextBox->TabIndex = 10;
 			// 
@@ -2147,7 +2135,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label11->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label11->AutoSize = true;
-			this->label11->Location = System::Drawing::Point(37, 32);
+			this->label11->Location = System::Drawing::Point(37, 33);
 			this->label11->Name = L"label11";
 			this->label11->Size = System::Drawing::Size(37, 13);
 			this->label11->TabIndex = 4;
@@ -2157,7 +2145,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label8->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label8->AutoSize = true;
-			this->label8->Location = System::Drawing::Point(37, 6);
+			this->label8->Location = System::Drawing::Point(37, 7);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(37, 13);
 			this->label8->TabIndex = 1;
@@ -2167,7 +2155,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label9->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label9->AutoSize = true;
-			this->label9->Location = System::Drawing::Point(162, 6);
+			this->label9->Location = System::Drawing::Point(162, 7);
 			this->label9->Name = L"label9";
 			this->label9->Size = System::Drawing::Size(52, 13);
 			this->label9->TabIndex = 2;
@@ -2177,7 +2165,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label10->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label10->AutoSize = true;
-			this->label10->Location = System::Drawing::Point(163, 32);
+			this->label10->Location = System::Drawing::Point(163, 33);
 			this->label10->Name = L"label10";
 			this->label10->Size = System::Drawing::Size(51, 13);
 			this->label10->TabIndex = 3;
@@ -2188,14 +2176,16 @@ private: System::Windows::Forms::Label^  label24;
 			this->XTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->XTextBox->Location = System::Drawing::Point(80, 3);
 			this->XTextBox->Name = L"XTextBox";
+			this->XTextBox->ReadOnly = true;
 			this->XTextBox->Size = System::Drawing::Size(56, 20);
 			this->XTextBox->TabIndex = 5;
 			// 
 			// YTextBox
 			// 
 			this->YTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
-			this->YTextBox->Location = System::Drawing::Point(80, 29);
+			this->YTextBox->Location = System::Drawing::Point(80, 30);
 			this->YTextBox->Name = L"YTextBox";
+			this->YTextBox->ReadOnly = true;
 			this->YTextBox->Size = System::Drawing::Size(56, 20);
 			this->YTextBox->TabIndex = 6;
 			// 
@@ -2204,14 +2194,16 @@ private: System::Windows::Forms::Label^  label24;
 			this->MaxTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->MaxTextBox->Location = System::Drawing::Point(220, 3);
 			this->MaxTextBox->Name = L"MaxTextBox";
+			this->MaxTextBox->ReadOnly = true;
 			this->MaxTextBox->Size = System::Drawing::Size(56, 20);
 			this->MaxTextBox->TabIndex = 7;
 			// 
 			// HFDTextBox
 			// 
 			this->HFDTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
-			this->HFDTextBox->Location = System::Drawing::Point(220, 29);
+			this->HFDTextBox->Location = System::Drawing::Point(220, 30);
 			this->HFDTextBox->Name = L"HFDTextBox";
+			this->HFDTextBox->ReadOnly = true;
 			this->HFDTextBox->Size = System::Drawing::Size(56, 20);
 			this->HFDTextBox->TabIndex = 8;
 			// 
@@ -2219,7 +2211,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label17->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label17->AutoSize = true;
-			this->label17->Location = System::Drawing::Point(5, 60);
+			this->label17->Location = System::Drawing::Point(5, 61);
 			this->label17->Name = L"label17";
 			this->label17->Size = System::Drawing::Size(69, 13);
 			this->label17->TabIndex = 9;
@@ -2230,9 +2222,9 @@ private: System::Windows::Forms::Label^  label24;
 			this->groupBox3->BackColor = System::Drawing::Color::Khaki;
 			this->groupBox3->Controls->Add(this->tableLayoutPanel8);
 			this->groupBox3->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->groupBox3->Location = System::Drawing::Point(306, 370);
+			this->groupBox3->Location = System::Drawing::Point(306, 372);
 			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(298, 100);
+			this->groupBox3->Size = System::Drawing::Size(298, 101);
 			this->groupBox3->TabIndex = 3;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"Results";
@@ -2262,14 +2254,14 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel8->RowCount = 2;
 			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
 			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel8->Size = System::Drawing::Size(292, 81);
+			this->tableLayoutPanel8->Size = System::Drawing::Size(292, 82);
 			this->tableLayoutPanel8->TabIndex = 1;
 			// 
 			// label12
 			// 
 			this->label12->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label12->AutoSize = true;
-			this->label12->Location = System::Drawing::Point(12, 54);
+			this->label12->Location = System::Drawing::Point(12, 55);
 			this->label12->Name = L"label12";
 			this->label12->Size = System::Drawing::Size(58, 13);
 			this->label12->TabIndex = 4;
@@ -2279,7 +2271,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label13->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label13->AutoSize = true;
-			this->label13->Location = System::Drawing::Point(9, 13);
+			this->label13->Location = System::Drawing::Point(9, 14);
 			this->label13->Name = L"label13";
 			this->label13->Size = System::Drawing::Size(61, 13);
 			this->label13->TabIndex = 1;
@@ -2289,7 +2281,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label14->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label14->AutoSize = true;
-			this->label14->Location = System::Drawing::Point(151, 13);
+			this->label14->Location = System::Drawing::Point(151, 14);
 			this->label14->Name = L"label14";
 			this->label14->Size = System::Drawing::Size(65, 13);
 			this->label14->TabIndex = 2;
@@ -2299,7 +2291,7 @@ private: System::Windows::Forms::Label^  label24;
 			// 
 			this->label15->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label15->AutoSize = true;
-			this->label15->Location = System::Drawing::Point(176, 54);
+			this->label15->Location = System::Drawing::Point(176, 55);
 			this->label15->Name = L"label15";
 			this->label15->Size = System::Drawing::Size(40, 13);
 			this->label15->TabIndex = 3;
@@ -2310,14 +2302,16 @@ private: System::Windows::Forms::Label^  label24;
 			this->NumPointsTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->NumPointsTextBox->Location = System::Drawing::Point(76, 10);
 			this->NumPointsTextBox->Name = L"NumPointsTextBox";
+			this->NumPointsTextBox->ReadOnly = true;
 			this->NumPointsTextBox->Size = System::Drawing::Size(56, 20);
 			this->NumPointsTextBox->TabIndex = 5;
 			// 
 			// LeftSlopeTextBox
 			// 
 			this->LeftSlopeTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
-			this->LeftSlopeTextBox->Location = System::Drawing::Point(76, 50);
+			this->LeftSlopeTextBox->Location = System::Drawing::Point(76, 51);
 			this->LeftSlopeTextBox->Name = L"LeftSlopeTextBox";
+			this->LeftSlopeTextBox->ReadOnly = true;
 			this->LeftSlopeTextBox->Size = System::Drawing::Size(56, 20);
 			this->LeftSlopeTextBox->TabIndex = 6;
 			// 
@@ -2326,14 +2320,16 @@ private: System::Windows::Forms::Label^  label24;
 			this->RightSlopeTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->RightSlopeTextBox->Location = System::Drawing::Point(222, 10);
 			this->RightSlopeTextBox->Name = L"RightSlopeTextBox";
+			this->RightSlopeTextBox->ReadOnly = true;
 			this->RightSlopeTextBox->Size = System::Drawing::Size(56, 20);
 			this->RightSlopeTextBox->TabIndex = 7;
 			// 
 			// VertexTextBox
 			// 
 			this->VertexTextBox->Anchor = System::Windows::Forms::AnchorStyles::Left;
-			this->VertexTextBox->Location = System::Drawing::Point(222, 50);
+			this->VertexTextBox->Location = System::Drawing::Point(222, 51);
 			this->VertexTextBox->Name = L"VertexTextBox";
+			this->VertexTextBox->ReadOnly = true;
 			this->VertexTextBox->Size = System::Drawing::Size(56, 20);
 			this->VertexTextBox->TabIndex = 8;
 			// 
@@ -2350,7 +2346,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel6->RowCount = 2;
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 44.72222F)));
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 55.27778F)));
-			this->tableLayoutPanel6->Size = System::Drawing::Size(297, 361);
+			this->tableLayoutPanel6->Size = System::Drawing::Size(297, 363);
 			this->tableLayoutPanel6->TabIndex = 4;
 			// 
 			// CalStarProfileScope
@@ -2476,7 +2472,7 @@ private: System::Windows::Forms::Label^  label24;
 			legendGroup24->Cursor = System::Windows::Forms::Cursors::Default;
 			scopeLegendView3->Zones = legendGroup24;
 			this->CalStarProfileScope->Legend = scopeLegendView3;
-			this->CalStarProfileScope->Location = System::Drawing::Point(3, 164);
+			this->CalStarProfileScope->Location = System::Drawing::Point(3, 165);
 			this->CalStarProfileScope->Name = L"CalStarProfileScope";
 			this->CalStarProfileScope->RefreshInterval = static_cast<System::UInt32>(100);
 			this->CalStarProfileScope->Size = System::Drawing::Size(291, 191);
@@ -2790,7 +2786,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->groupBox4->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->groupBox4->Location = System::Drawing::Point(3, 3);
 			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(291, 155);
+			this->groupBox4->Size = System::Drawing::Size(291, 156);
 			this->groupBox4->TabIndex = 2;
 			this->groupBox4->TabStop = false;
 			this->groupBox4->Text = L"Current Focus Frame";
@@ -2800,7 +2796,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->CalFocusFramePictureBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->CalFocusFramePictureBox->Location = System::Drawing::Point(3, 16);
 			this->CalFocusFramePictureBox->Name = L"CalFocusFramePictureBox";
-			this->CalFocusFramePictureBox->Size = System::Drawing::Size(285, 136);
+			this->CalFocusFramePictureBox->Size = System::Drawing::Size(285, 137);
 			this->CalFocusFramePictureBox->TabIndex = 0;
 			this->CalFocusFramePictureBox->TabStop = false;
 			// 
@@ -2811,7 +2807,7 @@ private: System::Windows::Forms::Label^  label24;
 			this->groupBox1->Controls->Add(this->tableLayoutPanel5);
 			this->groupBox1->Location = System::Drawing::Point(94, 3);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(425, 92);
+			this->groupBox1->Size = System::Drawing::Size(425, 93);
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Calibration Run Parameters";
@@ -2832,20 +2828,20 @@ private: System::Windows::Forms::Label^  label24;
 				20.66327F)));
 			this->tableLayoutPanel5->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				20)));
-			this->tableLayoutPanel5->Controls->Add(this->CalNumFramesPerPointTextBox, 5, 0);
+			this->tableLayoutPanel5->Controls->Add(this->CalEndFocusPositionNumericUpDown, 1, 1);
+			this->tableLayoutPanel5->Controls->Add(this->CalStartFocusPositionNumericUpDown, 1, 0);
+			this->tableLayoutPanel5->Controls->Add(this->MinStarPeakNumericUpDown, 3, 1);
 			this->tableLayoutPanel5->Controls->Add(this->label7, 4, 0);
-			this->tableLayoutPanel5->Controls->Add(this->MaxPeakTextBox, 3, 0);
 			this->tableLayoutPanel5->Controls->Add(this->label4, 2, 0);
-			this->tableLayoutPanel5->Controls->Add(this->FocusStepSizeTextBox, 1, 2);
 			this->tableLayoutPanel5->Controls->Add(this->label1, 0, 0);
-			this->tableLayoutPanel5->Controls->Add(this->FocusStartPosTextBox, 1, 0);
 			this->tableLayoutPanel5->Controls->Add(this->label2, 0, 1);
-			this->tableLayoutPanel5->Controls->Add(this->FocusEndPosTextBox, 1, 1);
 			this->tableLayoutPanel5->Controls->Add(this->label3, 0, 2);
 			this->tableLayoutPanel5->Controls->Add(this->label5, 2, 1);
 			this->tableLayoutPanel5->Controls->Add(this->label6, 2, 2);
-			this->tableLayoutPanel5->Controls->Add(this->MinPeakTextBox, 3, 1);
-			this->tableLayoutPanel5->Controls->Add(this->FieldSizeTextBox, 3, 2);
+			this->tableLayoutPanel5->Controls->Add(this->CalFramesPerPointNumericUpDown, 5, 0);
+			this->tableLayoutPanel5->Controls->Add(this->CalFieldSizeNumericUpDown, 3, 2);
+			this->tableLayoutPanel5->Controls->Add(this->MaxStarPeakNumericUpDown, 3, 0);
+			this->tableLayoutPanel5->Controls->Add(this->CalStepSizeNumericUpDown, 1, 2);
 			this->tableLayoutPanel5->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel5->Location = System::Drawing::Point(3, 16);
 			this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
@@ -2853,15 +2849,38 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
-			this->tableLayoutPanel5->Size = System::Drawing::Size(419, 73);
+			this->tableLayoutPanel5->Size = System::Drawing::Size(419, 74);
 			this->tableLayoutPanel5->TabIndex = 0;
 			// 
-			// CalNumFramesPerPointTextBox
+			// CalEndFocusPositionNumericUpDown
 			// 
-			this->CalNumFramesPerPointTextBox->Location = System::Drawing::Point(336, 3);
-			this->CalNumFramesPerPointTextBox->Name = L"CalNumFramesPerPointTextBox";
-			this->CalNumFramesPerPointTextBox->Size = System::Drawing::Size(56, 20);
-			this->CalNumFramesPerPointTextBox->TabIndex = 12;
+			this->CalEndFocusPositionNumericUpDown->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->CalEndFocusPositionNumericUpDown->Location = System::Drawing::Point(49, 27);
+			this->CalEndFocusPositionNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+			this->CalEndFocusPositionNumericUpDown->Name = L"CalEndFocusPositionNumericUpDown";
+			this->CalEndFocusPositionNumericUpDown->Size = System::Drawing::Size(58, 20);
+			this->CalEndFocusPositionNumericUpDown->TabIndex = 19;
+			this->CalEndFocusPositionNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+			// 
+			// CalStartFocusPositionNumericUpDown
+			// 
+			this->CalStartFocusPositionNumericUpDown->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->CalStartFocusPositionNumericUpDown->Location = System::Drawing::Point(49, 3);
+			this->CalStartFocusPositionNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+			this->CalStartFocusPositionNumericUpDown->Name = L"CalStartFocusPositionNumericUpDown";
+			this->CalStartFocusPositionNumericUpDown->Size = System::Drawing::Size(58, 20);
+			this->CalStartFocusPositionNumericUpDown->TabIndex = 16;
+			// 
+			// MinStarPeakNumericUpDown
+			// 
+			this->MinStarPeakNumericUpDown->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+			this->MinStarPeakNumericUpDown->Location = System::Drawing::Point(186, 27);
+			this->MinStarPeakNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 60000, 0, 0, 0 });
+			this->MinStarPeakNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 500, 0, 0, 0 });
+			this->MinStarPeakNumericUpDown->Name = L"MinStarPeakNumericUpDown";
+			this->MinStarPeakNumericUpDown->Size = System::Drawing::Size(58, 20);
+			this->MinStarPeakNumericUpDown->TabIndex = 15;
+			this->MinStarPeakNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 			// 
 			// label7
 			// 
@@ -2873,13 +2892,6 @@ private: System::Windows::Forms::Label^  label24;
 			this->label7->TabIndex = 11;
 			this->label7->Text = L"Frames/Point:";
 			// 
-			// MaxPeakTextBox
-			// 
-			this->MaxPeakTextBox->Location = System::Drawing::Point(186, 3);
-			this->MaxPeakTextBox->Name = L"MaxPeakTextBox";
-			this->MaxPeakTextBox->Size = System::Drawing::Size(56, 20);
-			this->MaxPeakTextBox->TabIndex = 8;
-			// 
 			// label4
 			// 
 			this->label4->Anchor = System::Windows::Forms::AnchorStyles::Right;
@@ -2889,13 +2901,6 @@ private: System::Windows::Forms::Label^  label24;
 			this->label4->Size = System::Drawing::Size(55, 13);
 			this->label4->TabIndex = 5;
 			this->label4->Text = L"MaxPeak:";
-			// 
-			// FocusStepSizeTextBox
-			// 
-			this->FocusStepSizeTextBox->Location = System::Drawing::Point(49, 51);
-			this->FocusStepSizeTextBox->Name = L"FocusStepSizeTextBox";
-			this->FocusStepSizeTextBox->Size = System::Drawing::Size(56, 20);
-			this->FocusStepSizeTextBox->TabIndex = 4;
 			// 
 			// label1
 			// 
@@ -2907,13 +2912,6 @@ private: System::Windows::Forms::Label^  label24;
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Start:";
 			// 
-			// FocusStartPosTextBox
-			// 
-			this->FocusStartPosTextBox->Location = System::Drawing::Point(49, 3);
-			this->FocusStartPosTextBox->Name = L"FocusStartPosTextBox";
-			this->FocusStartPosTextBox->Size = System::Drawing::Size(56, 20);
-			this->FocusStartPosTextBox->TabIndex = 1;
-			// 
 			// label2
 			// 
 			this->label2->Anchor = System::Windows::Forms::AnchorStyles::Right;
@@ -2923,13 +2921,6 @@ private: System::Windows::Forms::Label^  label24;
 			this->label2->Size = System::Drawing::Size(29, 13);
 			this->label2->TabIndex = 2;
 			this->label2->Text = L"End:";
-			// 
-			// FocusEndPosTextBox
-			// 
-			this->FocusEndPosTextBox->Location = System::Drawing::Point(49, 27);
-			this->FocusEndPosTextBox->Name = L"FocusEndPosTextBox";
-			this->FocusEndPosTextBox->Size = System::Drawing::Size(56, 20);
-			this->FocusEndPosTextBox->TabIndex = 3;
 			// 
 			// label3
 			// 
@@ -2961,25 +2952,54 @@ private: System::Windows::Forms::Label^  label24;
 			this->label6->TabIndex = 7;
 			this->label6->Text = L"Field Size:";
 			// 
-			// MinPeakTextBox
+			// CalFramesPerPointNumericUpDown
 			// 
-			this->MinPeakTextBox->Location = System::Drawing::Point(186, 27);
-			this->MinPeakTextBox->Name = L"MinPeakTextBox";
-			this->MinPeakTextBox->Size = System::Drawing::Size(56, 20);
-			this->MinPeakTextBox->TabIndex = 9;
+			this->CalFramesPerPointNumericUpDown->Location = System::Drawing::Point(336, 3);
+			this->CalFramesPerPointNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->CalFramesPerPointNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+			this->CalFramesPerPointNumericUpDown->Name = L"CalFramesPerPointNumericUpDown";
+			this->CalFramesPerPointNumericUpDown->Size = System::Drawing::Size(45, 20);
+			this->CalFramesPerPointNumericUpDown->TabIndex = 12;
+			this->CalFramesPerPointNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			// 
-			// FieldSizeTextBox
+			// CalFieldSizeNumericUpDown
 			// 
-			this->FieldSizeTextBox->Location = System::Drawing::Point(186, 51);
-			this->FieldSizeTextBox->Name = L"FieldSizeTextBox";
-			this->FieldSizeTextBox->Size = System::Drawing::Size(56, 20);
-			this->FieldSizeTextBox->TabIndex = 10;
+			this->CalFieldSizeNumericUpDown->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->CalFieldSizeNumericUpDown->Location = System::Drawing::Point(186, 51);
+			this->CalFieldSizeNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+			this->CalFieldSizeNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->CalFieldSizeNumericUpDown->Name = L"CalFieldSizeNumericUpDown";
+			this->CalFieldSizeNumericUpDown->Size = System::Drawing::Size(58, 20);
+			this->CalFieldSizeNumericUpDown->TabIndex = 13;
+			this->CalFieldSizeNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			// 
+			// MaxStarPeakNumericUpDown
+			// 
+			this->MaxStarPeakNumericUpDown->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+			this->MaxStarPeakNumericUpDown->Location = System::Drawing::Point(186, 3);
+			this->MaxStarPeakNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 60000, 0, 0, 0 });
+			this->MaxStarPeakNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+			this->MaxStarPeakNumericUpDown->Name = L"MaxStarPeakNumericUpDown";
+			this->MaxStarPeakNumericUpDown->Size = System::Drawing::Size(58, 20);
+			this->MaxStarPeakNumericUpDown->TabIndex = 14;
+			this->MaxStarPeakNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+			// 
+			// CalStepSizeNumericUpDown
+			// 
+			this->CalStepSizeNumericUpDown->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 0 });
+			this->CalStepSizeNumericUpDown->Location = System::Drawing::Point(49, 51);
+			this->CalStepSizeNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 500, 0, 0, 0 });
+			this->CalStepSizeNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 0 });
+			this->CalStepSizeNumericUpDown->Name = L"CalStepSizeNumericUpDown";
+			this->CalStepSizeNumericUpDown->Size = System::Drawing::Size(58, 20);
+			this->CalStepSizeNumericUpDown->TabIndex = 18;
+			this->CalStepSizeNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			// 
 			// tabPage3
 			// 
 			this->tabPage3->Location = System::Drawing::Point(4, 22);
 			this->tabPage3->Name = L"tabPage3";
-			this->tabPage3->Size = System::Drawing::Size(619, 583);
+			this->tabPage3->Size = System::Drawing::Size(619, 587);
 			this->tabPage3->TabIndex = 2;
 			this->tabPage3->Text = L"Calibration Parameters";
 			this->tabPage3->UseVisualStyleBackColor = true;
@@ -2992,19 +3012,20 @@ private: System::Windows::Forms::Label^  label24;
 			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				50)));
 			this->tableLayoutPanel2->Controls->Add(this->CloseButton, 0, 0);
+			this->tableLayoutPanel2->Controls->Add(this->tableLayoutPanel11, 1, 0);
 			this->tableLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->tableLayoutPanel2->Location = System::Drawing::Point(3, 618);
+			this->tableLayoutPanel2->Location = System::Drawing::Point(3, 622);
 			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
 			this->tableLayoutPanel2->RowCount = 1;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel2->Size = System::Drawing::Size(627, 29);
+			this->tableLayoutPanel2->Size = System::Drawing::Size(627, 37);
 			this->tableLayoutPanel2->TabIndex = 2;
 			// 
 			// CloseButton
 			// 
 			this->CloseButton->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->CloseButton->BackColor = System::Drawing::SystemColors::ControlDark;
-			this->CloseButton->Location = System::Drawing::Point(119, 3);
+			this->CloseButton->Location = System::Drawing::Point(119, 7);
 			this->CloseButton->Name = L"CloseButton";
 			this->CloseButton->Size = System::Drawing::Size(75, 23);
 			this->CloseButton->TabIndex = 0;
@@ -3012,11 +3033,66 @@ private: System::Windows::Forms::Label^  label24;
 			this->CloseButton->UseVisualStyleBackColor = false;
 			this->CloseButton->Click += gcnew System::EventHandler(this, &AutoFocusDialog::CloseButton_Click);
 			// 
+			// tableLayoutPanel11
+			// 
+			this->tableLayoutPanel11->ColumnCount = 3;
+			this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				47.84946F)));
+			this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				52.15054F)));
+			this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
+				92)));
+			this->tableLayoutPanel11->Controls->Add(this->StopButton, 2, 0);
+			this->tableLayoutPanel11->Controls->Add(this->PauseButton, 1, 0);
+			this->tableLayoutPanel11->Controls->Add(this->StartButton, 0, 0);
+			this->tableLayoutPanel11->Location = System::Drawing::Point(316, 3);
+			this->tableLayoutPanel11->Name = L"tableLayoutPanel11";
+			this->tableLayoutPanel11->RowCount = 1;
+			this->tableLayoutPanel11->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel11->Size = System::Drawing::Size(278, 31);
+			this->tableLayoutPanel11->TabIndex = 3;
+			// 
+			// StopButton
+			// 
+			this->StopButton->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->StopButton->BackColor = System::Drawing::Color::Red;
+			this->StopButton->Location = System::Drawing::Point(194, 4);
+			this->StopButton->Name = L"StopButton";
+			this->StopButton->Size = System::Drawing::Size(75, 23);
+			this->StopButton->TabIndex = 2;
+			this->StopButton->Text = L"Stop";
+			this->StopButton->UseVisualStyleBackColor = false;
+			this->StopButton->Click += gcnew System::EventHandler(this, &AutoFocusDialog::StopButton_Click);
+			// 
+			// PauseButton
+			// 
+			this->PauseButton->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->PauseButton->BackColor = System::Drawing::Color::Yellow;
+			this->PauseButton->Location = System::Drawing::Point(99, 4);
+			this->PauseButton->Name = L"PauseButton";
+			this->PauseButton->Size = System::Drawing::Size(75, 23);
+			this->PauseButton->TabIndex = 1;
+			this->PauseButton->Text = L"Pause";
+			this->PauseButton->UseVisualStyleBackColor = false;
+			this->PauseButton->Click += gcnew System::EventHandler(this, &AutoFocusDialog::PauseButton_Click);
+			// 
+			// StartButton
+			// 
+			this->StartButton->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->StartButton->BackColor = System::Drawing::Color::ForestGreen;
+			this->StartButton->Location = System::Drawing::Point(6, 4);
+			this->StartButton->Name = L"StartButton";
+			this->StartButton->Size = System::Drawing::Size(75, 23);
+			this->StartButton->TabIndex = 0;
+			this->StartButton->Text = L"Start";
+			this->StartButton->UseVisualStyleBackColor = false;
+			this->StartButton->Click += gcnew System::EventHandler(this, &AutoFocusDialog::StartButton_Click);
+			// 
 			// AutoFocusDialog
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(633, 650);
+			this->ClientSize = System::Drawing::Size(633, 662);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Name = L"AutoFocusDialog";
 			this->Text = L"AutoFocusDialog";
@@ -3032,10 +3108,10 @@ private: System::Windows::Forms::Label^  label24;
 			this->groupBox7->ResumeLayout(false);
 			this->tableLayoutPanel12->ResumeLayout(false);
 			this->tableLayoutPanel12->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->FramesPerPointNumericUpDown))->EndInit();
 			this->groupBox8->ResumeLayout(false);
 			this->tableLayoutPanel13->ResumeLayout(false);
 			this->tableLayoutPanel13->PerformLayout();
-			this->tableLayoutPanel11->ResumeLayout(false);
 			this->tabPage2->ResumeLayout(false);
 			this->tableLayoutPanel3->ResumeLayout(false);
 			this->tableLayoutPanel4->ResumeLayout(false);
@@ -3053,24 +3129,221 @@ private: System::Windows::Forms::Label^  label24;
 			this->groupBox1->ResumeLayout(false);
 			this->tableLayoutPanel5->ResumeLayout(false);
 			this->tableLayoutPanel5->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalEndFocusPositionNumericUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalStartFocusPositionNumericUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MinStarPeakNumericUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalFramesPerPointNumericUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalFieldSizeNumericUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MaxStarPeakNumericUpDown))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->CalStepSizeNumericUpDown))->EndInit();
 			this->tableLayoutPanel2->ResumeLayout(false);
+			this->tableLayoutPanel11->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 
-	public: static System::Void ShowTheDialog() {
+	public: static System::Void ShowTheDialog(int x1, int y1, int x2, int y2) {
+
+		// Set all current values for dialog controls
+
+		AutoFocusDialog::FormPtr->SetAllDialogValues();
+		autoFocusSettings.FrameX1 = x1;
+		autoFocusSettings.FrameY1 = y1;
+		autoFocusSettings.FrameX2 = x2;
+		autoFocusSettings.FrameY2 = y2;
 
 		// Finally, show the dialog
 
-		
-		AutoFocusDialog::FormPtr->ShowDialog();
+		AutoFocusDialog::FormPtr->Show();
 
 	}
 
 	private: System::Void CloseButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
+		// Get all values from dialog controls
+
+		this->GetAllDialogValues();
 		this->Hide();
+	}
+
+	private: System::Void SetAllDialogValues() {
+
+		AutoFocusDialog::FormPtr->SetCalNumFramesPerPoint(autoFocusSettings.CalNumFramesPerPoint);
+		AutoFocusDialog::FormPtr->SetCalStartFocusPosition(autoFocusSettings.CalStartFocusPosition);
+		AutoFocusDialog::FormPtr->SetCalEndFocusPosition(autoFocusSettings.CalEndFocusPosition);
+		AutoFocusDialog::FormPtr->SetCalFieldSize(autoFocusSettings.CalFieldSize);
+		AutoFocusDialog::FormPtr->SetCalStepSize(autoFocusSettings.CalFocusStepSize);
+		AutoFocusDialog::FormPtr->SetMaxStarPeak(autoFocusSettings.CalMaxStarPeak);
+		AutoFocusDialog::FormPtr->SetMinStarPeak(autoFocusSettings.CalMinStarPeak);
+		AutoFocusDialog::FormPtr->SetFramesPerPoint(autoFocusSettings.NumFramesPerPoint);
+	}
+
+	private:  System::Void GetAllDialogValues() {
+
+		AutoFocusDialog::FormPtr->GetCalNumFramesPerPoint(&autoFocusSettings.CalNumFramesPerPoint);
+		AutoFocusDialog::FormPtr->GetCalStartFocusPosition(&autoFocusSettings.CalStartFocusPosition);
+		AutoFocusDialog::FormPtr->GetCalEndFocusPosition(&autoFocusSettings.CalEndFocusPosition);
+		AutoFocusDialog::FormPtr->GetCalFieldSize(&autoFocusSettings.CalFieldSize);
+		AutoFocusDialog::FormPtr->GetCalStepSize(&autoFocusSettings.CalFocusStepSize);
+		AutoFocusDialog::FormPtr->GetMaxStarPeak(&autoFocusSettings.CalMaxStarPeak);
+		AutoFocusDialog::FormPtr->GetMinStarPeak(&autoFocusSettings.CalMinStarPeak);
+		AutoFocusDialog::FormPtr->GetFramesPerPoint(&autoFocusSettings.NumFramesPerPoint);
+
+	}
+
+	public: static void GetCalNumFramesPerPoint(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->CalFramesPerPointNumericUpDown->Value);
+	}
+
+
+	public: static void SetCalNumFramesPerPoint(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->CalFramesPerPointNumericUpDown->Value = Value;
+	}
+
+
+	public: static void GetCalStartFocusPosition(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->CalStartFocusPositionNumericUpDown->Value);
+	}
+
+
+	public: static void SetCalStartFocusPosition(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->CalStartFocusPositionNumericUpDown->Value = Value;
+	}
+
+
+	public: static void GetCalEndFocusPosition(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->CalEndFocusPositionNumericUpDown->Value);
+	}
+
+
+	public: static void SetCalEndFocusPosition(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->CalEndFocusPositionNumericUpDown->Value = Value;
+	}
+
+
+	public: static void GetCalStepSize(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->CalStepSizeNumericUpDown->Value);
+	}
+
+
+	public: static void SetCalStepSize(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->CalStepSizeNumericUpDown->Value = Value;
+	}
+
+
+	public: static void GetMaxStarPeak(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->MaxStarPeakNumericUpDown->Value);
+	}
+
+
+	public: static void SetMaxStarPeak(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->MaxStarPeakNumericUpDown->Value = Value;
+	}
+
+
+	public: static void GetMinStarPeak(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->MinStarPeakNumericUpDown->Value);
+	}
+
+
+	public: static void SetMinStarPeak(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->MinStarPeakNumericUpDown->Value = Value;
+	}
+
+
+	public: static void GetCalFieldSize(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->CalFieldSizeNumericUpDown->Value);
+	}
+
+
+	public: static void SetCalFieldSize(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->CalFieldSizeNumericUpDown->Value = Value;
+	}
+
+
+	public: static void GetFramesPerPoint(int *value) {
+
+		*value = System::Decimal::ToInt32(AutoFocusDialog::FormPtr->FramesPerPointNumericUpDown->Value);
+	}
+
+
+	public: static void SetFramesPerPoint(int value) {
+
+		System::Decimal Value;
+
+		Value = System::Decimal(value);
+		AutoFocusDialog::FormPtr->FramesPerPointNumericUpDown->Value = Value;
+	}
+
+
+
+	private: System::Void StartButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		// First figure out if start of calibration run or auto focusing
+
+		this->GetAllDialogValues();
+
+		switch (this->tabControl->SelectedIndex) {
+
+			case 0: // Autofocusing
+				this->FocusFramePictureBox->Image = this->FocusImageBitmap;
+				this->FocusFramePictureBox->Width = (autoFocusSettings.FrameX2 - autoFocusSettings.FrameX1);
+				this->FocusFramePictureBox->Height = (autoFocusSettings.FrameY2 - autoFocusSettings.FrameY1);
+				doAutoFocusing(&autoFocusSettings);
+				break;
+			case 1: // Calibration run
+				this->CalFocusFramePictureBox->Image = this->FocusImageBitmap;
+				this->CalFocusFramePictureBox->Width = (autoFocusSettings.FrameX2 - autoFocusSettings.FrameX1);
+				this->CalFocusFramePictureBox->Height = (autoFocusSettings.FrameY2 - autoFocusSettings.FrameY1);
+				doAutoFocusingCalibrationRun(&autoFocusSettings);
+				break;
+			case 2: // just viewing calibration parameters
+				break;
+		}
+	}
+
+
+	private: System::Void PauseButton_Click(System::Object^  sender, System::EventArgs^  e) {
+	}
+
+
+	private: System::Void StopButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 
 };

@@ -922,6 +922,89 @@ void loadImageImaging(unsigned short *sp, int x, int y, int w, int h, int binnin
   CurrentImageWindow::ShowThisDialog();
 }
 
+
+void loadImageFocusing(unsigned short *sp, int x, int y, int w, int h, int binning)
+{
+	double  f, sum, ave;
+//	float gamma;
+	int  d, i, j, min, max, npixels, iave, fullw, fullh;
+	Color pixel;
+
+	fullw = ccd->Image.light_frame.w;
+	fullh = ccd->Image.light_frame.h;
+	npixels = fullw * fullh;
+
+	if ((AutoFocusDialog::FormPtr->FocusImageBitmap->Width != fullw) ||
+		(AutoFocusDialog::FormPtr->FocusImageBitmap->Height != fullh)) {  // Size changed, redo bitmap
+		delete AutoFocusDialog::FormPtr->FocusImageBitmap;
+		AutoFocusDialog::FormPtr->FocusImageBitmap = (gcnew System::Drawing::Bitmap(w, h));
+	}
+
+	/* get min and max */
+
+	min = 65535;
+	max = 0;
+	sum = 0.0;
+	for (i = w*h; --i >= 0; ) {
+		if (sp[i] > max)
+			max = sp[i];
+		else if (sp[i] < min)
+			min = sp[i];
+		sum += sp[i];
+	}
+	ave = sum / npixels;
+	iave = ((int)ave);
+
+	/* Set display parameters */
+
+/*	sprintf_s(buffer, sizeof(buffer), "%d", iave);
+	CCDAuto::CurrentImageWindow::SetCurrentImageBgndTextBox(buffer);
+
+	sprintf_s(buffer, sizeof(buffer), "%d", max);
+	CCDAuto::CurrentImageWindow::SetCurrentImageRangeTextBox(buffer);
+
+	gamma = ((float) 0.33);
+	sprintf_s(buffer, sizeof(buffer), "%f", gamma);
+	CCDAuto::CurrentImageWindow::SetCurrentImageGammaTextBox(buffer); */
+
+	/* Set the image values */
+
+/*	sprintf_s(buffer, sizeof(buffer), "%d", min);
+	CCDAuto::CurrentImageWindow::SetCurrentImageMinPixTextBox(buffer);
+	sprintf_s(buffer, sizeof(buffer), "%d", max);
+	CCDAuto::CurrentImageWindow::SetCurrentImageMaxPixTextBox(buffer);
+	sprintf_s(buffer, sizeof(buffer), "%7.1f", ave);
+	CCDAuto::CurrentImageWindow::SetCurrentImageAvePixTextBox(buffer); */
+
+	min = iave;
+	if (max == min)
+		min = max - 1;
+	//for (j = 0; j < fullh; ++j) {
+	for (j = fullh - 1; j >= 0; --j) {  // Reversed so that (0,0) origin in lower left instead of upper left ALS 04-03-09
+		for (i = 0; i < fullw; ++i) {
+			//      if ((j >= y) && (j < y+h) && (i >= x) && (i < x+w)) {
+			f = ((double)*sp++ - min) / (max - min);
+			if (f < 0.0) f = 0.0;
+			d = (int)(255.0*pow(f, 0.33));	/* gamma correct */
+			if (d < 0) {
+				d = 0;
+			}
+			else if (d > 255) {
+				d = 255;
+			}
+			//if (*(sp-1) == 65000) {
+			//	pixel = Color::FromArgb(255,0,0);
+			//} else {
+			pixel = Color::FromArgb(d, d, d);
+			//}
+			AutoFocusDialog::FormPtr->FocusImageBitmap->SetPixel(i, j, pixel);
+		}
+	}
+
+}
+
+
+
 void loadImageAstrometry(unsigned short *sp, int x, int y, int w, int h, int binning) {
 
 //	char buffer[80];
@@ -4487,6 +4570,226 @@ bool ExposeSeriesFrames(void) {
   return true;
 }
 
+
+bool ExposeFocusFrame(int x, int y, int w, int h, float exposureTime) {
+
+	static int Busy = false;
+	int i, d;
+	bool darkNeeded, gotDark, success;
+	char Message[160];
+	double ccd_temp, dark_temp;
+	StartExposureParams expose;
+	StartReadoutParams readout;
+
+	if (!ccd->Linked) {
+		Form1::StatusPrint("*** WARNING - Can't start focus exposure, link to camera first.\n");
+		return false;
+	}
+
+	if (Busy) {
+		Form1::StatusPrint("*** Warning - Imaging CCD is busy, try again later...\n");
+		return false;
+	}
+
+	Busy = true;
+
+	// Get telescopes current position
+
+/*	if (GetScopeRADEC) {
+		success = GetScopePosition(&ScopeRA, &ScopeDEC);
+		if (!success) {
+			success = GetObjectInfo(singleSettings.ObjectName, &objectInfo);
+			if (success) {
+				sscanf_s(objectInfo.ra, "%02d:%02d:%f", &hours, &mins, &secs);
+				ScopeRA = hours + ((float)mins) / 60.0 + secs / 3600.0;
+				sscanf_s(objectInfo.dec, "%02d:%02d:%02d", &degs, &mins, &isecs);
+				ScopeDEC = degs + ((float)mins) / 60.0 + ((float)isecs) / 3600.0;
+			}
+		}
+	} */
+
+/*	if ((!ccd->Image.saved) && (ccd->Image.light_frame.active) &&
+		(!DontAskSaveImage)) {
+		answer = MessageBox("Current Image Not Saved, saved it?", YESNO, true);
+		if (answer == CANCEL) {
+			Busy = false;
+			return false;
+		}
+		else if (answer == YES) {
+			Busy = false;
+			return false;
+		}
+	}  */
+
+	expose.ccd = singleSettings.whichCCD;
+	expose.exposureTime = ((int)(100.0*exposureTime));
+	expose.abgState = 0;
+	readout.ccd = expose.ccd;
+	readout.readoutMode = singleSettings.binning;
+	readout.left = x;
+	readout.top = y;
+	readout.width = w;
+	readout.height = h;
+
+	success = GetCCDTemperature(ccd, &ccd_temp);
+	if (!success) {
+		Form1::StatusPrint("*** WARNING - Can't get ccd temperature, "
+			"aborting exposure...\n");
+		Busy = false;
+		return false;
+	}
+	ccd->Image.darkOnly = false;
+	ccd->Image.lightOnly = false;
+	ccd->Image.light_frame.binning = singleSettings.binning;
+	ccd->Image.light_frame.whichCCD = singleSettings.whichCCD;
+	ccd->Image.light_frame.x = x;
+	ccd->Image.light_frame.y = y;
+	ccd->Image.light_frame.w = w;
+	ccd->Image.light_frame.h = h;
+	ccd->Image.light_frame.temp = (float)ccd_temp;
+	ccd->Image.light_frame.exposure = exposureTime;
+	ccd->Image.Filter[0] = filterSet[ccd->filterPosition - 1];
+	ccd->Image.Filter[1] = '\000';
+	dark_temp = ccd->Image.dark_frame.temp;
+	strcpy_s(ccd->Image.light_frame.UT, sizeof(ccd->Image.light_frame.UT), "");
+	strcpy_s(ccd->Image.light_frame.UTDATE, sizeof(ccd->Image.light_frame.UTDATE), "");
+	strcpy_s(ccd->Image.dark_frame.UT, sizeof(ccd->Image.dark_frame.UT), "");
+	strcpy_s(ccd->Image.dark_frame.UTDATE, sizeof(ccd->Image.dark_frame.UTDATE), "");
+
+	gotDark = false;
+	switch (singleSettings.darkOption) {
+	case 1:
+		gotDark = true;
+		break;
+	case 2:
+		gotDark = true;
+		ccd->Image.lightOnly = false;
+		break;
+	case 3:
+		gotDark = readDark(singleSettings.DarkDir, &ccd->Image);
+		if (!gotDark) {
+			sprintf_s(Message, sizeof(Message), "*** Warning - Couldn't find compatible dark frame"
+				"in directory: %s aborting\n", singleSettings.DarkDir);
+			Form1::StatusPrint(Message);
+			Busy = false;
+			return false;
+		}
+		dark_temp = ccd->Image.dark_frame.temp;
+		ccd->Image.lightOnly = true;
+		break;
+	case 4:
+		gotDark = false;
+		ccd->Image.lightOnly = true;
+		break;
+	}
+
+/*	gotFlat = false;
+	switch (singleSettings.flatOption) {
+	case 1:
+		gotFlat = false;
+		break;
+	case 2:
+		if ((singleSettings.binning == ccd->FlatImage.light_frame.binning) &&
+			(singleSettings.whichCCD == ccd->FlatImage.light_frame.whichCCD) &&
+			(singleSettings.x == ccd->FlatImage.light_frame.x) &&
+			(singleSettings.y == ccd->FlatImage.light_frame.y) &&
+			(singleSettings.h == ccd->FlatImage.light_frame.h) &&
+			(singleSettings.w == ccd->FlatImage.light_frame.w)) {
+			gotFlat = true;
+		}
+		else {
+			sprintf_s(Message, sizeof(Message), "*** Warning - current flat frame not compatible"
+				" with current settings\n");
+			Form1::StatusPrint(Message);
+			gotFlat = false;
+		}
+		break;
+	case 3:
+		gotFlat = readFlat(singleSettings.FlatDir, ccd);
+		if (!gotFlat) {
+			sprintf_s(Message, sizeof(Message), "*** Warning - couldn't find compatible flat"
+				" frame in directory: %s, aborting\n", singleSettings.FlatDir);
+			Form1::StatusPrint(Message);
+			Busy = false;
+			return false;
+		}
+		break;
+	} */
+
+	/* Check if dark frame needed */
+
+	if ((singleSettings.darkOption == 1) ||
+		(singleSettings.darkOption == 3)) {
+		darkNeeded = ((fabs(dark_temp - ccd_temp) > MAXTEMPDIFF) ||
+			(!ccd->Image.dark_frame.active) ||
+			(ccd->Image.dark_frame.exposure !=
+				exposureTime) ||
+			(singleSettings.binning !=
+				ccd->Image.dark_frame.binning) ||
+			(singleSettings.whichCCD !=
+				ccd->Image.dark_frame.whichCCD) ||
+			(x != ccd->Image.dark_frame.x) ||
+			(y != ccd->Image.dark_frame.y) ||
+			(w != ccd->Image.dark_frame.w) ||
+			(h != ccd->Image.dark_frame.h));
+		darkNeeded = (darkNeeded || (!gotDark)); /* gotdark set by option 3 */
+		if (darkNeeded) {
+			gotDark = true;
+			ccd->Image.lightOnly = false;
+		}
+		else
+			ccd->Image.lightOnly = true;
+	}
+
+	/* Do exposure */
+
+	CancelCurrentAcquire = false;
+	success = snapImaging(ccd, &expose, &readout, &ccd->Image);
+	if (CancelCurrentAcquire || (!success)) {
+		Busy = false;
+		return false;
+	}
+
+	/* subtract out the dark, and adjust the image if required */
+
+	if (gotDark) {
+		for (i = readout.width*readout.height; --i >= 0; ) {
+			d = ccd->Image.light_frame.frame[i] - ccd->Image.dark_frame.frame[i];
+			if (d < 0)
+				d = 0;
+			else if (d > 65535)
+				d = 65535;
+			ccd->Image.light_frame.frame[i] = d;
+		}
+	}
+
+	/* Flatten field if required */
+
+/*	if (gotFlat) {
+		flattenFrame(&ccd->Image.light_frame, &ccd->FlatImage.light_frame);
+	}
+	else {
+		removeHotPixels(&ccd->Image.light_frame);  // else remove hot pixels
+	} */
+
+	/* Display Image */
+
+	loadImageFocusing(ccd->Image.light_frame.frame, ccd->Image.light_frame.x,
+		ccd->Image.light_frame.y, ccd->Image.light_frame.w,
+		ccd->Image.light_frame.h, ccd->Image.light_frame.binning);
+
+//	CurrentImageWindow::ClearMarkedStarList();
+//	ccd->Image.saved = false;
+	ccd->Image.Filter[0] = filterSet[ccd->filterPosition - 1];
+	ccd->Image.Filter[1] = '\000';
+	strcpy_s(ccd->Image.FileName, sizeof(ccd->Image.FileName), "");
+	strcpy_s(ccd->Image.ObjectName, sizeof(ccd->Image.ObjectName), singleSettings.ObjectName);
+
+	Busy = false;
+	return true;
+}
+
+
 bool measureListStars(IMAGE *Image, STAR *List) {
 	
 	STAR *sptr, *sptr_var, *sptr_comp, *sptr_check;
@@ -7110,7 +7413,7 @@ bool SendOSUrobMessage(char Command, int *IntParms, double *DoubleParms) {
 	
 	char message[160], buffer[160];;
 	int nTries, hours, ra_mins, degs, dec_mins, nItems, status;
-	int FWPosition;
+	int FWPosition, focuserPosition;
 	float ra_secs, dec_secs;
 	FILE *fptr;
 	struct _stat statbuf;
@@ -7221,6 +7524,20 @@ bool SendOSUrobMessage(char Command, int *IntParms, double *DoubleParms) {
 						if (GlobalDebug && (! success))
 							Form1::StatusPrint("*** Warning - Can't get filterwheel position from OSUROB\n");
 						break;
+					case 'f': // bump focuser & get new position
+						if (fgets(message, sizeof(message), fptr) != NULL) {
+							if (GlobalDebug) {
+								sprintf_s(buffer, sizeof(buffer), "*** Debug - got response from OSUrob: %s\n", message);
+								Form1::StatusPrint(buffer);
+							}
+							nItems = sscanf_s(message, "Success: %d", &focuserPosition);
+							if (nItems == 1) {
+								IntParms[0] = focuserPosition;
+								success = true;
+							}
+							if (GlobalDebug && (!success))
+								Form1::StatusPrint("*** Warning - Can't get focuser position from OSUROB\n");
+						}
 					default:  // every other command
 						if (fgets(message, sizeof(message), fptr) != NULL) {
 							if (strcmp(message, "Success") == 0) {
@@ -7735,6 +8052,117 @@ void ShowUpdateMX916Keywords(void) {
 	UpdateMX916Keywords::FormPtr->ShowTheDialog();
 
 }
+
+
+bool doAutoFocusing(AUTOFOCUSSETTINGS *settings) {
+
+	char message[240];
+	int i, w, h, parms[2], focuserPosition, newPosition;
+	int pass, focuserStep, answer;
+	double halfFluxDiameters[MAX_NUM_FRAMES_PER_POINT];
+	double ave, stdDev, AveHFDs[20], Slope;
+
+	// Let user know what we are doing
+
+	Form1::StatusPrint("*** Info - Starting auto focusing\n");
+
+	// Check if we have calibrations
+
+	if (!settings->GotVCurveParams) {
+		Form1::StatusPrint("*** Warning - Can't auto focus, don't have calibrations yet... (doAutoFocusing)\n");
+		return false;
+	}
+
+	// Get current focuser position from OSUrob by "bumping" focus by 0 steps
+
+	parms[0] = parms[1] = 0;
+	if (!SendOSUrobMessage('f', parms, NULL)) {
+		Form1::StatusPrint("*** Warning - Can't get initial focuser position from OSUrob (doAutoFocusing)\n");
+		return false;
+	}
+	focuserPosition = parms[0];
+
+	if (settings->StartingVCurveSide < 0)
+		Slope = settings->LeftVCurveSlope;
+	else if (settings->StartingVCurveSide > 0)
+		Slope = settings->RightVCurveSlope;
+	else {
+		Form1::StatusPrint("*** Warning - Don't know which side of V Curve on, so can't auto focus... (doAutoFocusing)\n");
+		return false;
+	}
+
+	pass = 0;
+	do {
+
+		// Take set of frames at current focus position & compute average HFD
+
+		w = (autoFocusSettings.FrameX2 - autoFocusSettings.FrameX1);
+		h = (autoFocusSettings.FrameY2 - autoFocusSettings.FrameY1);
+		for (i = 0; i < settings->CalNumFramesPerPoint; i++) {
+			if (!ExposeFocusFrame(settings->FrameX1, settings->FrameY1, w, h, singleSettings.exposureTime)) {
+				sprintf_s(message, sizeof(message), "Warning - Failed getting focus image number %d & pass %d (doAutoFocusing)\n", i, pass);
+				Form1::StatusPrint(message);
+				return false;
+			}
+			halfFluxDiameters[i] = MeasureFocusingHFD(&ccd->Image.light_frame);
+		}
+		CalcAveStdDev(halfFluxDiameters, i, &AveHFDs[pass], &stdDev);
+
+		// Check if user satisfied
+
+		sprintf_s(message, sizeof(message), "*** Info - Current focus HFD & focuser position are %6.2lf & %d.  Good enough?", AveHFDs[pass], focuserPosition);
+		answer = MessageBox(message, YESNO, true);
+		if (answer == YES) {
+			return true;
+		}
+
+		// Computer new focuser position
+
+		if (pass == 0) {
+			focuserStep = 50;
+		} else {
+			focuserStep = (int) (focuserPosition + (AveHFDs[pass] - AveHFDs[pass - 1])*Slope);
+		}
+
+		// Move focuser to new position via OSUrob
+
+		parms[0] = parms[1] = focuserStep;
+		if (!SendOSUrobMessage('f', parms, NULL)) {
+			Form1::StatusPrint("*** Warning - Can't get initial focuser position from OSUrob (doAutoFocusing)\n");
+			return false;
+		}
+		focuserPosition = parms[0];
+
+		pass++;
+	} while (1);
+
+	// Compute target focus position
+
+
+	return false;
+}
+
+bool CalcAveStdDev(double *data, int numPts, double *ave, double *stddev) {
+
+	*ave = 0.0;
+	*stddev = 0.0;
+	return false;
+}
+
+double MeasureFocusingHFD(FRAME *light) {
+
+	return 0.0;
+}
+
+
+bool doAutoFocusingCalibrationRun(AUTOFOCUSSETTINGS *settings) {
+
+	// Let user know what we are doing
+
+	Form1::StatusPrint("*** Info - Starting calibration run for autofocusing\n");
+	return false;
+}
+
 
 }
 

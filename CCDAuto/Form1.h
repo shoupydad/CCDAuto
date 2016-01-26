@@ -1499,6 +1499,8 @@ private: void Form1ClosingEventHandler(Object^ sender, System::Windows::Forms::F
 private: System::Void ExitMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int answer;
+			 FILE *fptr;
+			 char message[240];
 
 			 /* If image active and not saved, ask if save wanted */
 
@@ -1526,6 +1528,27 @@ private: System::Void ExitMenuItem_Click(System::Object^  sender, System::EventA
 					 freeImageBuffers(ccd);
 				 }
 			 }
+
+			 // Save auto focus settings
+
+			 errno_t status = fopen_s(&fptr, DEFAULT_AUTOFOCUS_SETTINGS_FILENAME, "w");
+			 if (status != 0) {
+				 sprintf_s(message, sizeof(message), "*** Warning - can't write auto focus settings file: %s (ExitMenuItem)", DEFAULT_AUTOFOCUS_SETTINGS_FILENAME);
+				 answer = MessageBox(message, OKAY, true);
+			 } else {
+				 fprintf_s(fptr, "%d  // Calibration run number of frames acquired per point\n", autoFocusSettings.CalNumFramesPerPoint);
+				 fprintf_s(fptr, "%d  // Calibration run starting focus position\n", autoFocusSettings.CalStartFocusPosition);
+				 fprintf_s(fptr, "%d  // Calibration run ending focus position\n", autoFocusSettings.CalEndFocusPosition);
+				 fprintf_s(fptr, "%d  // Calibration run focus step size\n", autoFocusSettings.CalFocusStepSize);
+				 fprintf_s(fptr, "%d  // Calibration run field size in pixels\n", autoFocusSettings.CalFieldSize);
+				 fprintf_s(fptr, "%d  // Calibration run max star peak in adu\n", autoFocusSettings.CalMaxStarPeak);
+				 fprintf_s(fptr, "%d  // Calibration run min star peak in adu\n", autoFocusSettings.CalMinStarPeak);
+				 fprintf_s(fptr, "%lf  // Left V Curve Slope\n", autoFocusSettings.LeftVCurveSlope);
+				 fprintf_s(fptr, "%lf  // Right V Curve Slope\n", autoFocusSettings.RightVCurveSlope);
+				 fprintf_s(fptr, "%d  // Auto focusing frames per point\n", autoFocusSettings.NumFramesPerPoint);
+				 fclose(fptr);
+			 }
+
 
 			 ExitMenuItemClicked = true;
 			 Application::Exit();

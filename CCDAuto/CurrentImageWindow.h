@@ -1843,7 +1843,8 @@ private: System::Void autoFocusToolStripMenuItem_Click(System::Object^  sender, 
 	if (!AutoFocusDialogExists) {
 		gcnew AutoFocusDialog();
 	}
-	AutoFocusDialog::FormPtr->ShowTheDialog();
+	AutoFocusDialog::FormPtr->ShowTheDialog(this->FirstMouseDownX, this->FirstMouseDownY,
+		this->LastMouseDownX, this->LastMouseDownY);
 }
 
 

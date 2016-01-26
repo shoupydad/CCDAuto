@@ -92,6 +92,17 @@ namespace CCDAuto {
 #define ON true
 #define OFF false
 
+	// Auto focus constants
+
+#define MIN_FOCUS_POSITION 0
+#define MAX_FOCUS_POSITION 1000
+#define MIN_STAR_PEAK_VALUE 500
+#define MAX_STAR_PEAK_VALUE 60000
+#define MAX_FOCUS_STEP_SIZE 100
+#define MAX_NUM_FRAMES_PER_POINT 10
+#define MIN_FOCUS_FIELD_SIZE 50		// pixels
+#define MAX_FOCUS_FIELD_SIZE 1000	// pixels
+
 #define SBIG_MAKE 0
 #define APOGEE47P_MAKE 1
 #define APOGEEU8300_MAKE 2
@@ -492,8 +503,8 @@ typedef struct {
 	int NumFramesPerPoint;
 	int StartingVCurveSide;		// -1 means left, 0 means unknown, +1 means right
 	int CalNumFramesPerPoint;
-	int CalStarMaxMax;			// Range of allowable star maximum (saturation)
-	int CalStarMinMax;
+	int CalMaxStarPeak;			// Range of allowable star maximum (saturation)
+	int CalMinStarPeak;
 	int CalStartFocusPosition;	// Starting focus position
 	int CalEndFocusPosition;	// Ending focus position
 	int CalFocusStepSize;		// Step size in focus position values
@@ -506,6 +517,7 @@ typedef struct {
 	int CurStarFlux;
 	double LeftVCurveSlope;
 	double RightVCurveSlope;
+	int FrameX1, FrameY1, FrameX2, FrameY2;
 } AUTOFOCUSSETTINGS;
 
 typedef struct {
@@ -563,6 +575,7 @@ void ast_coord(double ao, double bo, double ap, double bp, double a1,
 void AutoBumpScope(STAR *starList);
 bool autoGuider(void);
 bool BumpScope(double delra, double deldec);
+bool CalcAveStdDev(double *data, int numPts, double *ave, double *stddev);
 void CalcObsParms(float *AirMass, double *JD, double *HJD,
 		  OBJECT *objectInfo, OBSSETTINGS *ObsSettings,
 		  char *UTBuffer, char *UTDBuffer, float exposure);
@@ -581,6 +594,8 @@ int  decrementRunMainIterationTimer(void *data);
 bool DeleteObject(char *name);
 void DeleteStar(void);
 void DisplayPSF(PIXCELL *PixList, float fitMax, float fitFWHM);
+bool doAutoFocusing(AUTOFOCUSSETTINGS *settings);
+bool doAutoFocusingCalibrationRun(AUTOFOCUSSETTINGS *settings);
 bool DoCalibrations(char *DarkDir, int DarkOption, char *FlatDir, int FlatOption, CCD *ccd);
 
 void DoDarkFrameSeries(void);
@@ -633,8 +648,10 @@ int imedian(int *data, int num);
 bool  InitObjectList(char *fileName);
 double JulDay(int IDay, float RFrac, int IMon, int IYear);
 void JulianDay(int year, int month, int day, int hour, int minute, int second, int sec100, double *jd);
-void loadImageImaging(unsigned short *frame, int x, int y, int width,
+void loadImageFocusing(unsigned short *frame, int x, int y, int width,
 		      int height, int binning);
+void loadImageImaging(unsigned short *frame, int x, int y, int width,
+	int height, int binning);
 void loadImageTracking(unsigned short *frame, int x, int y, int width,
 		      int height, int binning);
 bool loadRefChartAstrometry(IMAGE *image);
@@ -642,6 +659,7 @@ float LocalSiderealTime(double JD, double longitude);
 void lmst(double julian_date, double *lst);
 void MainTimerCallback(Object ^dummy);
 void MarkStar(System::Windows::Forms::PictureBox^ pictureBox, float x, float y);
+double MeasureFocusingHFD(FRAME *light);
 bool measureListStars(IMAGE *Image, STAR *list);
 int MessageBox(char *prompt, int buttons, bool Modal);
 int mrqmin(float x[], float y[], float z[], float sig[], int ndata,
