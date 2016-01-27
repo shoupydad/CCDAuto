@@ -3334,41 +3334,50 @@ void putpixval(float val, float rawval, float x, float y, float r, PIXCELL *(*Pi
 {
   PIXCELL *newptr, *endptr, *prevptr;
 
+  // Get memory for new pixel node
+
   newptr = (PIXCELL *) malloc(sizeof(PIXCELL));
   if (newptr == NULL) {
-    printf("\n*** FATAL - Can't allocate memory for pixel list (putpix)");
-    exit(-1);
+	  Form1::StatusPrint("*** Warning - Can't allocate memory for pixel list. (putpixval)");
+	  return;
   }
+
+  // Setup pixel node
+
   newptr->x = x;
   newptr->y = y;
   newptr->r = r;
   newptr->val = val;
   newptr->rawval = rawval;
   newptr->next = NULL;
-  if (*PixList == NULL) {
-    *PixList = newptr;
-  } else {
-    endptr = *PixList;
-    prevptr = NULL;
-    do {
-      if (endptr->val > val) {
-	if (prevptr == NULL) {
-	  newptr->next = *PixList;
-	  *PixList = newptr;
-	} else {
-	  newptr->next = endptr;
-	  prevptr->next = newptr;
-	}
-	break;
-      } else {
-	prevptr = endptr;
-	endptr = endptr->next;
-      }
-    } while (endptr != NULL);
 
-    if (endptr == NULL) {
-      prevptr->next = newptr;
-    }
+  // Insert into pixel list (sorted)
+
+  if (*PixList == NULL) {
+	  *PixList = newptr;
+  } else {
+
+	  endptr = *PixList;
+	  prevptr = NULL;
+	  do {
+		  if (endptr->val > val) {
+			  if (prevptr == NULL) {
+				  newptr->next = *PixList;
+				  *PixList = newptr;
+			  } else {
+				  newptr->next = endptr;
+				  prevptr->next = newptr;
+			  }
+			  break;
+		  } else {
+			  prevptr = endptr;
+			  endptr = endptr->next;
+		  }
+	  } while (endptr != NULL);
+	  
+	  if (endptr == NULL) {
+		  prevptr->next = newptr;
+	  }
   }
   return;
 }
@@ -7443,7 +7452,7 @@ bool SendOSUrobMessage(char Command, int *IntParms, double *DoubleParms) {
 			sprintf_s(message, sizeof(message), "B %8.5lf %8.5lf\n", DoubleParms[0], DoubleParms[1]);
 			break;
 		case 'f': // bump focus position
-			sprintf_s(message, sizeof(message), "f %f\n", ((float) *DoubleParms));
+			sprintf_s(message, sizeof(message), "f %d\n", *IntParms);
 			break;
 		case 'G': // get scope position
 			sprintf_s(message, sizeof(message), "G\n");
@@ -8057,10 +8066,11 @@ void ShowUpdateMX916Keywords(void) {
 bool doAutoFocusing(AUTOFOCUSSETTINGS *settings) {
 
 	char message[240];
-	int i, w, h, parms[2], focuserPosition, newPosition;
+	int i, w, h, parms[2], focuserPosition;
 	int pass, focuserStep, answer;
 	double halfFluxDiameters[MAX_NUM_FRAMES_PER_POINT];
-	double ave, stdDev, AveHFDs[20], Slope;
+	double stdDevs[20], AveHFDs[20], Slope;
+	double starX, starY, starPeak;
 
 	// Let user know what we are doing
 
@@ -8081,6 +8091,7 @@ bool doAutoFocusing(AUTOFOCUSSETTINGS *settings) {
 		return false;
 	}
 	focuserPosition = parms[0];
+	sprintf_s(message, sizeof(message), "*** Info - Current focuser position: %d (doAutoFocusing)\n", focuserPosition);
 
 	if (settings->StartingVCurveSide < 0)
 		Slope = settings->LeftVCurveSlope;
@@ -8098,15 +8109,34 @@ bool doAutoFocusing(AUTOFOCUSSETTINGS *settings) {
 
 		w = (autoFocusSettings.FrameX2 - autoFocusSettings.FrameX1);
 		h = (autoFocusSettings.FrameY2 - autoFocusSettings.FrameY1);
-		for (i = 0; i < settings->CalNumFramesPerPoint; i++) {
+		for (i = 0; i < settings->NumFramesPerPoint; i++) {
 			if (!ExposeFocusFrame(settings->FrameX1, settings->FrameY1, w, h, singleSettings.exposureTime)) {
 				sprintf_s(message, sizeof(message), "Warning - Failed getting focus image number %d & pass %d (doAutoFocusing)\n", i, pass);
 				Form1::StatusPrint(message);
 				return false;
 			}
-			halfFluxDiameters[i] = MeasureFocusingHFD(&ccd->Image.light_frame);
+			if (! MeasureFocusingHFD(&ccd->Image.light_frame, &halfFluxDiameters[i], &starX, &starY, &starPeak, 1)) {
+				sprintf_s(message, sizeof(message), "*** Warning - Invalid HFD of %lf. Aborting auto focus (doAutoFocus)\n", halfFluxDiameters[i]);
+				MessageBox(message, OKAY, true);
+				return false;
+			}
+			sprintf_s(message, sizeof(message), "%8.1lf", starX);
+			AutoFocusDialog::FormPtr->SetStarXTextBox(message);
+			sprintf_s(message, sizeof(message), "%8.1lf", starY);
+			AutoFocusDialog::FormPtr->SetStarYTextBox(message);
+			sprintf_s(message, sizeof(message), "%8.1lf", starPeak);
+			AutoFocusDialog::FormPtr->SetStarMaxTextBox(message);
+			sprintf_s(message, sizeof(message), "%8.1lf", halfFluxDiameters[i]);
+			AutoFocusDialog::FormPtr->SetStarHFDTextBox(message);
+			while (AutoFocusDialog::FormPtr->PauseRequested) {
+				usleep(100000);
+			}
+			if (AutoFocusDialog::FormPtr->AbortRequested) {
+				Form1::StatusPrint("*** Abort - Aborting auto focus due to user request...\n");
+				return false;
+			}
 		}
-		CalcAveStdDev(halfFluxDiameters, i, &AveHFDs[pass], &stdDev);
+		CalcAveStdDev(halfFluxDiameters, i, &AveHFDs[pass], &stdDevs[pass]);
 
 		// Check if user satisfied
 
@@ -8144,22 +8174,268 @@ bool doAutoFocusing(AUTOFOCUSSETTINGS *settings) {
 
 bool CalcAveStdDev(double *data, int numPts, double *ave, double *stddev) {
 
+	int i;
+	double sum;
+	
 	*ave = 0.0;
 	*stddev = 0.0;
-	return false;
+
+	if (numPts <= 0) return false;
+
+	// Compute average first
+
+	sum = 0.0;
+	for (i = 0; i < numPts; i++) {
+		sum += data[i];
+	}
+	*ave = sum / numPts;
+
+	// Now can compute standard deviation
+
+	sum = 0.0;
+	for (i = 0; i < numPts; i++) {
+		sum += (data[i] - *ave)*(data[i] - *ave);
+	}
+	*stddev = sqrt(sum / numPts);
+
+	return true;
 }
 
-double MeasureFocusingHFD(FRAME *light) {
+bool MeasureFocusingHFD(FRAME *light, double *hfd, double *starX, double *starY, double *peak, int whichProcess) {
 
-	return 0.0;
+	int h, w, x, y, ipix, pixval, rawval, numPixels;
+	int imageMinX, imageMaxX, imageMinY, imageMaxY;
+	double sumx, sumy, sumpix, aveX, aveY, r, skyMedian, flux, fullFlux;
+	double halfFluxDiameter;
+	PIXCELL *pixList, *pptr, *pixListByR;
+
+	// Set "fail" values
+
+	*hfd = -999.0;
+	*starX = *starY = *peak = -999.0;
+
+	/* Get needed image parameters */
+
+	h = light->h;
+	w = light->w;
+	imageMinX = light->x;
+	imageMaxX = light->x + w;
+	imageMinY = light->y;
+	imageMaxY = light->y + h;
+
+	// Find the intial estimate of pixel value weighted average position
+
+	sumx = sumy = sumpix = 0.0;
+	for (x = 0; x < imageMaxX; x++) {
+		for (y = 0; y < imageMaxY; y++) {
+			ipix = XYtoPixel(light, x, y);
+			pixval = light->frame[ipix];
+			sumx += pixval*x;
+			sumy += pixval*y;
+			sumpix += pixval;
+		}
+	}
+	if (sumpix > 0.0) {
+		aveX = sumx / sumpix;
+		aveY = sumy / sumpix;
+	} else {
+		return false;
+	}
+
+	// Create list of pixels, sorted by pixel value to find median background
+	// & compute "r" from flux center
+
+	numPixels = 0;
+	*peak = 0.0;
+	pixList = NULL;
+	for (x = 0; x < imageMaxX; x++) {
+		for (y = 0; y < imageMaxY; y++) {
+			ipix = XYtoPixel(light, x, y);
+			pixval = light->frame[ipix];
+			if (pixval > *peak) *peak = pixval;
+			rawval = 0;
+			r = (aveX - x)*(aveX - x) + (aveY - y)*(aveY - y);
+			if (r > 0.0) r = sqrt(r);
+			putpixval((float)pixval, (float)rawval, (float)x, (float)y, (float) r, &pixList);
+			numPixels++;
+		}
+	}
+	if (numPixels <= 0) {
+		Form1::StatusPrint("*** WARNING - No pixels in focus frame...\n");
+		return false;
+	}
+	else {
+		pptr = pixList;
+		for (ipix = 0; ipix<(numPixels / 2); ipix++) {
+			pptr = pptr->next;
+		}
+		skyMedian = pptr->val;
+	}
+
+	// Now compute total "star" flux
+
+	fullFlux = 0.0;
+	pptr = pixList;
+	while (pptr != NULL) {
+		pixval = (int) (pptr->val - skyMedian);
+		if (pixval > 0.0) fullFlux += pixval;
+		pptr = pptr->next;
+	}
+
+	// Make new list of pixels sorted by "r"
+
+	pixListByR = NULL;
+	pptr = pixList;
+	while (pptr != NULL) {
+		putpixval(pptr->r, pptr->rawval, pptr->x, pptr->y, pptr->val, &pixListByR);
+		pptr = pptr->next;
+	}
+
+	// Plot current "cross section" of star image
+
+	switch (whichProcess) {
+		case 1: // auto focusing
+			AutoFocusDialog::FormPtr->PlotStarPSF(pixList);
+			break;
+		case 2: // calibration run
+			AutoFocusDialog::FormPtr->PlotCalStarPSF(pixList);
+			break;
+	}
+
+	// Sum up pixvals until get half the flux
+	
+	pptr = pixListByR;
+	flux = 0.0;
+	while (pptr != NULL) {
+		pixval = (int) (pptr->r - skyMedian);  // remember, swapped pixval & r
+		if (pixval > 0.0) flux += pixval;
+		if (flux >= (fullFlux/2.0)) break;
+		pptr = pptr->next;
+	}
+
+	if (pptr != NULL) {
+		halfFluxDiameter = pptr->val*2.0;   // remember val is r & r is val
+	} else {
+		halfFluxDiameter = -999.0;
+	}
+
+	freepix(pixList);
+	freepix(pixListByR);
+
+	*hfd = halfFluxDiameter;
+	*starX = aveX;
+	*starY = aveY;
+
+	return true;
 }
 
 
 bool doAutoFocusingCalibrationRun(AUTOFOCUSSETTINGS *settings) {
 
+	char message[24];
+	int answer, parms[2], focuserPosition, w, h, i;
+	int numPts;
+	double halfFluxDiameters[MAX_NUM_FRAMES_PER_POINT];
+	double aveHFDs[100], focuserPositions[100], stdDevs[100];
+	double starX, starY, starPeak;
+
 	// Let user know what we are doing
 
 	Form1::StatusPrint("*** Info - Starting calibration run for autofocusing\n");
+
+	// Check to see if we already have calibrations & if user wants to replace them
+
+	if (settings->GotVCurveParams) {
+		answer = MessageBox("Already have auto focus calibrations.  Want to replace them?", YESNO, true);
+		if (answer == NO)
+			return false;
+	}
+
+	// Get current focuser position from OSUrob by "bumping" focus by 0 steps
+
+	parms[0] = parms[1] = 0;
+	if (!SendOSUrobMessage('f', parms, NULL)) {
+		Form1::StatusPrint("*** Warning - Can't get initial focuser position from OSUrob (doAutoFocusing)\n");
+		return false;
+	}
+	focuserPosition = parms[0];
+	sprintf_s(message, sizeof(message), "*** Info - Current focuser position: %d (doAutoFocusing)\n", focuserPosition);
+	Form1::StatusPrint(message);
+
+	// Move focuser to starting position
+
+	if (focuserPosition != settings->CalStartFocusPosition) {
+		parms[0] = parms[1] = settings->CalStartFocusPosition;
+		if (!SendOSUrobMessage('f', parms, NULL)) {
+			Form1::StatusPrint("*** Warning - Can't move focuser to starting position (doAutoFocusing)\n");
+			return false;
+		}
+		focuserPosition = parms[0];
+		sprintf_s(message, sizeof(message), "*** Info - Current focuser position: %d (doAutoFocusing)\n", focuserPosition);
+		Form1::StatusPrint(message);
+	}
+
+	// Main loop to acquire half flux diameters versus focus position
+
+	numPts = 0;
+	do {
+
+		// Take set of frames at current focus position & compute average HFD
+
+		w = (autoFocusSettings.FrameX2 - autoFocusSettings.FrameX1);
+		h = (autoFocusSettings.FrameY2 - autoFocusSettings.FrameY1);
+		for (i = 0; i < settings->CalNumFramesPerPoint; i++) {
+			if (!ExposeFocusFrame(settings->FrameX1, settings->FrameY1, w, h, singleSettings.exposureTime)) {
+				sprintf_s(message, sizeof(message), "Warning - Failed getting focus image number %d for point %d (doAutoFocusing)\n", i, numPts);
+				Form1::StatusPrint(message);
+				return false;
+			}
+			if (!MeasureFocusingHFD(&ccd->Image.light_frame, &halfFluxDiameters[i], &starX, &starY, &starPeak, 2)) {
+				sprintf_s(message, sizeof(message), "*** Warning - Invalid HFD of %lf. Aborting auto focus (doAutoFocus)\n", halfFluxDiameters[i]);
+				MessageBox(message, OKAY, true);
+				return false;
+			}
+			sprintf_s(message, sizeof(message), "%8.1lf", starX);
+			AutoFocusDialog::FormPtr->SetXTextBox(message);
+			sprintf_s(message, sizeof(message), "%8.1lf", starY);
+			AutoFocusDialog::FormPtr->SetYTextBox(message);
+			sprintf_s(message, sizeof(message), "%8.1lf", starPeak);
+			AutoFocusDialog::FormPtr->SetMaxTextBox(message);
+			sprintf_s(message, sizeof(message), "%8.1lf", halfFluxDiameters[i]);
+			AutoFocusDialog::FormPtr->SetHFDTextBox(message);
+
+			while (AutoFocusDialog::FormPtr->PauseRequested) {
+				usleep(100000);
+			}
+			if (AutoFocusDialog::FormPtr->AbortRequested) {
+				Form1::StatusPrint("*** Abort - Aborting auto focus due to user request...\n");
+				return false;
+			}
+		}
+
+		CalcAveStdDev(halfFluxDiameters, i, &aveHFDs[numPts], &stdDevs[numPts]);
+		focuserPositions[numPts] = focuserPosition;
+		AutoFocusDialog::FormPtr->AddPointVCurve((double)focuserPosition, aveHFDs[numPts]);
+
+		// Check to see if we are done
+
+		if (focuserPosition + settings->CalFocusStepSize > settings->CalEndFocusPosition) break;
+
+		// Move focuser to next position
+
+		parms[0] = parms[1] = settings->CalFocusStepSize;
+		if (!SendOSUrobMessage('f', parms, NULL)) {
+			Form1::StatusPrint("*** Warning - Can't get initial focuser position from OSUrob (doAutoFocusing)\n");
+			return false;
+		}
+		focuserPosition = parms[0];
+		sprintf_s(message, sizeof(message), "*** Info - Current focuser position: %d (doAutoFocusing)\n", focuserPosition);
+		Form1::StatusPrint(message);
+		numPts++;
+
+	} while (1);
+
+
 	return false;
 }
 

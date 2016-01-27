@@ -765,28 +765,5 @@ public: static void ShowTheDialog(void) {
 			DataPlotWindow::FormPtr->ShowDialog();
 		}
 
-//private: System::Void xyGraph_Load(System::Object^  sender, System::EventArgs^  e) {
-//		    int nData, nFit;
-//
-//			if (this->xData == NULL)
-//				return;
-//
-//			this->xyGraph->RemoveGraphs();
-//			nData = this->xyGraph->AddGraph("Data",
-//				System::Drawing::Drawing2D::DashStyle::Solid,
-//				System::Drawing::Color::Red, 4, true);
-//
-//            nFit = this->xyGraph->AddGraph("Fit",
-//				System::Drawing::Drawing2D::DashStyle::Solid,
-//				System::Drawing::Color::Blue, 1, false);
-//
-//			for (int i=0; i<this->numDataPts; i++)
-//               this->xyGraph->AddValue(nData,this->xData[i],this->yData[i]);
-//
-//			for (int i=0; i<this->numFitPts; i++)
-//               this->xyGraph->AddValue(nFit,this->xFit[i],this->yFit[i]);
-//
-//			this->xyGraph->DrawAll();
-//		 }
 };
 }

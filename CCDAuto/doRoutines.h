@@ -659,7 +659,7 @@ float LocalSiderealTime(double JD, double longitude);
 void lmst(double julian_date, double *lst);
 void MainTimerCallback(Object ^dummy);
 void MarkStar(System::Windows::Forms::PictureBox^ pictureBox, float x, float y);
-double MeasureFocusingHFD(FRAME *light);
+bool MeasureFocusingHFD(FRAME *light, double *hfd, double *x, double *y, double *peak, int whichProcess);
 bool measureListStars(IMAGE *Image, STAR *list);
 int MessageBox(char *prompt, int buttons, bool Modal);
 int mrqmin(float x[], float y[], float z[], float sig[], int ndata,

@@ -18,6 +18,8 @@ namespace CCDAuto {
 	{
 	public:
 		static AutoFocusDialog ^FormPtr;
+		static bool PauseRequested;
+		static bool AbortRequested;
 		AutoFocusDialog(void)
 		{
 			InitializeComponent();
@@ -27,6 +29,8 @@ namespace CCDAuto {
 			FormPtr = this;
 			AutoFocusDialogExists = true;
 			this->FocusImageBitmap = gcnew System::Drawing::Bitmap(MIN_FOCUS_FIELD_SIZE, MIN_FOCUS_FIELD_SIZE);
+			this->PauseRequested = false;
+			this->AbortRequested = false;
 		}
 
 	protected:
@@ -110,7 +114,8 @@ namespace CCDAuto {
 	private: System::Windows::Forms::GroupBox^  groupBox7;
 	private: System::Windows::Forms::GroupBox^  groupBox8;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel11;
-	private: System::Windows::Forms::Button^  StopButton;
+	private: System::Windows::Forms::Button^  AbortButton;
+
 
 	private: System::Windows::Forms::Button^  PauseButton;
 
@@ -120,9 +125,12 @@ namespace CCDAuto {
 
 
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel12;
-	private: System::Windows::Forms::RadioButton^  radioButton1;
-	private: System::Windows::Forms::RadioButton^  radioButton2;
-	private: System::Windows::Forms::RadioButton^  radioButton3;
+private: System::Windows::Forms::RadioButton^  OnVCurveLeftRadioButton;
+private: System::Windows::Forms::RadioButton^  OnVCurveRightRadioButton;
+private: System::Windows::Forms::RadioButton^  UnknownRadioButton;
+
+
+
 	private: System::Windows::Forms::Label^  label16;
 
 private: System::Windows::Forms::TextBox^  CalFocuserPositionTextBox;
@@ -182,490 +190,490 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			Mitov::PlotLab::ScopeDataView^  scopeDataView1 = (gcnew Mitov::PlotLab::ScopeDataView());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground1 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings1 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen1 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::ScopeDataView^  scopeDataView4 = (gcnew Mitov::PlotLab::ScopeDataView());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground16 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings16 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen16 = (gcnew Vcl::VclPen());
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(AutoFocusDialog::typeid));
-			Mitov::PlotLab::DataChartHighlighting^  dataChartHighlighting1 = (gcnew Mitov::PlotLab::DataChartHighlighting());
-			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting1 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
-			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting2 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting1 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting2 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting3 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting4 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting5 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::ChannelMouseHitPoint^  channelMouseHitPoint1 = (gcnew Mitov::PlotLab::ChannelMouseHitPoint());
-			Mitov::BasicLab::OptionalLabel^  optionalLabel1 = (gcnew Mitov::BasicLab::OptionalLabel());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting6 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			OpenWire::Proxy::PinList^  pinList1 = (gcnew OpenWire::Proxy::PinList());
-			Mitov::PlotLab::ScopeLegendView^  scopeLegendView1 = (gcnew Mitov::PlotLab::ScopeLegendView());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground2 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::LegendViewButtonSettings^  legendViewButtonSettings1 = (gcnew Mitov::PlotLab::LegendViewButtonSettings());
-			Mitov::PlotLab::LegendGroup^  legendGroup1 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel1 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup2 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel2 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup3 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel3 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup4 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel4 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup5 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel5 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup6 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel6 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup7 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel7 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize1 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::LegendGroup^  legendGroup8 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel8 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::DisplayTitle^  displayTitle1 = (gcnew Mitov::PlotLab::DisplayTitle());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground3 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize2 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayToolBar^  displayToolBar1 = (gcnew Mitov::PlotLab::DisplayToolBar());
-			Mitov::PlotLab::DisplayToolBarButtons^  displayToolBarButtons1 = (gcnew Mitov::PlotLab::DisplayToolBarButtons());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton1 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage1 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton2 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage2 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton3 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage3 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton4 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage4 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton5 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage5 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton6 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage6 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton7 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage7 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize1 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton8 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage8 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton9 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage9 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton10 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage10 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton11 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage11 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton12 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage12 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton13 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage13 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton14 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage14 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ToolBarPosition^  toolBarPosition1 = (gcnew Mitov::PlotLab::ToolBarPosition());
-			Mitov::PlotLab::DisplayTrails^  displayTrails1 = (gcnew Mitov::PlotLab::DisplayTrails());
-			Mitov::PlotLab::ScopeXAxis^  scopeXAxis1 = (gcnew Mitov::PlotLab::ScopeXAxis());
-			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel1 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground4 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings1 = (gcnew Mitov::PlotLab::ViewButtonSettings());
-			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings1 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
-			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings1 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings2 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen2 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings3 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen3 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::AxisFormat^  axisFormat1 = (gcnew Mitov::PlotLab::AxisFormat());
-			Mitov::PlotLab::MajorTicks^  majorTicks1 = (gcnew Mitov::PlotLab::MajorTicks());
-			Mitov::PlotLab::TicksStart^  ticksStart1 = (gcnew Mitov::PlotLab::TicksStart());
-			Mitov::PlotLab::MaxAxisValue^  maxAxisValue1 = (gcnew Mitov::PlotLab::MaxAxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange1 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue1 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue2 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue1 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::ScopeMaxSample^  scopeMaxSample1 = (gcnew Mitov::PlotLab::ScopeMaxSample());
-			Mitov::PlotLab::AxisValue^  axisValue1 = (gcnew Mitov::PlotLab::AxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange2 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue3 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue4 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue2 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::MinorTicks^  minorTicks1 = (gcnew Mitov::PlotLab::MinorTicks());
-			Mitov::PlotLab::AxisToolBar^  axisToolBar1 = (gcnew Mitov::PlotLab::AxisToolBar());
-			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons1 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize2 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton15 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage15 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton16 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage16 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton17 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage17 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton18 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage18 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ScopeXAxisUnitScale^  scopeXAxisUnitScale1 = (gcnew Mitov::PlotLab::ScopeXAxisUnitScale());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize3 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom1 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange3 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue5 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue6 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			OpenWire::Proxy::StatePin^  statePin1 = (gcnew OpenWire::Proxy::StatePin());
-			OpenWire::Proxy::PinList^  pinList2 = (gcnew OpenWire::Proxy::PinList());
-			Mitov::PlotLab::ScopeYAxis^  scopeYAxis1 = (gcnew Mitov::PlotLab::ScopeYAxis());
-			Mitov::PlotLab::ScopeAutoScaling^  scopeAutoScaling1 = (gcnew Mitov::PlotLab::ScopeAutoScaling());
-			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace1 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
-			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace2 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
-			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel2 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground5 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings2 = (gcnew Mitov::PlotLab::ViewButtonSettings());
-			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings2 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
-			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings2 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings4 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen4 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings5 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen5 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::AxisFormat^  axisFormat2 = (gcnew Mitov::PlotLab::AxisFormat());
-			Mitov::PlotLab::MajorTicks^  majorTicks2 = (gcnew Mitov::PlotLab::MajorTicks());
-			Mitov::PlotLab::TicksStart^  ticksStart2 = (gcnew Mitov::PlotLab::TicksStart());
-			Mitov::PlotLab::MaxAxisValue^  maxAxisValue2 = (gcnew Mitov::PlotLab::MaxAxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange4 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue7 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue8 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue3 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::AxisValue^  axisValue2 = (gcnew Mitov::PlotLab::AxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange5 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue9 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue10 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue4 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::MinorTicks^  minorTicks2 = (gcnew Mitov::PlotLab::MinorTicks());
-			Mitov::PlotLab::AxisToolBar^  axisToolBar2 = (gcnew Mitov::PlotLab::AxisToolBar());
-			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons2 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize3 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton19 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage19 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton20 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage20 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton21 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage21 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton22 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage22 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize4 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom2 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange6 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue11 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue12 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			OpenWire::Proxy::StatePin^  statePin2 = (gcnew OpenWire::Proxy::StatePin());
-			Mitov::PlotLab::DisplayZoom^  displayZoom1 = (gcnew Mitov::PlotLab::DisplayZoom());
-			Mitov::PlotLab::ScopeDataView^  scopeDataView2 = (gcnew Mitov::PlotLab::ScopeDataView());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground6 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings6 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen6 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DataChartHighlighting^  dataChartHighlighting2 = (gcnew Mitov::PlotLab::DataChartHighlighting());
-			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting3 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
-			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting4 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting7 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting8 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting9 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting10 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting11 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::ChannelMouseHitPoint^  channelMouseHitPoint2 = (gcnew Mitov::PlotLab::ChannelMouseHitPoint());
-			Mitov::BasicLab::OptionalLabel^  optionalLabel2 = (gcnew Mitov::BasicLab::OptionalLabel());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting12 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			OpenWire::Proxy::PinList^  pinList3 = (gcnew OpenWire::Proxy::PinList());
-			Mitov::PlotLab::ScopeLegendView^  scopeLegendView2 = (gcnew Mitov::PlotLab::ScopeLegendView());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground7 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::LegendViewButtonSettings^  legendViewButtonSettings2 = (gcnew Mitov::PlotLab::LegendViewButtonSettings());
-			Mitov::PlotLab::LegendGroup^  legendGroup9 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel9 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup10 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel10 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup11 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel11 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup12 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel12 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup13 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel13 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup14 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel14 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup15 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel15 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize5 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::LegendGroup^  legendGroup16 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel16 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::DisplayTitle^  displayTitle2 = (gcnew Mitov::PlotLab::DisplayTitle());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground8 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize6 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayToolBar^  displayToolBar2 = (gcnew Mitov::PlotLab::DisplayToolBar());
-			Mitov::PlotLab::DisplayToolBarButtons^  displayToolBarButtons2 = (gcnew Mitov::PlotLab::DisplayToolBarButtons());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton23 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage23 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton24 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage24 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton25 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage25 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton26 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage26 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton27 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage27 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton28 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage28 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton29 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage29 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize4 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton30 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage30 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton31 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage31 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton32 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage32 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton33 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage33 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton34 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage34 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton35 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage35 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton36 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage36 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ToolBarPosition^  toolBarPosition2 = (gcnew Mitov::PlotLab::ToolBarPosition());
-			Mitov::PlotLab::DisplayTrails^  displayTrails2 = (gcnew Mitov::PlotLab::DisplayTrails());
-			Mitov::PlotLab::ScopeXAxis^  scopeXAxis2 = (gcnew Mitov::PlotLab::ScopeXAxis());
-			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel3 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground9 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings3 = (gcnew Mitov::PlotLab::ViewButtonSettings());
-			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings3 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
-			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings3 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings7 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen7 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings8 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen8 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::AxisFormat^  axisFormat3 = (gcnew Mitov::PlotLab::AxisFormat());
-			Mitov::PlotLab::MajorTicks^  majorTicks3 = (gcnew Mitov::PlotLab::MajorTicks());
-			Mitov::PlotLab::TicksStart^  ticksStart3 = (gcnew Mitov::PlotLab::TicksStart());
-			Mitov::PlotLab::MaxAxisValue^  maxAxisValue3 = (gcnew Mitov::PlotLab::MaxAxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange7 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue13 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue14 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue5 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::ScopeMaxSample^  scopeMaxSample2 = (gcnew Mitov::PlotLab::ScopeMaxSample());
-			Mitov::PlotLab::AxisValue^  axisValue3 = (gcnew Mitov::PlotLab::AxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange8 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue15 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue16 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue6 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::MinorTicks^  minorTicks3 = (gcnew Mitov::PlotLab::MinorTicks());
-			Mitov::PlotLab::AxisToolBar^  axisToolBar3 = (gcnew Mitov::PlotLab::AxisToolBar());
-			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons3 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize5 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton37 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage37 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton38 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage38 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton39 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage39 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton40 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage40 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ScopeXAxisUnitScale^  scopeXAxisUnitScale2 = (gcnew Mitov::PlotLab::ScopeXAxisUnitScale());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize7 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom3 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange9 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue17 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue18 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			OpenWire::Proxy::StatePin^  statePin3 = (gcnew OpenWire::Proxy::StatePin());
-			OpenWire::Proxy::PinList^  pinList4 = (gcnew OpenWire::Proxy::PinList());
-			Mitov::PlotLab::ScopeYAxis^  scopeYAxis2 = (gcnew Mitov::PlotLab::ScopeYAxis());
-			Mitov::PlotLab::ScopeAutoScaling^  scopeAutoScaling2 = (gcnew Mitov::PlotLab::ScopeAutoScaling());
-			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace3 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
-			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace4 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
-			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel4 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground10 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings4 = (gcnew Mitov::PlotLab::ViewButtonSettings());
-			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings4 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
-			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings4 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings9 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen9 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings10 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen10 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::AxisFormat^  axisFormat4 = (gcnew Mitov::PlotLab::AxisFormat());
-			Mitov::PlotLab::MajorTicks^  majorTicks4 = (gcnew Mitov::PlotLab::MajorTicks());
-			Mitov::PlotLab::TicksStart^  ticksStart4 = (gcnew Mitov::PlotLab::TicksStart());
-			Mitov::PlotLab::MaxAxisValue^  maxAxisValue4 = (gcnew Mitov::PlotLab::MaxAxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange10 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue19 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue20 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue7 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::AxisValue^  axisValue4 = (gcnew Mitov::PlotLab::AxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange11 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue21 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue22 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue8 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::MinorTicks^  minorTicks4 = (gcnew Mitov::PlotLab::MinorTicks());
-			Mitov::PlotLab::AxisToolBar^  axisToolBar4 = (gcnew Mitov::PlotLab::AxisToolBar());
-			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons4 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize6 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton41 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage41 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton42 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage42 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton43 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage43 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton44 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage44 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize8 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom4 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange12 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue23 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue24 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			OpenWire::Proxy::StatePin^  statePin4 = (gcnew OpenWire::Proxy::StatePin());
-			Mitov::PlotLab::DisplayZoom^  displayZoom2 = (gcnew Mitov::PlotLab::DisplayZoom());
-			Mitov::PlotLab::ScopeDataView^  scopeDataView3 = (gcnew Mitov::PlotLab::ScopeDataView());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground11 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings11 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen11 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DataChartHighlighting^  dataChartHighlighting3 = (gcnew Mitov::PlotLab::DataChartHighlighting());
-			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting5 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
-			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting6 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting13 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting14 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting15 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting16 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting17 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			Mitov::PlotLab::ChannelMouseHitPoint^  channelMouseHitPoint3 = (gcnew Mitov::PlotLab::ChannelMouseHitPoint());
-			Mitov::BasicLab::OptionalLabel^  optionalLabel3 = (gcnew Mitov::BasicLab::OptionalLabel());
-			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting18 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
-			OpenWire::Proxy::PinList^  pinList5 = (gcnew OpenWire::Proxy::PinList());
-			Mitov::PlotLab::ScopeLegendView^  scopeLegendView3 = (gcnew Mitov::PlotLab::ScopeLegendView());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground12 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::LegendViewButtonSettings^  legendViewButtonSettings3 = (gcnew Mitov::PlotLab::LegendViewButtonSettings());
-			Mitov::PlotLab::LegendGroup^  legendGroup17 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel17 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup18 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel18 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup19 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel19 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup20 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel20 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup21 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel21 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup22 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel22 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::LegendGroup^  legendGroup23 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel23 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize9 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::LegendGroup^  legendGroup24 = (gcnew Mitov::PlotLab::LegendGroup());
-			Mitov::PlotLab::DisplayLabel^  displayLabel24 = (gcnew Mitov::PlotLab::DisplayLabel());
-			Mitov::PlotLab::DisplayTitle^  displayTitle3 = (gcnew Mitov::PlotLab::DisplayTitle());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground13 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize10 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayToolBar^  displayToolBar3 = (gcnew Mitov::PlotLab::DisplayToolBar());
-			Mitov::PlotLab::DisplayToolBarButtons^  displayToolBarButtons3 = (gcnew Mitov::PlotLab::DisplayToolBarButtons());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton45 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage45 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton46 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage46 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton47 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage47 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton48 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage48 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton49 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage49 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton50 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage50 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton51 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage51 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize7 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton52 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage52 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton53 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage53 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton54 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage54 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton55 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage55 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton56 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage56 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton57 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage57 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton58 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage58 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ToolBarPosition^  toolBarPosition3 = (gcnew Mitov::PlotLab::ToolBarPosition());
-			Mitov::PlotLab::DisplayTrails^  displayTrails3 = (gcnew Mitov::PlotLab::DisplayTrails());
-			Mitov::PlotLab::ScopeXAxis^  scopeXAxis3 = (gcnew Mitov::PlotLab::ScopeXAxis());
-			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel5 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground14 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings5 = (gcnew Mitov::PlotLab::ViewButtonSettings());
-			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings5 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
-			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings5 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings12 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen12 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings13 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen13 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::AxisFormat^  axisFormat5 = (gcnew Mitov::PlotLab::AxisFormat());
-			Mitov::PlotLab::MajorTicks^  majorTicks5 = (gcnew Mitov::PlotLab::MajorTicks());
-			Mitov::PlotLab::TicksStart^  ticksStart5 = (gcnew Mitov::PlotLab::TicksStart());
-			Mitov::PlotLab::MaxAxisValue^  maxAxisValue5 = (gcnew Mitov::PlotLab::MaxAxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange13 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue25 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue26 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue9 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::ScopeMaxSample^  scopeMaxSample3 = (gcnew Mitov::PlotLab::ScopeMaxSample());
-			Mitov::PlotLab::AxisValue^  axisValue5 = (gcnew Mitov::PlotLab::AxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange14 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue27 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue28 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue10 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::MinorTicks^  minorTicks5 = (gcnew Mitov::PlotLab::MinorTicks());
-			Mitov::PlotLab::AxisToolBar^  axisToolBar5 = (gcnew Mitov::PlotLab::AxisToolBar());
-			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons5 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize8 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton59 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage59 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton60 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage60 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton61 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage61 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton62 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage62 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::ScopeXAxisUnitScale^  scopeXAxisUnitScale3 = (gcnew Mitov::PlotLab::ScopeXAxisUnitScale());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize11 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom5 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange15 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue29 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue30 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			OpenWire::Proxy::StatePin^  statePin5 = (gcnew OpenWire::Proxy::StatePin());
-			OpenWire::Proxy::PinList^  pinList6 = (gcnew OpenWire::Proxy::PinList());
-			Mitov::PlotLab::ScopeYAxis^  scopeYAxis3 = (gcnew Mitov::PlotLab::ScopeYAxis());
-			Mitov::PlotLab::ScopeAutoScaling^  scopeAutoScaling3 = (gcnew Mitov::PlotLab::ScopeAutoScaling());
-			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace5 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
-			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace6 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
-			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel6 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
-			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground15 = (gcnew Mitov::PlotLab::DisplayViewBackground());
-			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings6 = (gcnew Mitov::PlotLab::ViewButtonSettings());
-			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings6 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
-			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings6 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings14 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen14 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings15 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
-			Vcl::VclPen^  vclPen15 = (gcnew Vcl::VclPen());
-			Mitov::PlotLab::AxisFormat^  axisFormat6 = (gcnew Mitov::PlotLab::AxisFormat());
-			Mitov::PlotLab::MajorTicks^  majorTicks6 = (gcnew Mitov::PlotLab::MajorTicks());
-			Mitov::PlotLab::TicksStart^  ticksStart6 = (gcnew Mitov::PlotLab::TicksStart());
-			Mitov::PlotLab::MaxAxisValue^  maxAxisValue6 = (gcnew Mitov::PlotLab::MaxAxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange16 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue31 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue32 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue11 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::AxisValue^  axisValue6 = (gcnew Mitov::PlotLab::AxisValue());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange17 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue33 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue34 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::BasicAxisValue^  basicAxisValue12 = (gcnew Mitov::PlotLab::BasicAxisValue());
-			Mitov::PlotLab::MinorTicks^  minorTicks6 = (gcnew Mitov::PlotLab::MinorTicks());
-			Mitov::PlotLab::AxisToolBar^  axisToolBar6 = (gcnew Mitov::PlotLab::AxisToolBar());
-			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons6 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
-			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize9 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton63 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage63 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton64 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage64 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton65 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage65 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton66 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
-			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage66 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
-			Mitov::PlotLab::DisplayViewSize^  displayViewSize12 = (gcnew Mitov::PlotLab::DisplayViewSize());
-			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom6 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
-			Mitov::PlotLab::DisplayValueRange^  displayValueRange18 = (gcnew Mitov::PlotLab::DisplayValueRange());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue35 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue36 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
-			OpenWire::Proxy::StatePin^  statePin6 = (gcnew OpenWire::Proxy::StatePin());
-			Mitov::PlotLab::DisplayZoom^  displayZoom3 = (gcnew Mitov::PlotLab::DisplayZoom());
+			Mitov::PlotLab::DataChartHighlighting^  dataChartHighlighting4 = (gcnew Mitov::PlotLab::DataChartHighlighting());
+			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting7 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
+			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting8 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting19 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting20 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting21 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting22 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting23 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::ChannelMouseHitPoint^  channelMouseHitPoint4 = (gcnew Mitov::PlotLab::ChannelMouseHitPoint());
+			Mitov::BasicLab::OptionalLabel^  optionalLabel4 = (gcnew Mitov::BasicLab::OptionalLabel());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting24 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			OpenWire::Proxy::PinList^  pinList7 = (gcnew OpenWire::Proxy::PinList());
+			Mitov::PlotLab::ScopeLegendView^  scopeLegendView4 = (gcnew Mitov::PlotLab::ScopeLegendView());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground17 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::LegendViewButtonSettings^  legendViewButtonSettings4 = (gcnew Mitov::PlotLab::LegendViewButtonSettings());
+			Mitov::PlotLab::LegendGroup^  legendGroup25 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel25 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup26 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel26 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup27 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel27 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup28 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel28 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup29 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel29 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup30 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel30 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup31 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel31 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize13 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::LegendGroup^  legendGroup32 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel32 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::DisplayTitle^  displayTitle4 = (gcnew Mitov::PlotLab::DisplayTitle());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground18 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize14 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayToolBar^  displayToolBar4 = (gcnew Mitov::PlotLab::DisplayToolBar());
+			Mitov::PlotLab::DisplayToolBarButtons^  displayToolBarButtons4 = (gcnew Mitov::PlotLab::DisplayToolBarButtons());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton67 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage67 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton68 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage68 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton69 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage69 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton70 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage70 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton71 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage71 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton72 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage72 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton73 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage73 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize10 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton74 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage74 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton75 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage75 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton76 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage76 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton77 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage77 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton78 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage78 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton79 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage79 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton80 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage80 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ToolBarPosition^  toolBarPosition4 = (gcnew Mitov::PlotLab::ToolBarPosition());
+			Mitov::PlotLab::DisplayTrails^  displayTrails4 = (gcnew Mitov::PlotLab::DisplayTrails());
+			Mitov::PlotLab::ScopeXAxis^  scopeXAxis4 = (gcnew Mitov::PlotLab::ScopeXAxis());
+			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel7 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground19 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings7 = (gcnew Mitov::PlotLab::ViewButtonSettings());
+			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings7 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
+			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings7 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings17 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen17 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings18 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen18 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::AxisFormat^  axisFormat7 = (gcnew Mitov::PlotLab::AxisFormat());
+			Mitov::PlotLab::MajorTicks^  majorTicks7 = (gcnew Mitov::PlotLab::MajorTicks());
+			Mitov::PlotLab::TicksStart^  ticksStart7 = (gcnew Mitov::PlotLab::TicksStart());
+			Mitov::PlotLab::MaxAxisValue^  maxAxisValue7 = (gcnew Mitov::PlotLab::MaxAxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange19 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue37 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue38 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue13 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::ScopeMaxSample^  scopeMaxSample4 = (gcnew Mitov::PlotLab::ScopeMaxSample());
+			Mitov::PlotLab::AxisValue^  axisValue7 = (gcnew Mitov::PlotLab::AxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange20 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue39 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue40 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue14 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::MinorTicks^  minorTicks7 = (gcnew Mitov::PlotLab::MinorTicks());
+			Mitov::PlotLab::AxisToolBar^  axisToolBar7 = (gcnew Mitov::PlotLab::AxisToolBar());
+			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons7 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize11 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton81 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage81 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton82 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage82 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton83 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage83 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton84 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage84 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ScopeXAxisUnitScale^  scopeXAxisUnitScale4 = (gcnew Mitov::PlotLab::ScopeXAxisUnitScale());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize15 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom7 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange21 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue41 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue42 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			OpenWire::Proxy::StatePin^  statePin7 = (gcnew OpenWire::Proxy::StatePin());
+			OpenWire::Proxy::PinList^  pinList8 = (gcnew OpenWire::Proxy::PinList());
+			Mitov::PlotLab::ScopeYAxis^  scopeYAxis4 = (gcnew Mitov::PlotLab::ScopeYAxis());
+			Mitov::PlotLab::ScopeAutoScaling^  scopeAutoScaling4 = (gcnew Mitov::PlotLab::ScopeAutoScaling());
+			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace7 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
+			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace8 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
+			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel8 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground20 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings8 = (gcnew Mitov::PlotLab::ViewButtonSettings());
+			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings8 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
+			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings8 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings19 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen19 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings20 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen20 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::AxisFormat^  axisFormat8 = (gcnew Mitov::PlotLab::AxisFormat());
+			Mitov::PlotLab::MajorTicks^  majorTicks8 = (gcnew Mitov::PlotLab::MajorTicks());
+			Mitov::PlotLab::TicksStart^  ticksStart8 = (gcnew Mitov::PlotLab::TicksStart());
+			Mitov::PlotLab::MaxAxisValue^  maxAxisValue8 = (gcnew Mitov::PlotLab::MaxAxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange22 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue43 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue44 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue15 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::AxisValue^  axisValue8 = (gcnew Mitov::PlotLab::AxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange23 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue45 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue46 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue16 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::MinorTicks^  minorTicks8 = (gcnew Mitov::PlotLab::MinorTicks());
+			Mitov::PlotLab::AxisToolBar^  axisToolBar8 = (gcnew Mitov::PlotLab::AxisToolBar());
+			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons8 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize12 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton85 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage85 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton86 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage86 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton87 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage87 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton88 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage88 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize16 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom8 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange24 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue47 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue48 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			OpenWire::Proxy::StatePin^  statePin8 = (gcnew OpenWire::Proxy::StatePin());
+			Mitov::PlotLab::DisplayZoom^  displayZoom4 = (gcnew Mitov::PlotLab::DisplayZoom());
+			Mitov::PlotLab::ScopeDataView^  scopeDataView5 = (gcnew Mitov::PlotLab::ScopeDataView());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground21 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings21 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen21 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DataChartHighlighting^  dataChartHighlighting5 = (gcnew Mitov::PlotLab::DataChartHighlighting());
+			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting9 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
+			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting10 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting25 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting26 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting27 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting28 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting29 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::ChannelMouseHitPoint^  channelMouseHitPoint5 = (gcnew Mitov::PlotLab::ChannelMouseHitPoint());
+			Mitov::BasicLab::OptionalLabel^  optionalLabel5 = (gcnew Mitov::BasicLab::OptionalLabel());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting30 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			OpenWire::Proxy::PinList^  pinList9 = (gcnew OpenWire::Proxy::PinList());
+			Mitov::PlotLab::ScopeLegendView^  scopeLegendView5 = (gcnew Mitov::PlotLab::ScopeLegendView());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground22 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::LegendViewButtonSettings^  legendViewButtonSettings5 = (gcnew Mitov::PlotLab::LegendViewButtonSettings());
+			Mitov::PlotLab::LegendGroup^  legendGroup33 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel33 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup34 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel34 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup35 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel35 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup36 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel36 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup37 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel37 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup38 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel38 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup39 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel39 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize17 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::LegendGroup^  legendGroup40 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel40 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::DisplayTitle^  displayTitle5 = (gcnew Mitov::PlotLab::DisplayTitle());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground23 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize18 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayToolBar^  displayToolBar5 = (gcnew Mitov::PlotLab::DisplayToolBar());
+			Mitov::PlotLab::DisplayToolBarButtons^  displayToolBarButtons5 = (gcnew Mitov::PlotLab::DisplayToolBarButtons());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton89 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage89 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton90 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage90 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton91 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage91 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton92 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage92 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton93 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage93 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton94 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage94 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton95 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage95 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize13 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton96 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage96 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton97 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage97 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton98 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage98 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton99 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage99 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton100 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage100 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton101 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage101 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton102 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage102 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ToolBarPosition^  toolBarPosition5 = (gcnew Mitov::PlotLab::ToolBarPosition());
+			Mitov::PlotLab::DisplayTrails^  displayTrails5 = (gcnew Mitov::PlotLab::DisplayTrails());
+			Mitov::PlotLab::ScopeXAxis^  scopeXAxis5 = (gcnew Mitov::PlotLab::ScopeXAxis());
+			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel9 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground24 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings9 = (gcnew Mitov::PlotLab::ViewButtonSettings());
+			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings9 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
+			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings9 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings22 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen22 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings23 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen23 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::AxisFormat^  axisFormat9 = (gcnew Mitov::PlotLab::AxisFormat());
+			Mitov::PlotLab::MajorTicks^  majorTicks9 = (gcnew Mitov::PlotLab::MajorTicks());
+			Mitov::PlotLab::TicksStart^  ticksStart9 = (gcnew Mitov::PlotLab::TicksStart());
+			Mitov::PlotLab::MaxAxisValue^  maxAxisValue9 = (gcnew Mitov::PlotLab::MaxAxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange25 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue49 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue50 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue17 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::ScopeMaxSample^  scopeMaxSample5 = (gcnew Mitov::PlotLab::ScopeMaxSample());
+			Mitov::PlotLab::AxisValue^  axisValue9 = (gcnew Mitov::PlotLab::AxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange26 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue51 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue52 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue18 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::MinorTicks^  minorTicks9 = (gcnew Mitov::PlotLab::MinorTicks());
+			Mitov::PlotLab::AxisToolBar^  axisToolBar9 = (gcnew Mitov::PlotLab::AxisToolBar());
+			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons9 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize14 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton103 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage103 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton104 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage104 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton105 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage105 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton106 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage106 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ScopeXAxisUnitScale^  scopeXAxisUnitScale5 = (gcnew Mitov::PlotLab::ScopeXAxisUnitScale());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize19 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom9 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange27 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue53 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue54 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			OpenWire::Proxy::StatePin^  statePin9 = (gcnew OpenWire::Proxy::StatePin());
+			OpenWire::Proxy::PinList^  pinList10 = (gcnew OpenWire::Proxy::PinList());
+			Mitov::PlotLab::ScopeYAxis^  scopeYAxis5 = (gcnew Mitov::PlotLab::ScopeYAxis());
+			Mitov::PlotLab::ScopeAutoScaling^  scopeAutoScaling5 = (gcnew Mitov::PlotLab::ScopeAutoScaling());
+			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace9 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
+			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace10 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
+			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel10 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground25 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings10 = (gcnew Mitov::PlotLab::ViewButtonSettings());
+			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings10 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
+			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings10 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings24 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen24 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings25 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen25 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::AxisFormat^  axisFormat10 = (gcnew Mitov::PlotLab::AxisFormat());
+			Mitov::PlotLab::MajorTicks^  majorTicks10 = (gcnew Mitov::PlotLab::MajorTicks());
+			Mitov::PlotLab::TicksStart^  ticksStart10 = (gcnew Mitov::PlotLab::TicksStart());
+			Mitov::PlotLab::MaxAxisValue^  maxAxisValue10 = (gcnew Mitov::PlotLab::MaxAxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange28 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue55 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue56 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue19 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::AxisValue^  axisValue10 = (gcnew Mitov::PlotLab::AxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange29 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue57 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue58 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue20 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::MinorTicks^  minorTicks10 = (gcnew Mitov::PlotLab::MinorTicks());
+			Mitov::PlotLab::AxisToolBar^  axisToolBar10 = (gcnew Mitov::PlotLab::AxisToolBar());
+			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons10 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize15 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton107 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage107 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton108 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage108 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton109 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage109 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton110 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage110 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize20 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom10 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange30 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue59 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue60 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			OpenWire::Proxy::StatePin^  statePin10 = (gcnew OpenWire::Proxy::StatePin());
+			Mitov::PlotLab::DisplayZoom^  displayZoom5 = (gcnew Mitov::PlotLab::DisplayZoom());
+			Mitov::PlotLab::ScopeDataView^  scopeDataView6 = (gcnew Mitov::PlotLab::ScopeDataView());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground26 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings26 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen26 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DataChartHighlighting^  dataChartHighlighting6 = (gcnew Mitov::PlotLab::DataChartHighlighting());
+			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting11 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
+			Mitov::PlotLab::ChannelItemHighlighting^  channelItemHighlighting12 = (gcnew Mitov::PlotLab::ChannelItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting31 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting32 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting33 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting34 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting35 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			Mitov::PlotLab::ChannelMouseHitPoint^  channelMouseHitPoint6 = (gcnew Mitov::PlotLab::ChannelMouseHitPoint());
+			Mitov::BasicLab::OptionalLabel^  optionalLabel6 = (gcnew Mitov::BasicLab::OptionalLabel());
+			Mitov::PlotLab::DisplayItemHighlighting^  displayItemHighlighting36 = (gcnew Mitov::PlotLab::DisplayItemHighlighting());
+			OpenWire::Proxy::PinList^  pinList11 = (gcnew OpenWire::Proxy::PinList());
+			Mitov::PlotLab::ScopeLegendView^  scopeLegendView6 = (gcnew Mitov::PlotLab::ScopeLegendView());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground27 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::LegendViewButtonSettings^  legendViewButtonSettings6 = (gcnew Mitov::PlotLab::LegendViewButtonSettings());
+			Mitov::PlotLab::LegendGroup^  legendGroup41 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel41 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup42 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel42 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup43 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel43 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup44 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel44 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup45 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel45 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup46 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel46 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::LegendGroup^  legendGroup47 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel47 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize21 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::LegendGroup^  legendGroup48 = (gcnew Mitov::PlotLab::LegendGroup());
+			Mitov::PlotLab::DisplayLabel^  displayLabel48 = (gcnew Mitov::PlotLab::DisplayLabel());
+			Mitov::PlotLab::DisplayTitle^  displayTitle6 = (gcnew Mitov::PlotLab::DisplayTitle());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground28 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize22 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayToolBar^  displayToolBar6 = (gcnew Mitov::PlotLab::DisplayToolBar());
+			Mitov::PlotLab::DisplayToolBarButtons^  displayToolBarButtons6 = (gcnew Mitov::PlotLab::DisplayToolBarButtons());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton111 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage111 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton112 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage112 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton113 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage113 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton114 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage114 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton115 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage115 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton116 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage116 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton117 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage117 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize16 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton118 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage118 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton119 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage119 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton120 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage120 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton121 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage121 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton122 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage122 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton123 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage123 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton124 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage124 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ToolBarPosition^  toolBarPosition6 = (gcnew Mitov::PlotLab::ToolBarPosition());
+			Mitov::PlotLab::DisplayTrails^  displayTrails6 = (gcnew Mitov::PlotLab::DisplayTrails());
+			Mitov::PlotLab::ScopeXAxis^  scopeXAxis6 = (gcnew Mitov::PlotLab::ScopeXAxis());
+			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel11 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground29 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings11 = (gcnew Mitov::PlotLab::ViewButtonSettings());
+			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings11 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
+			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings11 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings27 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen27 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings28 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen28 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::AxisFormat^  axisFormat11 = (gcnew Mitov::PlotLab::AxisFormat());
+			Mitov::PlotLab::MajorTicks^  majorTicks11 = (gcnew Mitov::PlotLab::MajorTicks());
+			Mitov::PlotLab::TicksStart^  ticksStart11 = (gcnew Mitov::PlotLab::TicksStart());
+			Mitov::PlotLab::MaxAxisValue^  maxAxisValue11 = (gcnew Mitov::PlotLab::MaxAxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange31 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue61 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue62 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue21 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::ScopeMaxSample^  scopeMaxSample6 = (gcnew Mitov::PlotLab::ScopeMaxSample());
+			Mitov::PlotLab::AxisValue^  axisValue11 = (gcnew Mitov::PlotLab::AxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange32 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue63 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue64 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue22 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::MinorTicks^  minorTicks11 = (gcnew Mitov::PlotLab::MinorTicks());
+			Mitov::PlotLab::AxisToolBar^  axisToolBar11 = (gcnew Mitov::PlotLab::AxisToolBar());
+			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons11 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize17 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton125 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage125 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton126 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage126 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton127 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage127 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton128 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage128 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::ScopeXAxisUnitScale^  scopeXAxisUnitScale6 = (gcnew Mitov::PlotLab::ScopeXAxisUnitScale());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize23 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom11 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange33 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue65 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue66 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			OpenWire::Proxy::StatePin^  statePin11 = (gcnew OpenWire::Proxy::StatePin());
+			OpenWire::Proxy::PinList^  pinList12 = (gcnew OpenWire::Proxy::PinList());
+			Mitov::PlotLab::ScopeYAxis^  scopeYAxis6 = (gcnew Mitov::PlotLab::ScopeYAxis());
+			Mitov::PlotLab::ScopeAutoScaling^  scopeAutoScaling6 = (gcnew Mitov::PlotLab::ScopeAutoScaling());
+			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace11 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
+			Mitov::PlotLab::ScopeAutoScalingSpace^  scopeAutoScalingSpace12 = (gcnew Mitov::PlotLab::ScopeAutoScalingSpace());
+			Mitov::PlotLab::DisplayTitleLabel^  displayTitleLabel12 = (gcnew Mitov::PlotLab::DisplayTitleLabel());
+			Mitov::PlotLab::DisplayViewBackground^  displayViewBackground30 = (gcnew Mitov::PlotLab::DisplayViewBackground());
+			Mitov::PlotLab::ViewButtonSettings^  viewButtonSettings12 = (gcnew Mitov::PlotLab::ViewButtonSettings());
+			Mitov::PlotLab::DisplayAxisCursorSettings^  displayAxisCursorSettings12 = (gcnew Mitov::PlotLab::DisplayAxisCursorSettings());
+			Mitov::PlotLab::DisplayGridDirectionalLinesSettings^  displayGridDirectionalLinesSettings12 = (gcnew Mitov::PlotLab::DisplayGridDirectionalLinesSettings());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings29 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen29 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::DisplayGridLineSettings^  displayGridLineSettings30 = (gcnew Mitov::PlotLab::DisplayGridLineSettings());
+			Vcl::VclPen^  vclPen30 = (gcnew Vcl::VclPen());
+			Mitov::PlotLab::AxisFormat^  axisFormat12 = (gcnew Mitov::PlotLab::AxisFormat());
+			Mitov::PlotLab::MajorTicks^  majorTicks12 = (gcnew Mitov::PlotLab::MajorTicks());
+			Mitov::PlotLab::TicksStart^  ticksStart12 = (gcnew Mitov::PlotLab::TicksStart());
+			Mitov::PlotLab::MaxAxisValue^  maxAxisValue12 = (gcnew Mitov::PlotLab::MaxAxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange34 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue67 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue68 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue23 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::AxisValue^  axisValue12 = (gcnew Mitov::PlotLab::AxisValue());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange35 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue69 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue70 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::BasicAxisValue^  basicAxisValue24 = (gcnew Mitov::PlotLab::BasicAxisValue());
+			Mitov::PlotLab::MinorTicks^  minorTicks12 = (gcnew Mitov::PlotLab::MinorTicks());
+			Mitov::PlotLab::AxisToolBar^  axisToolBar12 = (gcnew Mitov::PlotLab::AxisToolBar());
+			Mitov::PlotLab::AxisToolBarButtons^  axisToolBarButtons12 = (gcnew Mitov::PlotLab::AxisToolBarButtons());
+			Mitov::PlotLab::ToolBarButtonSize^  toolBarButtonSize18 = (gcnew Mitov::PlotLab::ToolBarButtonSize());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton129 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage129 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton130 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage130 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton131 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage131 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayToolBarButton^  displayToolBarButton132 = (gcnew Mitov::PlotLab::DisplayToolBarButton());
+			Mitov::PlotLab::DisplayToolBarButtonImage^  displayToolBarButtonImage132 = (gcnew Mitov::PlotLab::DisplayToolBarButtonImage());
+			Mitov::PlotLab::DisplayViewSize^  displayViewSize24 = (gcnew Mitov::PlotLab::DisplayViewSize());
+			Mitov::PlotLab::DisplayAxisZoom^  displayAxisZoom12 = (gcnew Mitov::PlotLab::DisplayAxisZoom());
+			Mitov::PlotLab::DisplayValueRange^  displayValueRange36 = (gcnew Mitov::PlotLab::DisplayValueRange());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue71 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			Mitov::PlotLab::DisplayOptionalValue^  displayOptionalValue72 = (gcnew Mitov::PlotLab::DisplayOptionalValue());
+			OpenWire::Proxy::StatePin^  statePin12 = (gcnew OpenWire::Proxy::StatePin());
+			Mitov::PlotLab::DisplayZoom^  displayZoom6 = (gcnew Mitov::PlotLab::DisplayZoom());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->tabControl = (gcnew System::Windows::Forms::TabControl());
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
@@ -677,9 +685,9 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->FocusFramePictureBox = (gcnew System::Windows::Forms::PictureBox());
 			this->groupBox7 = (gcnew System::Windows::Forms::GroupBox());
 			this->tableLayoutPanel12 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
+			this->OnVCurveLeftRadioButton = (gcnew System::Windows::Forms::RadioButton());
+			this->OnVCurveRightRadioButton = (gcnew System::Windows::Forms::RadioButton());
+			this->UnknownRadioButton = (gcnew System::Windows::Forms::RadioButton());
 			this->label16 = (gcnew System::Windows::Forms::Label());
 			this->FramesPerPointNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
 			this->groupBox8 = (gcnew System::Windows::Forms::GroupBox());
@@ -748,7 +756,7 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->CloseButton = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel11 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->StopButton = (gcnew System::Windows::Forms::Button());
+			this->AbortButton = (gcnew System::Windows::Forms::Button());
 			this->PauseButton = (gcnew System::Windows::Forms::Button());
 			this->StartButton = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
@@ -882,125 +890,125 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			// 
 			this->StarProfileScope->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayViewBackground1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground16->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeDataView1->Background = displayViewBackground1;
-			vclPen1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeDataView4->Background = displayViewBackground16;
+			vclPen16->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen1->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen1.InternalData")));
-			displayGridLineSettings1->Pen = vclPen1;
-			scopeDataView1->Border = displayGridLineSettings1;
-			this->StarProfileScope->DataView = scopeDataView1;
-			channelItemHighlighting1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen16->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen16.InternalData")));
+			displayGridLineSettings16->Pen = vclPen16;
+			scopeDataView4->Border = displayGridLineSettings16;
+			this->StarProfileScope->DataView = scopeDataView4;
+			channelItemHighlighting7->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->ChannelLinks = channelItemHighlighting1;
-			channelItemHighlighting2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting4->ChannelLinks = channelItemHighlighting7;
+			channelItemHighlighting8->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->Channels = channelItemHighlighting2;
-			displayItemHighlighting1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting4->Channels = channelItemHighlighting8;
+			displayItemHighlighting19->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->CursorLinks = displayItemHighlighting1;
-			displayItemHighlighting2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting4->CursorLinks = displayItemHighlighting19;
+			displayItemHighlighting20->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->Cursors = displayItemHighlighting2;
-			displayItemHighlighting3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting4->Cursors = displayItemHighlighting20;
+			displayItemHighlighting21->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->Ellipses = displayItemHighlighting3;
-			displayItemHighlighting4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting4->Ellipses = displayItemHighlighting21;
+			displayItemHighlighting22->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->Labels = displayItemHighlighting4;
-			displayItemHighlighting5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting4->Labels = displayItemHighlighting22;
+			displayItemHighlighting23->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->Markers = displayItemHighlighting5;
-			channelMouseHitPoint1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			dataChartHighlighting4->Markers = displayItemHighlighting23;
+			channelMouseHitPoint4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			optionalLabel1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			optionalLabel4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			channelMouseHitPoint1->PointLabel = optionalLabel1;
-			dataChartHighlighting1->MouseHitPoint = channelMouseHitPoint1;
-			displayItemHighlighting6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			channelMouseHitPoint4->PointLabel = optionalLabel4;
+			dataChartHighlighting4->MouseHitPoint = channelMouseHitPoint4;
+			displayItemHighlighting24->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting1->Zones = displayItemHighlighting6;
-			this->StarProfileScope->Highlighting = dataChartHighlighting1;
-			this->StarProfileScope->InputPins = pinList1;
+			dataChartHighlighting4->Zones = displayItemHighlighting24;
+			this->StarProfileScope->Highlighting = dataChartHighlighting4;
+			this->StarProfileScope->InputPins = pinList7;
 			this->StarProfileScope->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"StarProfileScope.InternalData")));
-			displayViewBackground2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground17->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeLegendView1->Background = displayViewBackground2;
-			legendViewButtonSettings1->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			scopeLegendView4->Background = displayViewBackground17;
+			legendViewButtonSettings4->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings1->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings4->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings1->Cursor = System::Windows::Forms::Cursors::Default;
-			legendViewButtonSettings1->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings4->Cursor = System::Windows::Forms::Cursors::Default;
+			legendViewButtonSettings4->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings1->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendViewButtonSettings4->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings1->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendViewButtonSettings4->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings1->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			legendViewButtonSettings4->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings1->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings4->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings1->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings4->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeLegendView1->Buttons = legendViewButtonSettings1;
-			displayLabel1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeLegendView4->Buttons = legendViewButtonSettings4;
+			displayLabel25->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup1->Caption = displayLabel1;
-			legendGroup1->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->ChannelLinks = legendGroup1;
-			displayLabel2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup25->Caption = displayLabel25;
+			legendGroup25->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->ChannelLinks = legendGroup25;
+			displayLabel26->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup2->Caption = displayLabel2;
-			legendGroup2->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->Channels = legendGroup2;
-			displayLabel3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup26->Caption = displayLabel26;
+			legendGroup26->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->Channels = legendGroup26;
+			displayLabel27->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup3->Caption = displayLabel3;
-			legendGroup3->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->CursorLinks = legendGroup3;
-			displayLabel4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup27->Caption = displayLabel27;
+			legendGroup27->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->CursorLinks = legendGroup27;
+			displayLabel28->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup4->Caption = displayLabel4;
-			legendGroup4->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->Cursors = legendGroup4;
-			displayLabel5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup28->Caption = displayLabel28;
+			legendGroup28->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->Cursors = legendGroup28;
+			displayLabel29->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup5->Caption = displayLabel5;
-			legendGroup5->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->Ellipses = legendGroup5;
-			scopeLegendView1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup29->Caption = displayLabel29;
+			legendGroup29->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->Ellipses = legendGroup29;
+			scopeLegendView4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			scopeLegendView1->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeLegendView1.InternalData")));
-			displayLabel6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeLegendView4->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeLegendView4.InternalData")));
+			displayLabel30->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup6->Caption = displayLabel6;
-			legendGroup6->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->Labels = legendGroup6;
-			displayLabel7->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup30->Caption = displayLabel30;
+			legendGroup30->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->Labels = legendGroup30;
+			displayLabel31->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup7->Caption = displayLabel7;
-			legendGroup7->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->MarkerGroups = legendGroup7;
-			displayViewSize1->Size = static_cast<System::UInt32>(100);
-			scopeLegendView1->ViewSize = displayViewSize1;
-			displayLabel8->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup31->Caption = displayLabel31;
+			legendGroup31->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->MarkerGroups = legendGroup31;
+			displayViewSize13->Size = static_cast<System::UInt32>(100);
+			scopeLegendView4->ViewSize = displayViewSize13;
+			displayLabel32->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup8->Caption = displayLabel8;
-			legendGroup8->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView1->Zones = legendGroup8;
-			this->StarProfileScope->Legend = scopeLegendView1;
+			legendGroup32->Caption = displayLabel32;
+			legendGroup32->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView4->Zones = legendGroup32;
+			this->StarProfileScope->Legend = scopeLegendView4;
 			this->StarProfileScope->Location = System::Drawing::Point(303, 3);
 			this->StarProfileScope->Name = L"StarProfileScope";
 			this->StarProfileScope->RefreshInterval = static_cast<System::UInt32>(100);
@@ -1008,306 +1016,306 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->StarProfileScope->SizeLimit = static_cast<System::UInt32>(0);
 			this->StarProfileScope->TabIndex = 0;
 			this->StarProfileScope->Text = L"scope2";
-			displayViewBackground3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground18->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayTitle1->Background = displayViewBackground3;
-			displayTitle1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayTitle4->Background = displayViewBackground18;
+			displayTitle4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 16, 1));
-			displayTitle1->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"displayTitle1.InternalData")));
-			displayTitle1->Text = L"Star Profile";
-			displayViewSize2->Size = static_cast<System::UInt32>(100);
-			displayTitle1->ViewSize = displayViewSize2;
-			this->StarProfileScope->Title = displayTitle1;
-			displayToolBar1->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayTitle4->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"displayTitle4.InternalData")));
+			displayTitle4->Text = L"Star Profile";
+			displayViewSize14->Size = static_cast<System::UInt32>(100);
+			displayTitle4->ViewSize = displayViewSize14;
+			this->StarProfileScope->Title = displayTitle4;
+			displayToolBar4->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar1->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar4->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBarButton1->Image = displayToolBarButtonImage1;
-			displayToolBarButtons1->Copy = displayToolBarButton1;
-			displayToolBarButton2->Image = displayToolBarButtonImage2;
-			displayToolBarButtons1->Hold = displayToolBarButton2;
-			displayToolBarButton3->Image = displayToolBarButtonImage3;
-			displayToolBarButtons1->PanMode = displayToolBarButton3;
-			displayToolBarButton4->Image = displayToolBarButtonImage4;
-			displayToolBarButtons1->Print = displayToolBarButton4;
-			displayToolBarButton5->Image = displayToolBarButtonImage5;
-			displayToolBarButtons1->Run = displayToolBarButton5;
-			displayToolBarButton6->Image = displayToolBarButtonImage6;
-			displayToolBarButtons1->Save = displayToolBarButton6;
-			displayToolBarButton7->Image = displayToolBarButtonImage7;
-			displayToolBarButtons1->Setup = displayToolBarButton7;
-			displayToolBarButtons1->Size = toolBarButtonSize1;
-			displayToolBarButton8->Image = displayToolBarButtonImage8;
-			displayToolBarButtons1->XYZoomOn = displayToolBarButton8;
-			displayToolBarButton9->Image = displayToolBarButtonImage9;
-			displayToolBarButtons1->ZoomIn = displayToolBarButton9;
-			displayToolBarButton10->Image = displayToolBarButtonImage10;
-			displayToolBarButtons1->ZoomMode = displayToolBarButton10;
-			displayToolBarButton11->Image = displayToolBarButtonImage11;
-			displayToolBarButtons1->ZoomNext = displayToolBarButton11;
-			displayToolBarButton12->Image = displayToolBarButtonImage12;
-			displayToolBarButtons1->ZoomOff = displayToolBarButton12;
-			displayToolBarButton13->Image = displayToolBarButtonImage13;
-			displayToolBarButtons1->ZoomOut = displayToolBarButton13;
-			displayToolBarButton14->Image = displayToolBarButtonImage14;
-			displayToolBarButtons1->ZoomPrevious = displayToolBarButton14;
-			displayToolBar1->Buttons = displayToolBarButtons1;
-			displayToolBar1->Cursor = System::Windows::Forms::Cursors::Default;
-			displayToolBar1->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayToolBarButton67->Image = displayToolBarButtonImage67;
+			displayToolBarButtons4->Copy = displayToolBarButton67;
+			displayToolBarButton68->Image = displayToolBarButtonImage68;
+			displayToolBarButtons4->Hold = displayToolBarButton68;
+			displayToolBarButton69->Image = displayToolBarButtonImage69;
+			displayToolBarButtons4->PanMode = displayToolBarButton69;
+			displayToolBarButton70->Image = displayToolBarButtonImage70;
+			displayToolBarButtons4->Print = displayToolBarButton70;
+			displayToolBarButton71->Image = displayToolBarButtonImage71;
+			displayToolBarButtons4->Run = displayToolBarButton71;
+			displayToolBarButton72->Image = displayToolBarButtonImage72;
+			displayToolBarButtons4->Save = displayToolBarButton72;
+			displayToolBarButton73->Image = displayToolBarButtonImage73;
+			displayToolBarButtons4->Setup = displayToolBarButton73;
+			displayToolBarButtons4->Size = toolBarButtonSize10;
+			displayToolBarButton74->Image = displayToolBarButtonImage74;
+			displayToolBarButtons4->XYZoomOn = displayToolBarButton74;
+			displayToolBarButton75->Image = displayToolBarButtonImage75;
+			displayToolBarButtons4->ZoomIn = displayToolBarButton75;
+			displayToolBarButton76->Image = displayToolBarButtonImage76;
+			displayToolBarButtons4->ZoomMode = displayToolBarButton76;
+			displayToolBarButton77->Image = displayToolBarButtonImage77;
+			displayToolBarButtons4->ZoomNext = displayToolBarButton77;
+			displayToolBarButton78->Image = displayToolBarButtonImage78;
+			displayToolBarButtons4->ZoomOff = displayToolBarButton78;
+			displayToolBarButton79->Image = displayToolBarButtonImage79;
+			displayToolBarButtons4->ZoomOut = displayToolBarButton79;
+			displayToolBarButton80->Image = displayToolBarButtonImage80;
+			displayToolBarButtons4->ZoomPrevious = displayToolBarButton80;
+			displayToolBar4->Buttons = displayToolBarButtons4;
+			displayToolBar4->Cursor = System::Windows::Forms::Cursors::Default;
+			displayToolBar4->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar1->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayToolBar4->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar1->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayToolBar4->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar1->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayToolBar4->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar1->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar4->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar1->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar4->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			toolBarPosition1->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"toolBarPosition1.InternalData")));
-			displayToolBar1->Position = toolBarPosition1;
-			this->StarProfileScope->ToolBar = displayToolBar1;
-			displayTrails1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			toolBarPosition4->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"toolBarPosition4.InternalData")));
+			displayToolBar4->Position = toolBarPosition4;
+			this->StarProfileScope->ToolBar = displayToolBar4;
+			displayTrails4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			displayTrails1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayTrails4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			this->StarProfileScope->Trails = displayTrails1;
-			displayTitleLabel1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			this->StarProfileScope->Trails = displayTrails4;
+			displayTitleLabel7->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 12, 1));
-			displayTitleLabel1->Text = L"Cross Section (pixels)";
-			scopeXAxis1->AxisLabel = displayTitleLabel1;
-			displayViewBackground4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayTitleLabel7->Text = L"Cross Section (pixels)";
+			scopeXAxis4->AxisLabel = displayTitleLabel7;
+			displayViewBackground19->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis1->Background = displayViewBackground4;
-			viewButtonSettings1->Cursor = System::Windows::Forms::Cursors::Default;
-			viewButtonSettings1->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis4->Background = displayViewBackground19;
+			viewButtonSettings7->Cursor = System::Windows::Forms::Cursors::Default;
+			viewButtonSettings7->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings1->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			viewButtonSettings7->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings1->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings7->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings1->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings7->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis1->Button = viewButtonSettings1;
-			scopeXAxis1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis4->Button = viewButtonSettings7;
+			scopeXAxis4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			scopeXAxis1->CursorSettings = displayAxisCursorSettings1;
-			vclPen2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeXAxis4->CursorSettings = displayAxisCursorSettings7;
+			vclPen17->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen2->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen2.InternalData")));
-			displayGridLineSettings2->Pen = vclPen2;
-			displayGridDirectionalLinesSettings1->Lines = displayGridLineSettings2;
-			vclPen3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen17->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen17.InternalData")));
+			displayGridLineSettings17->Pen = vclPen17;
+			displayGridDirectionalLinesSettings7->Lines = displayGridLineSettings17;
+			vclPen18->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			vclPen3->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen3.InternalData")));
-			displayGridLineSettings3->Pen = vclPen3;
-			displayGridDirectionalLinesSettings1->ZeroLine = displayGridLineSettings3;
-			scopeXAxis1->DataView = displayGridDirectionalLinesSettings1;
-			scopeXAxis1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen18->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen18.InternalData")));
+			displayGridLineSettings18->Pen = vclPen18;
+			displayGridDirectionalLinesSettings7->ZeroLine = displayGridLineSettings18;
+			scopeXAxis4->DataView = displayGridDirectionalLinesSettings7;
+			scopeXAxis4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			axisFormat1->Precision = 3;
-			scopeXAxis1->Format = axisFormat1;
-			scopeXAxis1->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeXAxis1.InternalData")));
-			ticksStart1->StartFrom = 0;
-			majorTicks1->StartFrom = ticksStart1;
-			majorTicks1->Step = 10;
-			scopeXAxis1->MajorTicks = majorTicks1;
-			maxAxisValue1->DataValue = 1024;
-			displayOptionalValue1->Enabled = false;
-			displayOptionalValue1->Value = 1000;
-			displayValueRange1->High = displayOptionalValue1;
-			displayOptionalValue2->Enabled = false;
-			displayOptionalValue2->Value = -1000;
-			displayValueRange1->Low = displayOptionalValue2;
-			maxAxisValue1->Range = displayValueRange1;
-			basicAxisValue1->Value = 1024;
-			maxAxisValue1->Tick = basicAxisValue1;
-			maxAxisValue1->Value = 1024;
-			scopeXAxis1->Max = maxAxisValue1;
-			scopeMaxSample1->Value = static_cast<System::UInt32>(1024);
-			scopeXAxis1->MaxSample = scopeMaxSample1;
-			axisValue1->DataValue = 0;
-			displayOptionalValue3->Enabled = false;
-			displayOptionalValue3->Value = 1000;
-			displayValueRange2->High = displayOptionalValue3;
-			displayOptionalValue4->Enabled = false;
-			displayOptionalValue4->Value = -1000;
-			displayValueRange2->Low = displayOptionalValue4;
-			axisValue1->Range = displayValueRange2;
-			basicAxisValue2->Value = 0;
-			axisValue1->Tick = basicAxisValue2;
-			axisValue1->Value = 0;
-			scopeXAxis1->Min = axisValue1;
-			scopeXAxis1->MinorTicks = minorTicks1;
-			axisToolBar1->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisFormat7->Precision = 3;
+			scopeXAxis4->Format = axisFormat7;
+			scopeXAxis4->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeXAxis4.InternalData")));
+			ticksStart7->StartFrom = 0;
+			majorTicks7->StartFrom = ticksStart7;
+			majorTicks7->Step = 10;
+			scopeXAxis4->MajorTicks = majorTicks7;
+			maxAxisValue7->DataValue = 1024;
+			displayOptionalValue37->Enabled = false;
+			displayOptionalValue37->Value = 1000;
+			displayValueRange19->High = displayOptionalValue37;
+			displayOptionalValue38->Enabled = false;
+			displayOptionalValue38->Value = -1000;
+			displayValueRange19->Low = displayOptionalValue38;
+			maxAxisValue7->Range = displayValueRange19;
+			basicAxisValue13->Value = 1024;
+			maxAxisValue7->Tick = basicAxisValue13;
+			maxAxisValue7->Value = 1024;
+			scopeXAxis4->Max = maxAxisValue7;
+			scopeMaxSample4->Value = static_cast<System::UInt32>(1024);
+			scopeXAxis4->MaxSample = scopeMaxSample4;
+			axisValue7->DataValue = 0;
+			displayOptionalValue39->Enabled = false;
+			displayOptionalValue39->Value = 1000;
+			displayValueRange20->High = displayOptionalValue39;
+			displayOptionalValue40->Enabled = false;
+			displayOptionalValue40->Value = -1000;
+			displayValueRange20->Low = displayOptionalValue40;
+			axisValue7->Range = displayValueRange20;
+			basicAxisValue14->Value = 0;
+			axisValue7->Tick = basicAxisValue14;
+			axisValue7->Value = 0;
+			scopeXAxis4->Min = axisValue7;
+			scopeXAxis4->MinorTicks = minorTicks7;
+			axisToolBar7->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar1->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			axisToolBar7->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBarButtons1->Size = toolBarButtonSize2;
-			displayToolBarButton15->Image = displayToolBarButtonImage15;
-			axisToolBarButtons1->ZoomIn = displayToolBarButton15;
-			displayToolBarButton16->Image = displayToolBarButtonImage16;
-			axisToolBarButtons1->ZoomOff = displayToolBarButton16;
-			displayToolBarButton17->Image = displayToolBarButtonImage17;
-			axisToolBarButtons1->ZoomOneDir = displayToolBarButton17;
-			displayToolBarButton18->Image = displayToolBarButtonImage18;
-			axisToolBarButtons1->ZoomOut = displayToolBarButton18;
-			axisToolBar1->Buttons = axisToolBarButtons1;
-			axisToolBar1->Cursor = System::Windows::Forms::Cursors::Default;
-			axisToolBar1->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBarButtons7->Size = toolBarButtonSize11;
+			displayToolBarButton81->Image = displayToolBarButtonImage81;
+			axisToolBarButtons7->ZoomIn = displayToolBarButton81;
+			displayToolBarButton82->Image = displayToolBarButtonImage82;
+			axisToolBarButtons7->ZoomOff = displayToolBarButton82;
+			displayToolBarButton83->Image = displayToolBarButtonImage83;
+			axisToolBarButtons7->ZoomOneDir = displayToolBarButton83;
+			displayToolBarButton84->Image = displayToolBarButtonImage84;
+			axisToolBarButtons7->ZoomOut = displayToolBarButton84;
+			axisToolBar7->Buttons = axisToolBarButtons7;
+			axisToolBar7->Cursor = System::Windows::Forms::Cursors::Default;
+			axisToolBar7->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar1->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar7->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar1->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar7->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar1->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar7->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar1->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar7->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar1->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar7->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis1->ToolBar = axisToolBar1;
-			scopeXAxis1->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			scopeXAxis4->ToolBar = axisToolBar7;
+			scopeXAxis4->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis1->UnitScale = scopeXAxisUnitScale1;
-			displayViewSize3->Size = static_cast<System::UInt32>(100);
-			scopeXAxis1->ViewSize = displayViewSize3;
-			displayOptionalValue5->Enabled = false;
-			displayOptionalValue5->Value = 100000000;
-			displayValueRange3->High = displayOptionalValue5;
-			displayOptionalValue6->Enabled = true;
-			displayOptionalValue6->Value = 1E-07;
-			displayValueRange3->Low = displayOptionalValue6;
-			displayAxisZoom1->Range = displayValueRange3;
-			scopeXAxis1->Zooming = displayAxisZoom1;
-			scopeXAxis1->ZoomPin = statePin1;
-			this->StarProfileScope->XAxis = scopeXAxis1;
-			this->StarProfileScope->XInputPins = pinList2;
-			scopeAutoScaling1->MaxHistory = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace1->Space = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace1->Threshold = static_cast<System::UInt32>(10);
-			scopeAutoScaling1->SpaceAbove = scopeAutoScalingSpace1;
-			scopeAutoScalingSpace2->Space = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace2->Threshold = static_cast<System::UInt32>(10);
-			scopeAutoScaling1->SpaceBelow = scopeAutoScalingSpace2;
-			scopeYAxis1->AutoScaling = scopeAutoScaling1;
-			displayTitleLabel2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis4->UnitScale = scopeXAxisUnitScale4;
+			displayViewSize15->Size = static_cast<System::UInt32>(100);
+			scopeXAxis4->ViewSize = displayViewSize15;
+			displayOptionalValue41->Enabled = false;
+			displayOptionalValue41->Value = 100000000;
+			displayValueRange21->High = displayOptionalValue41;
+			displayOptionalValue42->Enabled = true;
+			displayOptionalValue42->Value = 1E-07;
+			displayValueRange21->Low = displayOptionalValue42;
+			displayAxisZoom7->Range = displayValueRange21;
+			scopeXAxis4->Zooming = displayAxisZoom7;
+			scopeXAxis4->ZoomPin = statePin7;
+			this->StarProfileScope->XAxis = scopeXAxis4;
+			this->StarProfileScope->XInputPins = pinList8;
+			scopeAutoScaling4->MaxHistory = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace7->Space = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace7->Threshold = static_cast<System::UInt32>(10);
+			scopeAutoScaling4->SpaceAbove = scopeAutoScalingSpace7;
+			scopeAutoScalingSpace8->Space = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace8->Threshold = static_cast<System::UInt32>(10);
+			scopeAutoScaling4->SpaceBelow = scopeAutoScalingSpace8;
+			scopeYAxis4->AutoScaling = scopeAutoScaling4;
+			displayTitleLabel8->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 12, 1));
-			displayTitleLabel2->Text = L"Pixel Value (ADU)";
-			scopeYAxis1->AxisLabel = displayTitleLabel2;
-			displayViewBackground5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayTitleLabel8->Text = L"Pixel Value (ADU)";
+			scopeYAxis4->AxisLabel = displayTitleLabel8;
+			displayViewBackground20->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis1->Background = displayViewBackground5;
-			viewButtonSettings2->Cursor = System::Windows::Forms::Cursors::Default;
-			viewButtonSettings2->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeYAxis4->Background = displayViewBackground20;
+			viewButtonSettings8->Cursor = System::Windows::Forms::Cursors::Default;
+			viewButtonSettings8->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings2->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			viewButtonSettings8->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings2->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings8->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings2->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings8->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis1->Button = viewButtonSettings2;
-			scopeYAxis1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeYAxis4->Button = viewButtonSettings8;
+			scopeYAxis4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			scopeYAxis1->CursorSettings = displayAxisCursorSettings2;
-			vclPen4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeYAxis4->CursorSettings = displayAxisCursorSettings8;
+			vclPen19->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen4->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen4.InternalData")));
-			displayGridLineSettings4->Pen = vclPen4;
-			displayGridDirectionalLinesSettings2->Lines = displayGridLineSettings4;
-			vclPen5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen19->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen19.InternalData")));
+			displayGridLineSettings19->Pen = vclPen19;
+			displayGridDirectionalLinesSettings8->Lines = displayGridLineSettings19;
+			vclPen20->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			vclPen5->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen5.InternalData")));
-			displayGridLineSettings5->Pen = vclPen5;
-			displayGridDirectionalLinesSettings2->ZeroLine = displayGridLineSettings5;
-			scopeYAxis1->DataView = displayGridDirectionalLinesSettings2;
-			scopeYAxis1->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen20->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen20.InternalData")));
+			displayGridLineSettings20->Pen = vclPen20;
+			displayGridDirectionalLinesSettings8->ZeroLine = displayGridLineSettings20;
+			scopeYAxis4->DataView = displayGridDirectionalLinesSettings8;
+			scopeYAxis4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			axisFormat2->Precision = 3;
-			scopeYAxis1->Format = axisFormat2;
-			scopeYAxis1->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeYAxis1.InternalData")));
-			ticksStart2->StartFrom = 0;
-			majorTicks2->StartFrom = ticksStart2;
-			majorTicks2->Step = 10;
-			scopeYAxis1->MajorTicks = majorTicks2;
-			maxAxisValue2->DataValue = 1000;
-			displayOptionalValue7->Enabled = false;
-			displayOptionalValue7->Value = 1000;
-			displayValueRange4->High = displayOptionalValue7;
-			displayOptionalValue8->Enabled = false;
-			displayOptionalValue8->Value = -1000;
-			displayValueRange4->Low = displayOptionalValue8;
-			maxAxisValue2->Range = displayValueRange4;
-			basicAxisValue3->Value = 0;
-			maxAxisValue2->Tick = basicAxisValue3;
-			maxAxisValue2->Value = 1000;
-			scopeYAxis1->Max = maxAxisValue2;
-			axisValue2->DataValue = -1000;
-			displayOptionalValue9->Enabled = false;
-			displayOptionalValue9->Value = 1000;
-			displayValueRange5->High = displayOptionalValue9;
-			displayOptionalValue10->Enabled = false;
-			displayOptionalValue10->Value = -1000;
-			displayValueRange5->Low = displayOptionalValue10;
-			axisValue2->Range = displayValueRange5;
-			basicAxisValue4->Value = 0;
-			axisValue2->Tick = basicAxisValue4;
-			axisValue2->Value = -1000;
-			scopeYAxis1->Min = axisValue2;
-			scopeYAxis1->MinorTicks = minorTicks2;
-			axisToolBar2->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisFormat8->Precision = 3;
+			scopeYAxis4->Format = axisFormat8;
+			scopeYAxis4->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeYAxis4.InternalData")));
+			ticksStart8->StartFrom = 0;
+			majorTicks8->StartFrom = ticksStart8;
+			majorTicks8->Step = 10;
+			scopeYAxis4->MajorTicks = majorTicks8;
+			maxAxisValue8->DataValue = 1000;
+			displayOptionalValue43->Enabled = false;
+			displayOptionalValue43->Value = 1000;
+			displayValueRange22->High = displayOptionalValue43;
+			displayOptionalValue44->Enabled = false;
+			displayOptionalValue44->Value = -1000;
+			displayValueRange22->Low = displayOptionalValue44;
+			maxAxisValue8->Range = displayValueRange22;
+			basicAxisValue15->Value = 0;
+			maxAxisValue8->Tick = basicAxisValue15;
+			maxAxisValue8->Value = 1000;
+			scopeYAxis4->Max = maxAxisValue8;
+			axisValue8->DataValue = -1000;
+			displayOptionalValue45->Enabled = false;
+			displayOptionalValue45->Value = 1000;
+			displayValueRange23->High = displayOptionalValue45;
+			displayOptionalValue46->Enabled = false;
+			displayOptionalValue46->Value = -1000;
+			displayValueRange23->Low = displayOptionalValue46;
+			axisValue8->Range = displayValueRange23;
+			basicAxisValue16->Value = 0;
+			axisValue8->Tick = basicAxisValue16;
+			axisValue8->Value = -1000;
+			scopeYAxis4->Min = axisValue8;
+			scopeYAxis4->MinorTicks = minorTicks8;
+			axisToolBar8->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar2->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			axisToolBar8->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBarButtons2->Size = toolBarButtonSize3;
-			displayToolBarButton19->Image = displayToolBarButtonImage19;
-			axisToolBarButtons2->ZoomIn = displayToolBarButton19;
-			displayToolBarButton20->Image = displayToolBarButtonImage20;
-			axisToolBarButtons2->ZoomOff = displayToolBarButton20;
-			displayToolBarButton21->Image = displayToolBarButtonImage21;
-			axisToolBarButtons2->ZoomOneDir = displayToolBarButton21;
-			displayToolBarButton22->Image = displayToolBarButtonImage22;
-			axisToolBarButtons2->ZoomOut = displayToolBarButton22;
-			axisToolBar2->Buttons = axisToolBarButtons2;
-			axisToolBar2->Cursor = System::Windows::Forms::Cursors::Default;
-			axisToolBar2->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBarButtons8->Size = toolBarButtonSize12;
+			displayToolBarButton85->Image = displayToolBarButtonImage85;
+			axisToolBarButtons8->ZoomIn = displayToolBarButton85;
+			displayToolBarButton86->Image = displayToolBarButtonImage86;
+			axisToolBarButtons8->ZoomOff = displayToolBarButton86;
+			displayToolBarButton87->Image = displayToolBarButtonImage87;
+			axisToolBarButtons8->ZoomOneDir = displayToolBarButton87;
+			displayToolBarButton88->Image = displayToolBarButtonImage88;
+			axisToolBarButtons8->ZoomOut = displayToolBarButton88;
+			axisToolBar8->Buttons = axisToolBarButtons8;
+			axisToolBar8->Cursor = System::Windows::Forms::Cursors::Default;
+			axisToolBar8->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar2->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar8->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar2->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar8->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar2->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar8->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar2->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar8->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar2->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar8->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis1->ToolBar = axisToolBar2;
-			scopeYAxis1->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			scopeYAxis4->ToolBar = axisToolBar8;
+			scopeYAxis4->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayViewSize4->Size = static_cast<System::UInt32>(100);
-			scopeYAxis1->ViewSize = displayViewSize4;
-			displayOptionalValue11->Enabled = false;
-			displayOptionalValue11->Value = 100000000;
-			displayValueRange6->High = displayOptionalValue11;
-			displayOptionalValue12->Enabled = true;
-			displayOptionalValue12->Value = 1E-07;
-			displayValueRange6->Low = displayOptionalValue12;
-			displayAxisZoom2->Range = displayValueRange6;
-			scopeYAxis1->Zooming = displayAxisZoom2;
-			scopeYAxis1->ZoomPin = statePin2;
-			this->StarProfileScope->YAxis = scopeYAxis1;
-			displayZoom1->SelectionColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayViewSize16->Size = static_cast<System::UInt32>(100);
+			scopeYAxis4->ViewSize = displayViewSize16;
+			displayOptionalValue47->Enabled = false;
+			displayOptionalValue47->Value = 100000000;
+			displayValueRange24->High = displayOptionalValue47;
+			displayOptionalValue48->Enabled = true;
+			displayOptionalValue48->Value = 1E-07;
+			displayValueRange24->Low = displayOptionalValue48;
+			displayAxisZoom8->Range = displayValueRange24;
+			scopeYAxis4->Zooming = displayAxisZoom8;
+			scopeYAxis4->ZoomPin = statePin8;
+			this->StarProfileScope->YAxis = scopeYAxis4;
+			displayZoom4->SelectionColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->StarProfileScope->Zooming = displayZoom1;
+			this->StarProfileScope->Zooming = displayZoom4;
 			// 
 			// groupBox6
 			// 
@@ -1348,10 +1356,10 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->tableLayoutPanel12->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				49.72678F)));
 			this->tableLayoutPanel12->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				135)));
-			this->tableLayoutPanel12->Controls->Add(this->radioButton1, 2, 0);
-			this->tableLayoutPanel12->Controls->Add(this->radioButton2, 2, 1);
-			this->tableLayoutPanel12->Controls->Add(this->radioButton3, 2, 2);
+				145)));
+			this->tableLayoutPanel12->Controls->Add(this->OnVCurveLeftRadioButton, 2, 0);
+			this->tableLayoutPanel12->Controls->Add(this->OnVCurveRightRadioButton, 2, 1);
+			this->tableLayoutPanel12->Controls->Add(this->UnknownRadioButton, 2, 2);
 			this->tableLayoutPanel12->Controls->Add(this->label16, 0, 0);
 			this->tableLayoutPanel12->Controls->Add(this->FramesPerPointNumericUpDown, 1, 0);
 			this->tableLayoutPanel12->Dock = System::Windows::Forms::DockStyle::Fill;
@@ -1365,44 +1373,44 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->tableLayoutPanel12->Size = System::Drawing::Size(311, 78);
 			this->tableLayoutPanel12->TabIndex = 0;
 			// 
-			// radioButton1
+			// OnVCurveLeftRadioButton
 			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Location = System::Drawing::Point(178, 3);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(98, 17);
-			this->radioButton1->TabIndex = 0;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"On VCurve Left";
-			this->radioButton1->UseVisualStyleBackColor = true;
+			this->OnVCurveLeftRadioButton->AutoSize = true;
+			this->OnVCurveLeftRadioButton->Location = System::Drawing::Point(168, 3);
+			this->OnVCurveLeftRadioButton->Name = L"OnVCurveLeftRadioButton";
+			this->OnVCurveLeftRadioButton->Size = System::Drawing::Size(98, 17);
+			this->OnVCurveLeftRadioButton->TabIndex = 0;
+			this->OnVCurveLeftRadioButton->TabStop = true;
+			this->OnVCurveLeftRadioButton->Text = L"On VCurve Left";
+			this->OnVCurveLeftRadioButton->UseVisualStyleBackColor = true;
 			// 
-			// radioButton2
+			// OnVCurveRightRadioButton
 			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(178, 28);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(105, 17);
-			this->radioButton2->TabIndex = 1;
-			this->radioButton2->TabStop = true;
-			this->radioButton2->Text = L"On VCurve Right";
-			this->radioButton2->UseVisualStyleBackColor = true;
+			this->OnVCurveRightRadioButton->AutoSize = true;
+			this->OnVCurveRightRadioButton->Location = System::Drawing::Point(168, 28);
+			this->OnVCurveRightRadioButton->Name = L"OnVCurveRightRadioButton";
+			this->OnVCurveRightRadioButton->Size = System::Drawing::Size(105, 17);
+			this->OnVCurveRightRadioButton->TabIndex = 1;
+			this->OnVCurveRightRadioButton->TabStop = true;
+			this->OnVCurveRightRadioButton->Text = L"On VCurve Right";
+			this->OnVCurveRightRadioButton->UseVisualStyleBackColor = true;
 			// 
-			// radioButton3
+			// UnknownRadioButton
 			// 
-			this->radioButton3->AutoSize = true;
-			this->radioButton3->Location = System::Drawing::Point(178, 53);
-			this->radioButton3->Name = L"radioButton3";
-			this->radioButton3->Size = System::Drawing::Size(71, 17);
-			this->radioButton3->TabIndex = 2;
-			this->radioButton3->TabStop = true;
-			this->radioButton3->Text = L"Unknown";
-			this->radioButton3->UseVisualStyleBackColor = true;
+			this->UnknownRadioButton->AutoSize = true;
+			this->UnknownRadioButton->Location = System::Drawing::Point(168, 53);
+			this->UnknownRadioButton->Name = L"UnknownRadioButton";
+			this->UnknownRadioButton->Size = System::Drawing::Size(71, 17);
+			this->UnknownRadioButton->TabIndex = 2;
+			this->UnknownRadioButton->TabStop = true;
+			this->UnknownRadioButton->Text = L"Unknown";
+			this->UnknownRadioButton->UseVisualStyleBackColor = true;
 			// 
 			// label16
 			// 
 			this->label16->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->label16->AutoSize = true;
-			this->label16->Location = System::Drawing::Point(12, 6);
+			this->label16->Location = System::Drawing::Point(7, 6);
 			this->label16->Name = L"label16";
 			this->label16->Size = System::Drawing::Size(73, 13);
 			this->label16->TabIndex = 3;
@@ -1410,7 +1418,7 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			// 
 			// FramesPerPointNumericUpDown
 			// 
-			this->FramesPerPointNumericUpDown->Location = System::Drawing::Point(91, 3);
+			this->FramesPerPointNumericUpDown->Location = System::Drawing::Point(86, 3);
 			this->FramesPerPointNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			this->FramesPerPointNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->FramesPerPointNumericUpDown->Name = L"FramesPerPointNumericUpDown";
@@ -1630,126 +1638,126 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			// 
 			this->VCurveScope->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayViewBackground6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground21->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeDataView2->Background = displayViewBackground6;
-			vclPen6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeDataView5->Background = displayViewBackground21;
+			vclPen21->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen6->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen6.InternalData")));
-			displayGridLineSettings6->Pen = vclPen6;
-			scopeDataView2->Border = displayGridLineSettings6;
-			this->VCurveScope->DataView = scopeDataView2;
+			vclPen21->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen21.InternalData")));
+			displayGridLineSettings21->Pen = vclPen21;
+			scopeDataView5->Border = displayGridLineSettings21;
+			this->VCurveScope->DataView = scopeDataView5;
 			this->VCurveScope->Dock = System::Windows::Forms::DockStyle::Fill;
-			channelItemHighlighting3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			channelItemHighlighting9->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->ChannelLinks = channelItemHighlighting3;
-			channelItemHighlighting4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting5->ChannelLinks = channelItemHighlighting9;
+			channelItemHighlighting10->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->Channels = channelItemHighlighting4;
-			displayItemHighlighting7->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting5->Channels = channelItemHighlighting10;
+			displayItemHighlighting25->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->CursorLinks = displayItemHighlighting7;
-			displayItemHighlighting8->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting5->CursorLinks = displayItemHighlighting25;
+			displayItemHighlighting26->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->Cursors = displayItemHighlighting8;
-			displayItemHighlighting9->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting5->Cursors = displayItemHighlighting26;
+			displayItemHighlighting27->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->Ellipses = displayItemHighlighting9;
-			displayItemHighlighting10->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting5->Ellipses = displayItemHighlighting27;
+			displayItemHighlighting28->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->Labels = displayItemHighlighting10;
-			displayItemHighlighting11->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting5->Labels = displayItemHighlighting28;
+			displayItemHighlighting29->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->Markers = displayItemHighlighting11;
-			channelMouseHitPoint2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			dataChartHighlighting5->Markers = displayItemHighlighting29;
+			channelMouseHitPoint5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			optionalLabel2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			optionalLabel5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			channelMouseHitPoint2->PointLabel = optionalLabel2;
-			dataChartHighlighting2->MouseHitPoint = channelMouseHitPoint2;
-			displayItemHighlighting12->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			channelMouseHitPoint5->PointLabel = optionalLabel5;
+			dataChartHighlighting5->MouseHitPoint = channelMouseHitPoint5;
+			displayItemHighlighting30->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting2->Zones = displayItemHighlighting12;
-			this->VCurveScope->Highlighting = dataChartHighlighting2;
-			this->VCurveScope->InputPins = pinList3;
+			dataChartHighlighting5->Zones = displayItemHighlighting30;
+			this->VCurveScope->Highlighting = dataChartHighlighting5;
+			this->VCurveScope->InputPins = pinList9;
 			this->VCurveScope->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"VCurveScope.InternalData")));
-			displayViewBackground7->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground22->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeLegendView2->Background = displayViewBackground7;
-			legendViewButtonSettings2->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			scopeLegendView5->Background = displayViewBackground22;
+			legendViewButtonSettings5->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings2->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings5->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings2->Cursor = System::Windows::Forms::Cursors::Default;
-			legendViewButtonSettings2->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings5->Cursor = System::Windows::Forms::Cursors::Default;
+			legendViewButtonSettings5->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings2->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendViewButtonSettings5->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings2->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendViewButtonSettings5->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings2->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			legendViewButtonSettings5->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings2->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings5->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings2->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings5->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeLegendView2->Buttons = legendViewButtonSettings2;
-			displayLabel9->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeLegendView5->Buttons = legendViewButtonSettings5;
+			displayLabel33->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup9->Caption = displayLabel9;
-			legendGroup9->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->ChannelLinks = legendGroup9;
-			displayLabel10->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup33->Caption = displayLabel33;
+			legendGroup33->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->ChannelLinks = legendGroup33;
+			displayLabel34->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup10->Caption = displayLabel10;
-			legendGroup10->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->Channels = legendGroup10;
-			displayLabel11->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup34->Caption = displayLabel34;
+			legendGroup34->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->Channels = legendGroup34;
+			displayLabel35->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup11->Caption = displayLabel11;
-			legendGroup11->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->CursorLinks = legendGroup11;
-			displayLabel12->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup35->Caption = displayLabel35;
+			legendGroup35->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->CursorLinks = legendGroup35;
+			displayLabel36->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup12->Caption = displayLabel12;
-			legendGroup12->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->Cursors = legendGroup12;
-			displayLabel13->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup36->Caption = displayLabel36;
+			legendGroup36->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->Cursors = legendGroup36;
+			displayLabel37->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup13->Caption = displayLabel13;
-			legendGroup13->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->Ellipses = legendGroup13;
-			scopeLegendView2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup37->Caption = displayLabel37;
+			legendGroup37->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->Ellipses = legendGroup37;
+			scopeLegendView5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			scopeLegendView2->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeLegendView2.InternalData")));
-			displayLabel14->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeLegendView5->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeLegendView5.InternalData")));
+			displayLabel38->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup14->Caption = displayLabel14;
-			legendGroup14->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->Labels = legendGroup14;
-			displayLabel15->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup38->Caption = displayLabel38;
+			legendGroup38->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->Labels = legendGroup38;
+			displayLabel39->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup15->Caption = displayLabel15;
-			legendGroup15->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->MarkerGroups = legendGroup15;
-			displayViewSize5->Size = static_cast<System::UInt32>(100);
-			scopeLegendView2->ViewSize = displayViewSize5;
-			displayLabel16->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup39->Caption = displayLabel39;
+			legendGroup39->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->MarkerGroups = legendGroup39;
+			displayViewSize17->Size = static_cast<System::UInt32>(100);
+			scopeLegendView5->ViewSize = displayViewSize17;
+			displayLabel40->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup16->Caption = displayLabel16;
-			legendGroup16->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView2->Zones = legendGroup16;
-			this->VCurveScope->Legend = scopeLegendView2;
+			legendGroup40->Caption = displayLabel40;
+			legendGroup40->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView5->Zones = legendGroup40;
+			this->VCurveScope->Legend = scopeLegendView5;
 			this->VCurveScope->Location = System::Drawing::Point(306, 3);
 			this->VCurveScope->Name = L"VCurveScope";
 			this->VCurveScope->RefreshInterval = static_cast<System::UInt32>(100);
@@ -1757,306 +1765,306 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->VCurveScope->SizeLimit = static_cast<System::UInt32>(0);
 			this->VCurveScope->TabIndex = 0;
 			this->VCurveScope->Text = L"V Curve";
-			displayViewBackground8->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground23->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayTitle2->Background = displayViewBackground8;
-			displayTitle2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayTitle5->Background = displayViewBackground23;
+			displayTitle5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 13, 1));
-			displayTitle2->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"displayTitle2.InternalData")));
-			displayTitle2->Text = L"V Curve";
-			displayViewSize6->Size = static_cast<System::UInt32>(100);
-			displayTitle2->ViewSize = displayViewSize6;
-			this->VCurveScope->Title = displayTitle2;
-			displayToolBar2->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayTitle5->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"displayTitle5.InternalData")));
+			displayTitle5->Text = L"V Curve";
+			displayViewSize18->Size = static_cast<System::UInt32>(100);
+			displayTitle5->ViewSize = displayViewSize18;
+			this->VCurveScope->Title = displayTitle5;
+			displayToolBar5->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar2->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar5->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBarButton23->Image = displayToolBarButtonImage23;
-			displayToolBarButtons2->Copy = displayToolBarButton23;
-			displayToolBarButton24->Image = displayToolBarButtonImage24;
-			displayToolBarButtons2->Hold = displayToolBarButton24;
-			displayToolBarButton25->Image = displayToolBarButtonImage25;
-			displayToolBarButtons2->PanMode = displayToolBarButton25;
-			displayToolBarButton26->Image = displayToolBarButtonImage26;
-			displayToolBarButtons2->Print = displayToolBarButton26;
-			displayToolBarButton27->Image = displayToolBarButtonImage27;
-			displayToolBarButtons2->Run = displayToolBarButton27;
-			displayToolBarButton28->Image = displayToolBarButtonImage28;
-			displayToolBarButtons2->Save = displayToolBarButton28;
-			displayToolBarButton29->Image = displayToolBarButtonImage29;
-			displayToolBarButtons2->Setup = displayToolBarButton29;
-			displayToolBarButtons2->Size = toolBarButtonSize4;
-			displayToolBarButton30->Image = displayToolBarButtonImage30;
-			displayToolBarButtons2->XYZoomOn = displayToolBarButton30;
-			displayToolBarButton31->Image = displayToolBarButtonImage31;
-			displayToolBarButtons2->ZoomIn = displayToolBarButton31;
-			displayToolBarButton32->Image = displayToolBarButtonImage32;
-			displayToolBarButtons2->ZoomMode = displayToolBarButton32;
-			displayToolBarButton33->Image = displayToolBarButtonImage33;
-			displayToolBarButtons2->ZoomNext = displayToolBarButton33;
-			displayToolBarButton34->Image = displayToolBarButtonImage34;
-			displayToolBarButtons2->ZoomOff = displayToolBarButton34;
-			displayToolBarButton35->Image = displayToolBarButtonImage35;
-			displayToolBarButtons2->ZoomOut = displayToolBarButton35;
-			displayToolBarButton36->Image = displayToolBarButtonImage36;
-			displayToolBarButtons2->ZoomPrevious = displayToolBarButton36;
-			displayToolBar2->Buttons = displayToolBarButtons2;
-			displayToolBar2->Cursor = System::Windows::Forms::Cursors::Default;
-			displayToolBar2->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayToolBarButton89->Image = displayToolBarButtonImage89;
+			displayToolBarButtons5->Copy = displayToolBarButton89;
+			displayToolBarButton90->Image = displayToolBarButtonImage90;
+			displayToolBarButtons5->Hold = displayToolBarButton90;
+			displayToolBarButton91->Image = displayToolBarButtonImage91;
+			displayToolBarButtons5->PanMode = displayToolBarButton91;
+			displayToolBarButton92->Image = displayToolBarButtonImage92;
+			displayToolBarButtons5->Print = displayToolBarButton92;
+			displayToolBarButton93->Image = displayToolBarButtonImage93;
+			displayToolBarButtons5->Run = displayToolBarButton93;
+			displayToolBarButton94->Image = displayToolBarButtonImage94;
+			displayToolBarButtons5->Save = displayToolBarButton94;
+			displayToolBarButton95->Image = displayToolBarButtonImage95;
+			displayToolBarButtons5->Setup = displayToolBarButton95;
+			displayToolBarButtons5->Size = toolBarButtonSize13;
+			displayToolBarButton96->Image = displayToolBarButtonImage96;
+			displayToolBarButtons5->XYZoomOn = displayToolBarButton96;
+			displayToolBarButton97->Image = displayToolBarButtonImage97;
+			displayToolBarButtons5->ZoomIn = displayToolBarButton97;
+			displayToolBarButton98->Image = displayToolBarButtonImage98;
+			displayToolBarButtons5->ZoomMode = displayToolBarButton98;
+			displayToolBarButton99->Image = displayToolBarButtonImage99;
+			displayToolBarButtons5->ZoomNext = displayToolBarButton99;
+			displayToolBarButton100->Image = displayToolBarButtonImage100;
+			displayToolBarButtons5->ZoomOff = displayToolBarButton100;
+			displayToolBarButton101->Image = displayToolBarButtonImage101;
+			displayToolBarButtons5->ZoomOut = displayToolBarButton101;
+			displayToolBarButton102->Image = displayToolBarButtonImage102;
+			displayToolBarButtons5->ZoomPrevious = displayToolBarButton102;
+			displayToolBar5->Buttons = displayToolBarButtons5;
+			displayToolBar5->Cursor = System::Windows::Forms::Cursors::Default;
+			displayToolBar5->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar2->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayToolBar5->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar2->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayToolBar5->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar2->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayToolBar5->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar2->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar5->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar2->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar5->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			toolBarPosition2->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"toolBarPosition2.InternalData")));
-			displayToolBar2->Position = toolBarPosition2;
-			this->VCurveScope->ToolBar = displayToolBar2;
-			displayTrails2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			toolBarPosition5->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"toolBarPosition5.InternalData")));
+			displayToolBar5->Position = toolBarPosition5;
+			this->VCurveScope->ToolBar = displayToolBar5;
+			displayTrails5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			displayTrails2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayTrails5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			this->VCurveScope->Trails = displayTrails2;
-			displayTitleLabel3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			this->VCurveScope->Trails = displayTrails5;
+			displayTitleLabel9->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 12, 1));
-			displayTitleLabel3->Text = L"Focus Position";
-			scopeXAxis2->AxisLabel = displayTitleLabel3;
-			displayViewBackground9->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayTitleLabel9->Text = L"Focus Position";
+			scopeXAxis5->AxisLabel = displayTitleLabel9;
+			displayViewBackground24->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis2->Background = displayViewBackground9;
-			viewButtonSettings3->Cursor = System::Windows::Forms::Cursors::Default;
-			viewButtonSettings3->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis5->Background = displayViewBackground24;
+			viewButtonSettings9->Cursor = System::Windows::Forms::Cursors::Default;
+			viewButtonSettings9->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings3->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			viewButtonSettings9->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings3->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings9->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings3->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings9->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis2->Button = viewButtonSettings3;
-			scopeXAxis2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis5->Button = viewButtonSettings9;
+			scopeXAxis5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			scopeXAxis2->CursorSettings = displayAxisCursorSettings3;
-			vclPen7->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeXAxis5->CursorSettings = displayAxisCursorSettings9;
+			vclPen22->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen7->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen7.InternalData")));
-			displayGridLineSettings7->Pen = vclPen7;
-			displayGridDirectionalLinesSettings3->Lines = displayGridLineSettings7;
-			vclPen8->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen22->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen22.InternalData")));
+			displayGridLineSettings22->Pen = vclPen22;
+			displayGridDirectionalLinesSettings9->Lines = displayGridLineSettings22;
+			vclPen23->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			vclPen8->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen8.InternalData")));
-			displayGridLineSettings8->Pen = vclPen8;
-			displayGridDirectionalLinesSettings3->ZeroLine = displayGridLineSettings8;
-			scopeXAxis2->DataView = displayGridDirectionalLinesSettings3;
-			scopeXAxis2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen23->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen23.InternalData")));
+			displayGridLineSettings23->Pen = vclPen23;
+			displayGridDirectionalLinesSettings9->ZeroLine = displayGridLineSettings23;
+			scopeXAxis5->DataView = displayGridDirectionalLinesSettings9;
+			scopeXAxis5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			axisFormat3->Precision = 3;
-			scopeXAxis2->Format = axisFormat3;
-			scopeXAxis2->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeXAxis2.InternalData")));
-			ticksStart3->StartFrom = 0;
-			majorTicks3->StartFrom = ticksStart3;
-			majorTicks3->Step = 10;
-			scopeXAxis2->MajorTicks = majorTicks3;
-			maxAxisValue3->DataValue = 1024;
-			displayOptionalValue13->Enabled = false;
-			displayOptionalValue13->Value = 1000;
-			displayValueRange7->High = displayOptionalValue13;
-			displayOptionalValue14->Enabled = false;
-			displayOptionalValue14->Value = -1000;
-			displayValueRange7->Low = displayOptionalValue14;
-			maxAxisValue3->Range = displayValueRange7;
-			basicAxisValue5->Value = 1024;
-			maxAxisValue3->Tick = basicAxisValue5;
-			maxAxisValue3->Value = 1024;
-			scopeXAxis2->Max = maxAxisValue3;
-			scopeMaxSample2->Value = static_cast<System::UInt32>(1024);
-			scopeXAxis2->MaxSample = scopeMaxSample2;
-			axisValue3->DataValue = 0;
-			displayOptionalValue15->Enabled = false;
-			displayOptionalValue15->Value = 1000;
-			displayValueRange8->High = displayOptionalValue15;
-			displayOptionalValue16->Enabled = false;
-			displayOptionalValue16->Value = -1000;
-			displayValueRange8->Low = displayOptionalValue16;
-			axisValue3->Range = displayValueRange8;
-			basicAxisValue6->Value = 0;
-			axisValue3->Tick = basicAxisValue6;
-			axisValue3->Value = 0;
-			scopeXAxis2->Min = axisValue3;
-			scopeXAxis2->MinorTicks = minorTicks3;
-			axisToolBar3->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisFormat9->Precision = 3;
+			scopeXAxis5->Format = axisFormat9;
+			scopeXAxis5->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeXAxis5.InternalData")));
+			ticksStart9->StartFrom = 0;
+			majorTicks9->StartFrom = ticksStart9;
+			majorTicks9->Step = 10;
+			scopeXAxis5->MajorTicks = majorTicks9;
+			maxAxisValue9->DataValue = 1024;
+			displayOptionalValue49->Enabled = false;
+			displayOptionalValue49->Value = 1000;
+			displayValueRange25->High = displayOptionalValue49;
+			displayOptionalValue50->Enabled = false;
+			displayOptionalValue50->Value = -1000;
+			displayValueRange25->Low = displayOptionalValue50;
+			maxAxisValue9->Range = displayValueRange25;
+			basicAxisValue17->Value = 1024;
+			maxAxisValue9->Tick = basicAxisValue17;
+			maxAxisValue9->Value = 1024;
+			scopeXAxis5->Max = maxAxisValue9;
+			scopeMaxSample5->Value = static_cast<System::UInt32>(1024);
+			scopeXAxis5->MaxSample = scopeMaxSample5;
+			axisValue9->DataValue = 0;
+			displayOptionalValue51->Enabled = false;
+			displayOptionalValue51->Value = 1000;
+			displayValueRange26->High = displayOptionalValue51;
+			displayOptionalValue52->Enabled = false;
+			displayOptionalValue52->Value = -1000;
+			displayValueRange26->Low = displayOptionalValue52;
+			axisValue9->Range = displayValueRange26;
+			basicAxisValue18->Value = 0;
+			axisValue9->Tick = basicAxisValue18;
+			axisValue9->Value = 0;
+			scopeXAxis5->Min = axisValue9;
+			scopeXAxis5->MinorTicks = minorTicks9;
+			axisToolBar9->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar3->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			axisToolBar9->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBarButtons3->Size = toolBarButtonSize5;
-			displayToolBarButton37->Image = displayToolBarButtonImage37;
-			axisToolBarButtons3->ZoomIn = displayToolBarButton37;
-			displayToolBarButton38->Image = displayToolBarButtonImage38;
-			axisToolBarButtons3->ZoomOff = displayToolBarButton38;
-			displayToolBarButton39->Image = displayToolBarButtonImage39;
-			axisToolBarButtons3->ZoomOneDir = displayToolBarButton39;
-			displayToolBarButton40->Image = displayToolBarButtonImage40;
-			axisToolBarButtons3->ZoomOut = displayToolBarButton40;
-			axisToolBar3->Buttons = axisToolBarButtons3;
-			axisToolBar3->Cursor = System::Windows::Forms::Cursors::Default;
-			axisToolBar3->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBarButtons9->Size = toolBarButtonSize14;
+			displayToolBarButton103->Image = displayToolBarButtonImage103;
+			axisToolBarButtons9->ZoomIn = displayToolBarButton103;
+			displayToolBarButton104->Image = displayToolBarButtonImage104;
+			axisToolBarButtons9->ZoomOff = displayToolBarButton104;
+			displayToolBarButton105->Image = displayToolBarButtonImage105;
+			axisToolBarButtons9->ZoomOneDir = displayToolBarButton105;
+			displayToolBarButton106->Image = displayToolBarButtonImage106;
+			axisToolBarButtons9->ZoomOut = displayToolBarButton106;
+			axisToolBar9->Buttons = axisToolBarButtons9;
+			axisToolBar9->Cursor = System::Windows::Forms::Cursors::Default;
+			axisToolBar9->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar3->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar9->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar3->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar9->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar3->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar9->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar3->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar9->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar3->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar9->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis2->ToolBar = axisToolBar3;
-			scopeXAxis2->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			scopeXAxis5->ToolBar = axisToolBar9;
+			scopeXAxis5->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis2->UnitScale = scopeXAxisUnitScale2;
-			displayViewSize7->Size = static_cast<System::UInt32>(100);
-			scopeXAxis2->ViewSize = displayViewSize7;
-			displayOptionalValue17->Enabled = false;
-			displayOptionalValue17->Value = 100000000;
-			displayValueRange9->High = displayOptionalValue17;
-			displayOptionalValue18->Enabled = true;
-			displayOptionalValue18->Value = 1E-07;
-			displayValueRange9->Low = displayOptionalValue18;
-			displayAxisZoom3->Range = displayValueRange9;
-			scopeXAxis2->Zooming = displayAxisZoom3;
-			scopeXAxis2->ZoomPin = statePin3;
-			this->VCurveScope->XAxis = scopeXAxis2;
-			this->VCurveScope->XInputPins = pinList4;
-			scopeAutoScaling2->MaxHistory = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace3->Space = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace3->Threshold = static_cast<System::UInt32>(10);
-			scopeAutoScaling2->SpaceAbove = scopeAutoScalingSpace3;
-			scopeAutoScalingSpace4->Space = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace4->Threshold = static_cast<System::UInt32>(10);
-			scopeAutoScaling2->SpaceBelow = scopeAutoScalingSpace4;
-			scopeYAxis2->AutoScaling = scopeAutoScaling2;
-			displayTitleLabel4->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis5->UnitScale = scopeXAxisUnitScale5;
+			displayViewSize19->Size = static_cast<System::UInt32>(100);
+			scopeXAxis5->ViewSize = displayViewSize19;
+			displayOptionalValue53->Enabled = false;
+			displayOptionalValue53->Value = 100000000;
+			displayValueRange27->High = displayOptionalValue53;
+			displayOptionalValue54->Enabled = true;
+			displayOptionalValue54->Value = 1E-07;
+			displayValueRange27->Low = displayOptionalValue54;
+			displayAxisZoom9->Range = displayValueRange27;
+			scopeXAxis5->Zooming = displayAxisZoom9;
+			scopeXAxis5->ZoomPin = statePin9;
+			this->VCurveScope->XAxis = scopeXAxis5;
+			this->VCurveScope->XInputPins = pinList10;
+			scopeAutoScaling5->MaxHistory = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace9->Space = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace9->Threshold = static_cast<System::UInt32>(10);
+			scopeAutoScaling5->SpaceAbove = scopeAutoScalingSpace9;
+			scopeAutoScalingSpace10->Space = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace10->Threshold = static_cast<System::UInt32>(10);
+			scopeAutoScaling5->SpaceBelow = scopeAutoScalingSpace10;
+			scopeYAxis5->AutoScaling = scopeAutoScaling5;
+			displayTitleLabel10->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 12, 1));
-			displayTitleLabel4->Text = L"Half Flux Diameter (Pixels)";
-			scopeYAxis2->AxisLabel = displayTitleLabel4;
-			displayViewBackground10->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayTitleLabel10->Text = L"Half Flux Diameter (Pixels)";
+			scopeYAxis5->AxisLabel = displayTitleLabel10;
+			displayViewBackground25->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis2->Background = displayViewBackground10;
-			viewButtonSettings4->Cursor = System::Windows::Forms::Cursors::Default;
-			viewButtonSettings4->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeYAxis5->Background = displayViewBackground25;
+			viewButtonSettings10->Cursor = System::Windows::Forms::Cursors::Default;
+			viewButtonSettings10->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings4->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			viewButtonSettings10->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings4->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings10->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings4->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings10->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis2->Button = viewButtonSettings4;
-			scopeYAxis2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeYAxis5->Button = viewButtonSettings10;
+			scopeYAxis5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			scopeYAxis2->CursorSettings = displayAxisCursorSettings4;
-			vclPen9->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeYAxis5->CursorSettings = displayAxisCursorSettings10;
+			vclPen24->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen9->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen9.InternalData")));
-			displayGridLineSettings9->Pen = vclPen9;
-			displayGridDirectionalLinesSettings4->Lines = displayGridLineSettings9;
-			vclPen10->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen24->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen24.InternalData")));
+			displayGridLineSettings24->Pen = vclPen24;
+			displayGridDirectionalLinesSettings10->Lines = displayGridLineSettings24;
+			vclPen25->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			vclPen10->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen10.InternalData")));
-			displayGridLineSettings10->Pen = vclPen10;
-			displayGridDirectionalLinesSettings4->ZeroLine = displayGridLineSettings10;
-			scopeYAxis2->DataView = displayGridDirectionalLinesSettings4;
-			scopeYAxis2->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen25->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen25.InternalData")));
+			displayGridLineSettings25->Pen = vclPen25;
+			displayGridDirectionalLinesSettings10->ZeroLine = displayGridLineSettings25;
+			scopeYAxis5->DataView = displayGridDirectionalLinesSettings10;
+			scopeYAxis5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			axisFormat4->Precision = 3;
-			scopeYAxis2->Format = axisFormat4;
-			scopeYAxis2->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeYAxis2.InternalData")));
-			ticksStart4->StartFrom = 0;
-			majorTicks4->StartFrom = ticksStart4;
-			majorTicks4->Step = 10;
-			scopeYAxis2->MajorTicks = majorTicks4;
-			maxAxisValue4->DataValue = 1000;
-			displayOptionalValue19->Enabled = false;
-			displayOptionalValue19->Value = 1000;
-			displayValueRange10->High = displayOptionalValue19;
-			displayOptionalValue20->Enabled = false;
-			displayOptionalValue20->Value = -1000;
-			displayValueRange10->Low = displayOptionalValue20;
-			maxAxisValue4->Range = displayValueRange10;
-			basicAxisValue7->Value = 0;
-			maxAxisValue4->Tick = basicAxisValue7;
-			maxAxisValue4->Value = 1000;
-			scopeYAxis2->Max = maxAxisValue4;
-			axisValue4->DataValue = -1000;
-			displayOptionalValue21->Enabled = false;
-			displayOptionalValue21->Value = 1000;
-			displayValueRange11->High = displayOptionalValue21;
-			displayOptionalValue22->Enabled = false;
-			displayOptionalValue22->Value = -1000;
-			displayValueRange11->Low = displayOptionalValue22;
-			axisValue4->Range = displayValueRange11;
-			basicAxisValue8->Value = 0;
-			axisValue4->Tick = basicAxisValue8;
-			axisValue4->Value = -1000;
-			scopeYAxis2->Min = axisValue4;
-			scopeYAxis2->MinorTicks = minorTicks4;
-			axisToolBar4->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisFormat10->Precision = 3;
+			scopeYAxis5->Format = axisFormat10;
+			scopeYAxis5->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeYAxis5.InternalData")));
+			ticksStart10->StartFrom = 0;
+			majorTicks10->StartFrom = ticksStart10;
+			majorTicks10->Step = 10;
+			scopeYAxis5->MajorTicks = majorTicks10;
+			maxAxisValue10->DataValue = 1000;
+			displayOptionalValue55->Enabled = false;
+			displayOptionalValue55->Value = 1000;
+			displayValueRange28->High = displayOptionalValue55;
+			displayOptionalValue56->Enabled = false;
+			displayOptionalValue56->Value = -1000;
+			displayValueRange28->Low = displayOptionalValue56;
+			maxAxisValue10->Range = displayValueRange28;
+			basicAxisValue19->Value = 0;
+			maxAxisValue10->Tick = basicAxisValue19;
+			maxAxisValue10->Value = 1000;
+			scopeYAxis5->Max = maxAxisValue10;
+			axisValue10->DataValue = -1000;
+			displayOptionalValue57->Enabled = false;
+			displayOptionalValue57->Value = 1000;
+			displayValueRange29->High = displayOptionalValue57;
+			displayOptionalValue58->Enabled = false;
+			displayOptionalValue58->Value = -1000;
+			displayValueRange29->Low = displayOptionalValue58;
+			axisValue10->Range = displayValueRange29;
+			basicAxisValue20->Value = 0;
+			axisValue10->Tick = basicAxisValue20;
+			axisValue10->Value = -1000;
+			scopeYAxis5->Min = axisValue10;
+			scopeYAxis5->MinorTicks = minorTicks10;
+			axisToolBar10->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar4->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			axisToolBar10->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBarButtons4->Size = toolBarButtonSize6;
-			displayToolBarButton41->Image = displayToolBarButtonImage41;
-			axisToolBarButtons4->ZoomIn = displayToolBarButton41;
-			displayToolBarButton42->Image = displayToolBarButtonImage42;
-			axisToolBarButtons4->ZoomOff = displayToolBarButton42;
-			displayToolBarButton43->Image = displayToolBarButtonImage43;
-			axisToolBarButtons4->ZoomOneDir = displayToolBarButton43;
-			displayToolBarButton44->Image = displayToolBarButtonImage44;
-			axisToolBarButtons4->ZoomOut = displayToolBarButton44;
-			axisToolBar4->Buttons = axisToolBarButtons4;
-			axisToolBar4->Cursor = System::Windows::Forms::Cursors::Default;
-			axisToolBar4->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBarButtons10->Size = toolBarButtonSize15;
+			displayToolBarButton107->Image = displayToolBarButtonImage107;
+			axisToolBarButtons10->ZoomIn = displayToolBarButton107;
+			displayToolBarButton108->Image = displayToolBarButtonImage108;
+			axisToolBarButtons10->ZoomOff = displayToolBarButton108;
+			displayToolBarButton109->Image = displayToolBarButtonImage109;
+			axisToolBarButtons10->ZoomOneDir = displayToolBarButton109;
+			displayToolBarButton110->Image = displayToolBarButtonImage110;
+			axisToolBarButtons10->ZoomOut = displayToolBarButton110;
+			axisToolBar10->Buttons = axisToolBarButtons10;
+			axisToolBar10->Cursor = System::Windows::Forms::Cursors::Default;
+			axisToolBar10->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar4->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar10->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar4->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar10->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar4->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar10->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar4->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar10->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			axisToolBar10->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			scopeYAxis5->ToolBar = axisToolBar10;
+			scopeYAxis5->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar4->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis2->ToolBar = axisToolBar4;
-			scopeYAxis2->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayViewSize8->Size = static_cast<System::UInt32>(100);
-			scopeYAxis2->ViewSize = displayViewSize8;
-			displayOptionalValue23->Enabled = false;
-			displayOptionalValue23->Value = 100000000;
-			displayValueRange12->High = displayOptionalValue23;
-			displayOptionalValue24->Enabled = true;
-			displayOptionalValue24->Value = 1E-07;
-			displayValueRange12->Low = displayOptionalValue24;
-			displayAxisZoom4->Range = displayValueRange12;
-			scopeYAxis2->Zooming = displayAxisZoom4;
-			scopeYAxis2->ZoomPin = statePin4;
-			this->VCurveScope->YAxis = scopeYAxis2;
-			displayZoom2->SelectionColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayViewSize20->Size = static_cast<System::UInt32>(100);
+			scopeYAxis5->ViewSize = displayViewSize20;
+			displayOptionalValue59->Enabled = false;
+			displayOptionalValue59->Value = 100000000;
+			displayValueRange30->High = displayOptionalValue59;
+			displayOptionalValue60->Enabled = true;
+			displayOptionalValue60->Value = 1E-07;
+			displayValueRange30->Low = displayOptionalValue60;
+			displayAxisZoom10->Range = displayValueRange30;
+			scopeYAxis5->Zooming = displayAxisZoom10;
+			scopeYAxis5->ZoomPin = statePin10;
+			this->VCurveScope->YAxis = scopeYAxis5;
+			displayZoom5->SelectionColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->VCurveScope->Zooming = displayZoom2;
+			this->VCurveScope->Zooming = displayZoom5;
 			// 
 			// groupBox2
 			// 
@@ -2353,125 +2361,125 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			// 
 			this->CalStarProfileScope->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayViewBackground11->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground26->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeDataView3->Background = displayViewBackground11;
-			vclPen11->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeDataView6->Background = displayViewBackground26;
+			vclPen26->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen11->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen11.InternalData")));
-			displayGridLineSettings11->Pen = vclPen11;
-			scopeDataView3->Border = displayGridLineSettings11;
-			this->CalStarProfileScope->DataView = scopeDataView3;
-			channelItemHighlighting5->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen26->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen26.InternalData")));
+			displayGridLineSettings26->Pen = vclPen26;
+			scopeDataView6->Border = displayGridLineSettings26;
+			this->CalStarProfileScope->DataView = scopeDataView6;
+			channelItemHighlighting11->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->ChannelLinks = channelItemHighlighting5;
-			channelItemHighlighting6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting6->ChannelLinks = channelItemHighlighting11;
+			channelItemHighlighting12->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->Channels = channelItemHighlighting6;
-			displayItemHighlighting13->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting6->Channels = channelItemHighlighting12;
+			displayItemHighlighting31->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->CursorLinks = displayItemHighlighting13;
-			displayItemHighlighting14->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting6->CursorLinks = displayItemHighlighting31;
+			displayItemHighlighting32->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->Cursors = displayItemHighlighting14;
-			displayItemHighlighting15->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting6->Cursors = displayItemHighlighting32;
+			displayItemHighlighting33->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->Ellipses = displayItemHighlighting15;
-			displayItemHighlighting16->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting6->Ellipses = displayItemHighlighting33;
+			displayItemHighlighting34->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->Labels = displayItemHighlighting16;
-			displayItemHighlighting17->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			dataChartHighlighting6->Labels = displayItemHighlighting34;
+			displayItemHighlighting35->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->Markers = displayItemHighlighting17;
-			channelMouseHitPoint3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			dataChartHighlighting6->Markers = displayItemHighlighting35;
+			channelMouseHitPoint6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			optionalLabel3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			optionalLabel6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			channelMouseHitPoint3->PointLabel = optionalLabel3;
-			dataChartHighlighting3->MouseHitPoint = channelMouseHitPoint3;
-			displayItemHighlighting18->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			channelMouseHitPoint6->PointLabel = optionalLabel6;
+			dataChartHighlighting6->MouseHitPoint = channelMouseHitPoint6;
+			displayItemHighlighting36->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			dataChartHighlighting3->Zones = displayItemHighlighting18;
-			this->CalStarProfileScope->Highlighting = dataChartHighlighting3;
-			this->CalStarProfileScope->InputPins = pinList5;
+			dataChartHighlighting6->Zones = displayItemHighlighting36;
+			this->CalStarProfileScope->Highlighting = dataChartHighlighting6;
+			this->CalStarProfileScope->InputPins = pinList11;
 			this->CalStarProfileScope->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"CalStarProfileScope.InternalData")));
-			displayViewBackground12->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground27->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeLegendView3->Background = displayViewBackground12;
-			legendViewButtonSettings3->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			scopeLegendView6->Background = displayViewBackground27;
+			legendViewButtonSettings6->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings3->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings6->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings3->Cursor = System::Windows::Forms::Cursors::Default;
-			legendViewButtonSettings3->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings6->Cursor = System::Windows::Forms::Cursors::Default;
+			legendViewButtonSettings6->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings3->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendViewButtonSettings6->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings3->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendViewButtonSettings6->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings3->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			legendViewButtonSettings6->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings3->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings6->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			legendViewButtonSettings3->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			legendViewButtonSettings6->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeLegendView3->Buttons = legendViewButtonSettings3;
-			displayLabel17->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeLegendView6->Buttons = legendViewButtonSettings6;
+			displayLabel41->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup17->Caption = displayLabel17;
-			legendGroup17->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->ChannelLinks = legendGroup17;
-			displayLabel18->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup41->Caption = displayLabel41;
+			legendGroup41->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->ChannelLinks = legendGroup41;
+			displayLabel42->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup18->Caption = displayLabel18;
-			legendGroup18->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->Channels = legendGroup18;
-			displayLabel19->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup42->Caption = displayLabel42;
+			legendGroup42->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->Channels = legendGroup42;
+			displayLabel43->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup19->Caption = displayLabel19;
-			legendGroup19->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->CursorLinks = legendGroup19;
-			displayLabel20->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup43->Caption = displayLabel43;
+			legendGroup43->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->CursorLinks = legendGroup43;
+			displayLabel44->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup20->Caption = displayLabel20;
-			legendGroup20->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->Cursors = legendGroup20;
-			displayLabel21->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup44->Caption = displayLabel44;
+			legendGroup44->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->Cursors = legendGroup44;
+			displayLabel45->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup21->Caption = displayLabel21;
-			legendGroup21->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->Ellipses = legendGroup21;
-			scopeLegendView3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup45->Caption = displayLabel45;
+			legendGroup45->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->Ellipses = legendGroup45;
+			scopeLegendView6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			scopeLegendView3->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeLegendView3.InternalData")));
-			displayLabel22->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeLegendView6->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeLegendView6.InternalData")));
+			displayLabel46->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup22->Caption = displayLabel22;
-			legendGroup22->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->Labels = legendGroup22;
-			displayLabel23->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup46->Caption = displayLabel46;
+			legendGroup46->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->Labels = legendGroup46;
+			displayLabel47->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup23->Caption = displayLabel23;
-			legendGroup23->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->MarkerGroups = legendGroup23;
-			displayViewSize9->Size = static_cast<System::UInt32>(100);
-			scopeLegendView3->ViewSize = displayViewSize9;
-			displayLabel24->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			legendGroup47->Caption = displayLabel47;
+			legendGroup47->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->MarkerGroups = legendGroup47;
+			displayViewSize21->Size = static_cast<System::UInt32>(100);
+			scopeLegendView6->ViewSize = displayViewSize21;
+			displayLabel48->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 13, 1));
-			legendGroup24->Caption = displayLabel24;
-			legendGroup24->Cursor = System::Windows::Forms::Cursors::Default;
-			scopeLegendView3->Zones = legendGroup24;
-			this->CalStarProfileScope->Legend = scopeLegendView3;
+			legendGroup48->Caption = displayLabel48;
+			legendGroup48->Cursor = System::Windows::Forms::Cursors::Default;
+			scopeLegendView6->Zones = legendGroup48;
+			this->CalStarProfileScope->Legend = scopeLegendView6;
 			this->CalStarProfileScope->Location = System::Drawing::Point(3, 165);
 			this->CalStarProfileScope->Name = L"CalStarProfileScope";
 			this->CalStarProfileScope->RefreshInterval = static_cast<System::UInt32>(100);
@@ -2479,306 +2487,306 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->CalStarProfileScope->SizeLimit = static_cast<System::UInt32>(0);
 			this->CalStarProfileScope->TabIndex = 1;
 			this->CalStarProfileScope->Text = L"scope1";
-			displayViewBackground13->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayViewBackground28->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayTitle3->Background = displayViewBackground13;
-			displayTitle3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayTitle6->Background = displayViewBackground28;
+			displayTitle6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 13, 1));
-			displayTitle3->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"displayTitle3.InternalData")));
-			displayTitle3->Text = L"Star Profile";
-			displayViewSize10->Size = static_cast<System::UInt32>(100);
-			displayTitle3->ViewSize = displayViewSize10;
-			this->CalStarProfileScope->Title = displayTitle3;
-			displayToolBar3->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayTitle6->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"displayTitle6.InternalData")));
+			displayTitle6->Text = L"Star Profile";
+			displayViewSize22->Size = static_cast<System::UInt32>(100);
+			displayTitle6->ViewSize = displayViewSize22;
+			this->CalStarProfileScope->Title = displayTitle6;
+			displayToolBar6->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar3->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar6->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBarButton45->Image = displayToolBarButtonImage45;
-			displayToolBarButtons3->Copy = displayToolBarButton45;
-			displayToolBarButton46->Image = displayToolBarButtonImage46;
-			displayToolBarButtons3->Hold = displayToolBarButton46;
-			displayToolBarButton47->Image = displayToolBarButtonImage47;
-			displayToolBarButtons3->PanMode = displayToolBarButton47;
-			displayToolBarButton48->Image = displayToolBarButtonImage48;
-			displayToolBarButtons3->Print = displayToolBarButton48;
-			displayToolBarButton49->Image = displayToolBarButtonImage49;
-			displayToolBarButtons3->Run = displayToolBarButton49;
-			displayToolBarButton50->Image = displayToolBarButtonImage50;
-			displayToolBarButtons3->Save = displayToolBarButton50;
-			displayToolBarButton51->Image = displayToolBarButtonImage51;
-			displayToolBarButtons3->Setup = displayToolBarButton51;
-			displayToolBarButtons3->Size = toolBarButtonSize7;
-			displayToolBarButton52->Image = displayToolBarButtonImage52;
-			displayToolBarButtons3->XYZoomOn = displayToolBarButton52;
-			displayToolBarButton53->Image = displayToolBarButtonImage53;
-			displayToolBarButtons3->ZoomIn = displayToolBarButton53;
-			displayToolBarButton54->Image = displayToolBarButtonImage54;
-			displayToolBarButtons3->ZoomMode = displayToolBarButton54;
-			displayToolBarButton55->Image = displayToolBarButtonImage55;
-			displayToolBarButtons3->ZoomNext = displayToolBarButton55;
-			displayToolBarButton56->Image = displayToolBarButtonImage56;
-			displayToolBarButtons3->ZoomOff = displayToolBarButton56;
-			displayToolBarButton57->Image = displayToolBarButtonImage57;
-			displayToolBarButtons3->ZoomOut = displayToolBarButton57;
-			displayToolBarButton58->Image = displayToolBarButtonImage58;
-			displayToolBarButtons3->ZoomPrevious = displayToolBarButton58;
-			displayToolBar3->Buttons = displayToolBarButtons3;
-			displayToolBar3->Cursor = System::Windows::Forms::Cursors::Default;
-			displayToolBar3->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayToolBarButton111->Image = displayToolBarButtonImage111;
+			displayToolBarButtons6->Copy = displayToolBarButton111;
+			displayToolBarButton112->Image = displayToolBarButtonImage112;
+			displayToolBarButtons6->Hold = displayToolBarButton112;
+			displayToolBarButton113->Image = displayToolBarButtonImage113;
+			displayToolBarButtons6->PanMode = displayToolBarButton113;
+			displayToolBarButton114->Image = displayToolBarButtonImage114;
+			displayToolBarButtons6->Print = displayToolBarButton114;
+			displayToolBarButton115->Image = displayToolBarButtonImage115;
+			displayToolBarButtons6->Run = displayToolBarButton115;
+			displayToolBarButton116->Image = displayToolBarButtonImage116;
+			displayToolBarButtons6->Save = displayToolBarButton116;
+			displayToolBarButton117->Image = displayToolBarButtonImage117;
+			displayToolBarButtons6->Setup = displayToolBarButton117;
+			displayToolBarButtons6->Size = toolBarButtonSize16;
+			displayToolBarButton118->Image = displayToolBarButtonImage118;
+			displayToolBarButtons6->XYZoomOn = displayToolBarButton118;
+			displayToolBarButton119->Image = displayToolBarButtonImage119;
+			displayToolBarButtons6->ZoomIn = displayToolBarButton119;
+			displayToolBarButton120->Image = displayToolBarButtonImage120;
+			displayToolBarButtons6->ZoomMode = displayToolBarButton120;
+			displayToolBarButton121->Image = displayToolBarButtonImage121;
+			displayToolBarButtons6->ZoomNext = displayToolBarButton121;
+			displayToolBarButton122->Image = displayToolBarButtonImage122;
+			displayToolBarButtons6->ZoomOff = displayToolBarButton122;
+			displayToolBarButton123->Image = displayToolBarButtonImage123;
+			displayToolBarButtons6->ZoomOut = displayToolBarButton123;
+			displayToolBarButton124->Image = displayToolBarButtonImage124;
+			displayToolBarButtons6->ZoomPrevious = displayToolBarButton124;
+			displayToolBar6->Buttons = displayToolBarButtons6;
+			displayToolBar6->Cursor = System::Windows::Forms::Cursors::Default;
+			displayToolBar6->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar3->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayToolBar6->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar3->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayToolBar6->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar3->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			displayToolBar6->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar3->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar6->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayToolBar3->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayToolBar6->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			toolBarPosition3->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"toolBarPosition3.InternalData")));
-			displayToolBar3->Position = toolBarPosition3;
-			this->CalStarProfileScope->ToolBar = displayToolBar3;
-			displayTrails3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			toolBarPosition6->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"toolBarPosition6.InternalData")));
+			displayToolBar6->Position = toolBarPosition6;
+			this->CalStarProfileScope->ToolBar = displayToolBar6;
+			displayTrails6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			displayTrails3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayTrails6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			this->CalStarProfileScope->Trails = displayTrails3;
-			displayTitleLabel5->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			this->CalStarProfileScope->Trails = displayTrails6;
+			displayTitleLabel11->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 12, 1));
-			displayTitleLabel5->Text = L"Crossection (pixels)";
-			scopeXAxis3->AxisLabel = displayTitleLabel5;
-			displayViewBackground14->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayTitleLabel11->Text = L"Crossection (pixels)";
+			scopeXAxis6->AxisLabel = displayTitleLabel11;
+			displayViewBackground29->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis3->Background = displayViewBackground14;
-			viewButtonSettings5->Cursor = System::Windows::Forms::Cursors::Default;
-			viewButtonSettings5->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis6->Background = displayViewBackground29;
+			viewButtonSettings11->Cursor = System::Windows::Forms::Cursors::Default;
+			viewButtonSettings11->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings5->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			viewButtonSettings11->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings5->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings11->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings5->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings11->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis3->Button = viewButtonSettings5;
-			scopeXAxis3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis6->Button = viewButtonSettings11;
+			scopeXAxis6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			scopeXAxis3->CursorSettings = displayAxisCursorSettings5;
-			vclPen12->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeXAxis6->CursorSettings = displayAxisCursorSettings11;
+			vclPen27->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen12->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen12.InternalData")));
-			displayGridLineSettings12->Pen = vclPen12;
-			displayGridDirectionalLinesSettings5->Lines = displayGridLineSettings12;
-			vclPen13->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen27->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen27.InternalData")));
+			displayGridLineSettings27->Pen = vclPen27;
+			displayGridDirectionalLinesSettings11->Lines = displayGridLineSettings27;
+			vclPen28->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			vclPen13->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen13.InternalData")));
-			displayGridLineSettings13->Pen = vclPen13;
-			displayGridDirectionalLinesSettings5->ZeroLine = displayGridLineSettings13;
-			scopeXAxis3->DataView = displayGridDirectionalLinesSettings5;
-			scopeXAxis3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen28->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen28.InternalData")));
+			displayGridLineSettings28->Pen = vclPen28;
+			displayGridDirectionalLinesSettings11->ZeroLine = displayGridLineSettings28;
+			scopeXAxis6->DataView = displayGridDirectionalLinesSettings11;
+			scopeXAxis6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			axisFormat5->Precision = 3;
-			scopeXAxis3->Format = axisFormat5;
-			scopeXAxis3->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeXAxis3.InternalData")));
-			ticksStart5->StartFrom = 0;
-			majorTicks5->StartFrom = ticksStart5;
-			majorTicks5->Step = 10;
-			scopeXAxis3->MajorTicks = majorTicks5;
-			maxAxisValue5->DataValue = 1024;
-			displayOptionalValue25->Enabled = false;
-			displayOptionalValue25->Value = 1000;
-			displayValueRange13->High = displayOptionalValue25;
-			displayOptionalValue26->Enabled = false;
-			displayOptionalValue26->Value = -1000;
-			displayValueRange13->Low = displayOptionalValue26;
-			maxAxisValue5->Range = displayValueRange13;
-			basicAxisValue9->Value = 1024;
-			maxAxisValue5->Tick = basicAxisValue9;
-			maxAxisValue5->Value = 1024;
-			scopeXAxis3->Max = maxAxisValue5;
-			scopeMaxSample3->Value = static_cast<System::UInt32>(1024);
-			scopeXAxis3->MaxSample = scopeMaxSample3;
-			axisValue5->DataValue = 0;
-			displayOptionalValue27->Enabled = false;
-			displayOptionalValue27->Value = 1000;
-			displayValueRange14->High = displayOptionalValue27;
-			displayOptionalValue28->Enabled = false;
-			displayOptionalValue28->Value = -1000;
-			displayValueRange14->Low = displayOptionalValue28;
-			axisValue5->Range = displayValueRange14;
-			basicAxisValue10->Value = 0;
-			axisValue5->Tick = basicAxisValue10;
-			axisValue5->Value = 0;
-			scopeXAxis3->Min = axisValue5;
-			scopeXAxis3->MinorTicks = minorTicks5;
-			axisToolBar5->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisFormat11->Precision = 3;
+			scopeXAxis6->Format = axisFormat11;
+			scopeXAxis6->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeXAxis6.InternalData")));
+			ticksStart11->StartFrom = 0;
+			majorTicks11->StartFrom = ticksStart11;
+			majorTicks11->Step = 10;
+			scopeXAxis6->MajorTicks = majorTicks11;
+			maxAxisValue11->DataValue = 1024;
+			displayOptionalValue61->Enabled = false;
+			displayOptionalValue61->Value = 1000;
+			displayValueRange31->High = displayOptionalValue61;
+			displayOptionalValue62->Enabled = false;
+			displayOptionalValue62->Value = -1000;
+			displayValueRange31->Low = displayOptionalValue62;
+			maxAxisValue11->Range = displayValueRange31;
+			basicAxisValue21->Value = 1024;
+			maxAxisValue11->Tick = basicAxisValue21;
+			maxAxisValue11->Value = 1024;
+			scopeXAxis6->Max = maxAxisValue11;
+			scopeMaxSample6->Value = static_cast<System::UInt32>(1024);
+			scopeXAxis6->MaxSample = scopeMaxSample6;
+			axisValue11->DataValue = 0;
+			displayOptionalValue63->Enabled = false;
+			displayOptionalValue63->Value = 1000;
+			displayValueRange32->High = displayOptionalValue63;
+			displayOptionalValue64->Enabled = false;
+			displayOptionalValue64->Value = -1000;
+			displayValueRange32->Low = displayOptionalValue64;
+			axisValue11->Range = displayValueRange32;
+			basicAxisValue22->Value = 0;
+			axisValue11->Tick = basicAxisValue22;
+			axisValue11->Value = 0;
+			scopeXAxis6->Min = axisValue11;
+			scopeXAxis6->MinorTicks = minorTicks11;
+			axisToolBar11->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar5->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			axisToolBar11->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBarButtons5->Size = toolBarButtonSize8;
-			displayToolBarButton59->Image = displayToolBarButtonImage59;
-			axisToolBarButtons5->ZoomIn = displayToolBarButton59;
-			displayToolBarButton60->Image = displayToolBarButtonImage60;
-			axisToolBarButtons5->ZoomOff = displayToolBarButton60;
-			displayToolBarButton61->Image = displayToolBarButtonImage61;
-			axisToolBarButtons5->ZoomOneDir = displayToolBarButton61;
-			displayToolBarButton62->Image = displayToolBarButtonImage62;
-			axisToolBarButtons5->ZoomOut = displayToolBarButton62;
-			axisToolBar5->Buttons = axisToolBarButtons5;
-			axisToolBar5->Cursor = System::Windows::Forms::Cursors::Default;
-			axisToolBar5->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBarButtons11->Size = toolBarButtonSize17;
+			displayToolBarButton125->Image = displayToolBarButtonImage125;
+			axisToolBarButtons11->ZoomIn = displayToolBarButton125;
+			displayToolBarButton126->Image = displayToolBarButtonImage126;
+			axisToolBarButtons11->ZoomOff = displayToolBarButton126;
+			displayToolBarButton127->Image = displayToolBarButtonImage127;
+			axisToolBarButtons11->ZoomOneDir = displayToolBarButton127;
+			displayToolBarButton128->Image = displayToolBarButtonImage128;
+			axisToolBarButtons11->ZoomOut = displayToolBarButton128;
+			axisToolBar11->Buttons = axisToolBarButtons11;
+			axisToolBar11->Cursor = System::Windows::Forms::Cursors::Default;
+			axisToolBar11->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar5->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar11->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar5->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar11->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar5->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar11->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar5->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar11->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			axisToolBar11->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			scopeXAxis6->ToolBar = axisToolBar11;
+			scopeXAxis6->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar5->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis3->ToolBar = axisToolBar5;
-			scopeXAxis3->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeXAxis3->UnitScale = scopeXAxisUnitScale3;
-			displayViewSize11->Size = static_cast<System::UInt32>(100);
-			scopeXAxis3->ViewSize = displayViewSize11;
-			displayOptionalValue29->Enabled = false;
-			displayOptionalValue29->Value = 100000000;
-			displayValueRange15->High = displayOptionalValue29;
-			displayOptionalValue30->Enabled = true;
-			displayOptionalValue30->Value = 1E-07;
-			displayValueRange15->Low = displayOptionalValue30;
-			displayAxisZoom5->Range = displayValueRange15;
-			scopeXAxis3->Zooming = displayAxisZoom5;
-			scopeXAxis3->ZoomPin = statePin5;
-			this->CalStarProfileScope->XAxis = scopeXAxis3;
-			this->CalStarProfileScope->XInputPins = pinList6;
-			scopeAutoScaling3->MaxHistory = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace5->Space = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace5->Threshold = static_cast<System::UInt32>(10);
-			scopeAutoScaling3->SpaceAbove = scopeAutoScalingSpace5;
-			scopeAutoScalingSpace6->Space = static_cast<System::UInt32>(20);
-			scopeAutoScalingSpace6->Threshold = static_cast<System::UInt32>(10);
-			scopeAutoScaling3->SpaceBelow = scopeAutoScalingSpace6;
-			scopeYAxis3->AutoScaling = scopeAutoScaling3;
-			displayTitleLabel6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeXAxis6->UnitScale = scopeXAxisUnitScale6;
+			displayViewSize23->Size = static_cast<System::UInt32>(100);
+			scopeXAxis6->ViewSize = displayViewSize23;
+			displayOptionalValue65->Enabled = false;
+			displayOptionalValue65->Value = 100000000;
+			displayValueRange33->High = displayOptionalValue65;
+			displayOptionalValue66->Enabled = true;
+			displayOptionalValue66->Value = 1E-07;
+			displayValueRange33->Low = displayOptionalValue66;
+			displayAxisZoom11->Range = displayValueRange33;
+			scopeXAxis6->Zooming = displayAxisZoom11;
+			scopeXAxis6->ZoomPin = statePin11;
+			this->CalStarProfileScope->XAxis = scopeXAxis6;
+			this->CalStarProfileScope->XInputPins = pinList12;
+			scopeAutoScaling6->MaxHistory = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace11->Space = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace11->Threshold = static_cast<System::UInt32>(10);
+			scopeAutoScaling6->SpaceAbove = scopeAutoScalingSpace11;
+			scopeAutoScalingSpace12->Space = static_cast<System::UInt32>(20);
+			scopeAutoScalingSpace12->Threshold = static_cast<System::UInt32>(10);
+			scopeAutoScaling6->SpaceBelow = scopeAutoScalingSpace12;
+			scopeYAxis6->AutoScaling = scopeAutoScaling6;
+			displayTitleLabel12->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Comic Sans MS",
 				1, 0, true, 12, 1));
-			displayTitleLabel6->Text = L"Pixel Value (ADU)";
-			scopeYAxis3->AxisLabel = displayTitleLabel6;
-			displayViewBackground15->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			displayTitleLabel12->Text = L"Pixel Value (ADU)";
+			scopeYAxis6->AxisLabel = displayTitleLabel12;
+			displayViewBackground30->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis3->Background = displayViewBackground15;
-			viewButtonSettings6->Cursor = System::Windows::Forms::Cursors::Default;
-			viewButtonSettings6->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeYAxis6->Background = displayViewBackground30;
+			viewButtonSettings12->Cursor = System::Windows::Forms::Cursors::Default;
+			viewButtonSettings12->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings6->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			viewButtonSettings12->MouseDownColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings6->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings12->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			viewButtonSettings6->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			viewButtonSettings12->MouseOverColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis3->Button = viewButtonSettings6;
-			scopeYAxis3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			scopeYAxis6->Button = viewButtonSettings12;
+			scopeYAxis6->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			scopeYAxis3->CursorSettings = displayAxisCursorSettings6;
-			vclPen14->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			scopeYAxis6->CursorSettings = displayAxisCursorSettings12;
+			vclPen29->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			vclPen14->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen14.InternalData")));
-			displayGridLineSettings14->Pen = vclPen14;
-			displayGridDirectionalLinesSettings6->Lines = displayGridLineSettings14;
-			vclPen15->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen29->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen29.InternalData")));
+			displayGridLineSettings29->Pen = vclPen29;
+			displayGridDirectionalLinesSettings12->Lines = displayGridLineSettings29;
+			vclPen30->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			vclPen15->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen15.InternalData")));
-			displayGridLineSettings15->Pen = vclPen15;
-			displayGridDirectionalLinesSettings6->ZeroLine = displayGridLineSettings15;
-			scopeYAxis3->DataView = displayGridDirectionalLinesSettings6;
-			scopeYAxis3->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			vclPen30->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"vclPen30.InternalData")));
+			displayGridLineSettings30->Pen = vclPen30;
+			displayGridDirectionalLinesSettings12->ZeroLine = displayGridLineSettings30;
+			scopeYAxis6->DataView = displayGridDirectionalLinesSettings12;
+			scopeYAxis6->Font = (gcnew Vcl::VclFont(System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255))), L"Arial",
 				1, 0, true, 11, 0));
-			axisFormat6->Precision = 3;
-			scopeYAxis3->Format = axisFormat6;
-			scopeYAxis3->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeYAxis3.InternalData")));
-			ticksStart6->StartFrom = 0;
-			majorTicks6->StartFrom = ticksStart6;
-			majorTicks6->Step = 10;
-			scopeYAxis3->MajorTicks = majorTicks6;
-			maxAxisValue6->DataValue = 1000;
-			displayOptionalValue31->Enabled = false;
-			displayOptionalValue31->Value = 1000;
-			displayValueRange16->High = displayOptionalValue31;
-			displayOptionalValue32->Enabled = false;
-			displayOptionalValue32->Value = -1000;
-			displayValueRange16->Low = displayOptionalValue32;
-			maxAxisValue6->Range = displayValueRange16;
-			basicAxisValue11->Value = 0;
-			maxAxisValue6->Tick = basicAxisValue11;
-			maxAxisValue6->Value = 1000;
-			scopeYAxis3->Max = maxAxisValue6;
-			axisValue6->DataValue = -1000;
-			displayOptionalValue33->Enabled = false;
-			displayOptionalValue33->Value = 1000;
-			displayValueRange17->High = displayOptionalValue33;
-			displayOptionalValue34->Enabled = false;
-			displayOptionalValue34->Value = -1000;
-			displayValueRange17->Low = displayOptionalValue34;
-			axisValue6->Range = displayValueRange17;
-			basicAxisValue12->Value = 0;
-			axisValue6->Tick = basicAxisValue12;
-			axisValue6->Value = -1000;
-			scopeYAxis3->Min = axisValue6;
-			scopeYAxis3->MinorTicks = minorTicks6;
-			axisToolBar6->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisFormat12->Precision = 3;
+			scopeYAxis6->Format = axisFormat12;
+			scopeYAxis6->InternalData = (cli::safe_cast<Vcl::VclBinaryData^>(resources->GetObject(L"scopeYAxis6.InternalData")));
+			ticksStart12->StartFrom = 0;
+			majorTicks12->StartFrom = ticksStart12;
+			majorTicks12->Step = 10;
+			scopeYAxis6->MajorTicks = majorTicks12;
+			maxAxisValue12->DataValue = 1000;
+			displayOptionalValue67->Enabled = false;
+			displayOptionalValue67->Value = 1000;
+			displayValueRange34->High = displayOptionalValue67;
+			displayOptionalValue68->Enabled = false;
+			displayOptionalValue68->Value = -1000;
+			displayValueRange34->Low = displayOptionalValue68;
+			maxAxisValue12->Range = displayValueRange34;
+			basicAxisValue23->Value = 0;
+			maxAxisValue12->Tick = basicAxisValue23;
+			maxAxisValue12->Value = 1000;
+			scopeYAxis6->Max = maxAxisValue12;
+			axisValue12->DataValue = -1000;
+			displayOptionalValue69->Enabled = false;
+			displayOptionalValue69->Value = 1000;
+			displayValueRange35->High = displayOptionalValue69;
+			displayOptionalValue70->Enabled = false;
+			displayOptionalValue70->Value = -1000;
+			displayValueRange35->Low = displayOptionalValue70;
+			axisValue12->Range = displayValueRange35;
+			basicAxisValue24->Value = 0;
+			axisValue12->Tick = basicAxisValue24;
+			axisValue12->Value = -1000;
+			scopeYAxis6->Min = axisValue12;
+			scopeYAxis6->MinorTicks = minorTicks12;
+			axisToolBar12->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar6->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			axisToolBar12->ButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBarButtons6->Size = toolBarButtonSize9;
-			displayToolBarButton63->Image = displayToolBarButtonImage63;
-			axisToolBarButtons6->ZoomIn = displayToolBarButton63;
-			displayToolBarButton64->Image = displayToolBarButtonImage64;
-			axisToolBarButtons6->ZoomOff = displayToolBarButton64;
-			displayToolBarButton65->Image = displayToolBarButtonImage65;
-			axisToolBarButtons6->ZoomOneDir = displayToolBarButton65;
-			displayToolBarButton66->Image = displayToolBarButtonImage66;
-			axisToolBarButtons6->ZoomOut = displayToolBarButton66;
-			axisToolBar6->Buttons = axisToolBarButtons6;
-			axisToolBar6->Cursor = System::Windows::Forms::Cursors::Default;
-			axisToolBar6->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBarButtons12->Size = toolBarButtonSize18;
+			displayToolBarButton129->Image = displayToolBarButtonImage129;
+			axisToolBarButtons12->ZoomIn = displayToolBarButton129;
+			displayToolBarButton130->Image = displayToolBarButtonImage130;
+			axisToolBarButtons12->ZoomOff = displayToolBarButton130;
+			displayToolBarButton131->Image = displayToolBarButtonImage131;
+			axisToolBarButtons12->ZoomOneDir = displayToolBarButton131;
+			displayToolBarButton132->Image = displayToolBarButtonImage132;
+			axisToolBarButtons12->ZoomOut = displayToolBarButton132;
+			axisToolBar12->Buttons = axisToolBarButtons12;
+			axisToolBar12->Cursor = System::Windows::Forms::Cursors::Default;
+			axisToolBar12->DisabledColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar6->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar12->GlyphColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar6->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar12->MouseDownBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar6->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			axisToolBar12->MouseDownButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar6->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			axisToolBar12->MouseOverBorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			axisToolBar12->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			scopeYAxis6->ToolBar = axisToolBar12;
+			scopeYAxis6->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			axisToolBar6->MouseOverButtonColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			scopeYAxis3->ToolBar = axisToolBar6;
-			scopeYAxis3->TrackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
-				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			displayViewSize12->Size = static_cast<System::UInt32>(100);
-			scopeYAxis3->ViewSize = displayViewSize12;
-			displayOptionalValue35->Enabled = false;
-			displayOptionalValue35->Value = 100000000;
-			displayValueRange18->High = displayOptionalValue35;
-			displayOptionalValue36->Enabled = true;
-			displayOptionalValue36->Value = 1E-07;
-			displayValueRange18->Low = displayOptionalValue36;
-			displayAxisZoom6->Range = displayValueRange18;
-			scopeYAxis3->Zooming = displayAxisZoom6;
-			scopeYAxis3->ZoomPin = statePin6;
-			this->CalStarProfileScope->YAxis = scopeYAxis3;
-			displayZoom3->SelectionColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			displayViewSize24->Size = static_cast<System::UInt32>(100);
+			scopeYAxis6->ViewSize = displayViewSize24;
+			displayOptionalValue71->Enabled = false;
+			displayOptionalValue71->Value = 100000000;
+			displayValueRange36->High = displayOptionalValue71;
+			displayOptionalValue72->Enabled = true;
+			displayOptionalValue72->Value = 1E-07;
+			displayValueRange36->Low = displayOptionalValue72;
+			displayAxisZoom12->Range = displayValueRange36;
+			scopeYAxis6->Zooming = displayAxisZoom12;
+			scopeYAxis6->ZoomPin = statePin12;
+			this->CalStarProfileScope->YAxis = scopeYAxis6;
+			displayZoom6->SelectionColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->CalStarProfileScope->Zooming = displayZoom3;
+			this->CalStarProfileScope->Zooming = displayZoom6;
 			// 
 			// groupBox4
 			// 
@@ -3042,7 +3050,7 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 				52.15054F)));
 			this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
 				92)));
-			this->tableLayoutPanel11->Controls->Add(this->StopButton, 2, 0);
+			this->tableLayoutPanel11->Controls->Add(this->AbortButton, 2, 0);
 			this->tableLayoutPanel11->Controls->Add(this->PauseButton, 1, 0);
 			this->tableLayoutPanel11->Controls->Add(this->StartButton, 0, 0);
 			this->tableLayoutPanel11->Location = System::Drawing::Point(316, 3);
@@ -3052,17 +3060,17 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 			this->tableLayoutPanel11->Size = System::Drawing::Size(278, 31);
 			this->tableLayoutPanel11->TabIndex = 3;
 			// 
-			// StopButton
+			// AbortButton
 			// 
-			this->StopButton->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->StopButton->BackColor = System::Drawing::Color::Red;
-			this->StopButton->Location = System::Drawing::Point(194, 4);
-			this->StopButton->Name = L"StopButton";
-			this->StopButton->Size = System::Drawing::Size(75, 23);
-			this->StopButton->TabIndex = 2;
-			this->StopButton->Text = L"Stop";
-			this->StopButton->UseVisualStyleBackColor = false;
-			this->StopButton->Click += gcnew System::EventHandler(this, &AutoFocusDialog::StopButton_Click);
+			this->AbortButton->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->AbortButton->BackColor = System::Drawing::Color::Red;
+			this->AbortButton->Location = System::Drawing::Point(194, 4);
+			this->AbortButton->Name = L"AbortButton";
+			this->AbortButton->Size = System::Drawing::Size(75, 23);
+			this->AbortButton->TabIndex = 2;
+			this->AbortButton->Text = L"Abort";
+			this->AbortButton->UseVisualStyleBackColor = false;
+			this->AbortButton->Click += gcnew System::EventHandler(this, &AutoFocusDialog::AbortButton_Click);
 			// 
 			// PauseButton
 			// 
@@ -3189,6 +3197,12 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 		AutoFocusDialog::FormPtr->GetMaxStarPeak(&autoFocusSettings.CalMaxStarPeak);
 		AutoFocusDialog::FormPtr->GetMinStarPeak(&autoFocusSettings.CalMinStarPeak);
 		AutoFocusDialog::FormPtr->GetFramesPerPoint(&autoFocusSettings.NumFramesPerPoint);
+		if (AutoFocusDialog::FormPtr->OnVCurveLeftRadioButton->Checked)
+			autoFocusSettings.StartingVCurveSide = -1;
+		else if (AutoFocusDialog::FormPtr->OnVCurveRightRadioButton->Checked)
+			autoFocusSettings.StartingVCurveSide = 1;
+		else
+			autoFocusSettings.StartingVCurveSide = 0;
 
 	}
 
@@ -3311,6 +3325,175 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 		AutoFocusDialog::FormPtr->FramesPerPointNumericUpDown->Value = Value;
 	}
 
+	public: static void SetFocusPositionTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->FocuserPositionTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetFocusPositionTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->FocuserPositionTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetStarXTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->StarXTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetStarXTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->StarXTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetStarYTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->StarYTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetStarYTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->StarYTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetStarMaxTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->StarMaxTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetStarMaxTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->StarMaxTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetStarHFDTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->StarHFDTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetStarHFDTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->StarHFDTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetXTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->XTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetXTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->XTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetYTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->YTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetYTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->YTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetMaxTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->MaxTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetMaxTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->MaxTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
+
+
+	public: static void SetHFDTextBox(char *text) {
+		String ^buffer;
+		buffer = gcnew String(text);
+		AutoFocusDialog::FormPtr->HFDTextBox->Text = buffer;
+		delete buffer;
+	}
+
+
+	public: static void GetHFDTextBox(char *text) {
+		int i;
+		String ^buffer;
+		buffer = gcnew String("");
+		buffer = AutoFocusDialog::FormPtr->HFDTextBox->Text;
+		for (i = 0; i<buffer->Length; i++) text[i] = (char)buffer[i];
+		text[i] = 0;
+		delete buffer;
+	}
 
 
 	private: System::Void StartButton_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -3340,10 +3523,92 @@ private: System::Windows::Forms::NumericUpDown^  FramesPerPointNumericUpDown;
 
 
 	private: System::Void PauseButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		this->PauseRequested = !this->PauseRequested;
 	}
 
 
-	private: System::Void StopButton_Click(System::Object^  sender, System::EventArgs^  e) {
+	public: static System::Void PlotStarPSF(PIXCELL *pixList) {
+
+		PIXCELL *pptr;
+
+		if (AutoFocusDialog::FormPtr->StarProfileScope->Channels->Count == 0) {
+			AutoFocusDialog::FormPtr->StarProfileScope->XAxis->AxisLabel->Text = "Pixel Distance (pixels)";
+			AutoFocusDialog::FormPtr->StarProfileScope->YAxis->AxisLabel->Text = "Pixel Value (adu)";
+			AutoFocusDialog::FormPtr->StarProfileScope->Title->Text = "Current Star Profile";
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels->Add(1);
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Name = "Star Profile";
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Color = System::Drawing::Color::DarkMagenta;
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Points->Shape = Mitov::PlotLab::ScopePointsShape::Cross;
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Points->Visible = true;
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->ChannelMode = Mitov::PlotLab::ScopeChannelMode::Point;
+		}
+
+		AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Data->Clear();
+
+		pptr = pixList;
+		while (pptr != NULL) {
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Data->AddXYPoint(pptr->r, pptr->val);
+			pptr = pptr->next;
+		}
+
+		AutoFocusDialog::FormPtr->Refresh();
+
+	}
+
+	public: static System::Void PlotCalStarPSF(PIXCELL *pixList) {
+
+		PIXCELL *pptr;
+
+		if (AutoFocusDialog::FormPtr->CalStarProfileScope->Channels->Count == 0) {
+			AutoFocusDialog::FormPtr->CalStarProfileScope->XAxis->AxisLabel->Text = "Pixel Distance (pixels)";
+			AutoFocusDialog::FormPtr->CalStarProfileScope->YAxis->AxisLabel->Text = "Pixel Value (adu)";
+			AutoFocusDialog::FormPtr->CalStarProfileScope->Title->Text = "Current Star Profile";
+			AutoFocusDialog::FormPtr->CalStarProfileScope->Channels->Add(1);
+			AutoFocusDialog::FormPtr->CalStarProfileScope->Channels[0]->Name = "Star Profile";
+			AutoFocusDialog::FormPtr->CalStarProfileScope->Channels[0]->Color = System::Drawing::Color::DarkMagenta;
+			AutoFocusDialog::FormPtr->CalStarProfileScope->Channels[0]->Points->Shape = Mitov::PlotLab::ScopePointsShape::Cross;
+			AutoFocusDialog::FormPtr->CalStarProfileScope->Channels[0]->Points->Visible = true;
+			AutoFocusDialog::FormPtr->CalStarProfileScope->Channels[0]->ChannelMode = Mitov::PlotLab::ScopeChannelMode::Point;
+		}
+
+		AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Data->Clear();
+
+		pptr = pixList;
+		while (pptr != NULL) {
+			AutoFocusDialog::FormPtr->StarProfileScope->Channels[0]->Data->AddXYPoint(pptr->r, pptr->val);
+			pptr = pptr->next;
+		}
+
+		AutoFocusDialog::FormPtr->Refresh();
+
+	}
+
+
+	public: static System::Void AddPointVCurve(double focuserPosition, double halfFluxDiameter) {
+
+
+		if (AutoFocusDialog::FormPtr->VCurveScope->Channels->Count == 0) {
+			AutoFocusDialog::FormPtr->VCurveScope->XAxis->AxisLabel->Text = "Focuser Position (steps)";
+			AutoFocusDialog::FormPtr->VCurveScope->YAxis->AxisLabel->Text = "Half Flux Diameter (pixels)";
+			AutoFocusDialog::FormPtr->VCurveScope->Title->Text = "Calibration V Curve";
+			AutoFocusDialog::FormPtr->VCurveScope->Channels->Add(1);
+			AutoFocusDialog::FormPtr->VCurveScope->Channels[0]->Name = "V Curve Data";
+			AutoFocusDialog::FormPtr->VCurveScope->Channels[0]->Color = System::Drawing::Color::DarkViolet;
+			AutoFocusDialog::FormPtr->VCurveScope->Channels[0]->Points->Shape = Mitov::PlotLab::ScopePointsShape::Circle;
+			AutoFocusDialog::FormPtr->VCurveScope->Channels[0]->Points->Visible = true;
+			AutoFocusDialog::FormPtr->VCurveScope->Channels[0]->ChannelMode = Mitov::PlotLab::ScopeChannelMode::Point;
+		}
+
+		AutoFocusDialog::FormPtr->VCurveScope->Channels[0]->Data->AddXYPoint(focuserPosition, halfFluxDiameter);
+
+		AutoFocusDialog::FormPtr->Refresh();
+
+	}
+
+	private: System::Void AbortButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		this->AbortRequested = true;
 	}
 
 };
