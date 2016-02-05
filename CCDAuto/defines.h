@@ -5,6 +5,7 @@ namespace CCDAuto {
 
 #define PI  3.141592654
 #define PI2 6.28318530718
+#define MAXNUMBIASES 20
 #define MAXNUMDARKS 20
 #define MAXNUMFLATS 20
 #define MAXFRAMESIZE 2504*3326

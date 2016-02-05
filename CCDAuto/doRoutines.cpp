@@ -6620,6 +6620,213 @@ void DoDarkFrameSeries(void) {
 
 }
 
+
+void DoBiasFrameSeries(void) {
+
+	int i, iframe, sumd;
+	int b[MAXNUMBIASES], m;
+	int numFrames, nrows, ncols, npixels, nbytes;
+	IMAGE biasFrames[MAXNUMBIASES], *iptr;
+	unsigned short *BFptr;
+	StartExposureParams expose;
+	StartReadoutParams readout;
+	char Message[120], FileName[160];
+	unsigned short *savePtr;
+
+	// Check if linked to camera
+
+	if (!ccd->Linked) {
+		sprintf_s(Message, sizeof(Message), "Can't start bias frames, link to camera first.\n");
+		Form1::StatusPrint(Message);
+		return;
+	}
+
+	/* Init controls */
+
+	StopSeries = false;
+	PauseSeries = false;
+
+	/* Init frames */
+
+	numFrames = biasFrameSettings.numFrames;
+	nrows = biasFrameSettings.h;
+	ncols = biasFrameSettings.w;
+	npixels = nrows*ncols;
+	nbytes = npixels * sizeof(unsigned short);
+	for (iframe = 0; iframe<numFrames; iframe++) {
+		iptr = &biasFrames[iframe];
+		strcpy_s(iptr->Filter, sizeof(iptr->Filter), "C");
+		strcpy_s(iptr->FileName, sizeof(iptr->Filter), "");
+		strcpy_s(iptr->ObjectName, sizeof(iptr->ObjectName), "Bias");
+		iptr->bias_frame.whichCCD = biasFrameSettings.whichCCD;
+		iptr->bias_frame.binning = biasFrameSettings.binning;
+		iptr->bias_frame.x = biasFrameSettings.x;
+		iptr->bias_frame.y = biasFrameSettings.y;
+		iptr->bias_frame.h = biasFrameSettings.h;
+		iptr->bias_frame.w = biasFrameSettings.w;
+		iptr->bias_frame.active = false;
+		iptr->dark_frame.active = false;
+		iptr->light_frame.active = false;
+		iptr->saved = false;
+		iptr->biasOnly = true;
+		iptr->darkOnly = false;
+		iptr->lightOnly = false;
+		iptr->bias_frame.temp = 999.0;
+		iptr->bias_frame.exposure = darkFrameSettings.exposureTime;
+		iptr->bias_frame.time = (time_t) 0.0;
+		iptr->bias_frame.frame = (unsigned short *)realloc(NULL, nbytes);
+		iptr->light_frame.frame = iptr->dark_frame.frame = iptr->bias_frame.frame;
+	}
+
+	/* Init expose/readout data */
+
+	expose.ccd = biasFrameSettings.whichCCD;
+	expose.abgState = 0;
+	expose.exposureTime = ((int)(100.0 * biasFrameSettings.exposureTime));
+	readout.ccd = expose.ccd;
+	readout.readoutMode = biasFrameSettings.binning;
+	readout.left = biasFrameSettings.x;
+	readout.top = biasFrameSettings.y;
+	readout.width = biasFrameSettings.w;
+	readout.height = biasFrameSettings.h;
+
+	/* Loop over exposing bias frames */
+
+	ccd->Image.light_frame.w = biasFrameSettings.w;
+	ccd->Image.light_frame.h = biasFrameSettings.h;
+	if (ccd == &ImagingCCD) {
+		BFptr = ImagingBiasFrame;
+	} else if (ccd == &SpectroCCD) {
+		BFptr = SpectroBiasFrame;
+	} else {
+		BFptr = TrackingDarkFrame;
+	}
+	SeriesStarted = true;
+	for (iframe = 0; iframe<numFrames; iframe++) {
+
+		/* Expose bias */
+
+		sprintf_s(Message, sizeof(Message), "%d", iframe + 1);
+		Form1::CCDAutoForm->SetProcessingExpNumTextBox(Message);
+
+		iptr = &biasFrames[iframe];
+		sprintf_s(Message, sizeof(Message), "Exposing bias frame #%d, %f sec.\n",
+			iframe, biasFrameSettings.exposureTime);
+		Form1::StatusPrint(Message);
+		CancelCurrentAcquire = false;
+		savePtr = iptr->bias_frame.frame;
+		iptr->bias_frame.frame = BFptr;;
+		snapImaging(ccd, &expose, &readout, iptr);
+		iptr->bias_frame.frame = savePtr;
+		memcpy_s(iptr->bias_frame.frame, nbytes, BFptr, nbytes);
+		if (CancelCurrentAcquire || StopSeries) {
+
+			// Free up bias frame memory
+
+			for (iframe = 0; iframe<numFrames; iframe++) {
+				free(biasFrames[iframe].bias_frame.frame);
+			}
+			StopSeries = false;
+			SeriesStarted = false;
+			return;
+		}
+
+		/* Display bias */
+
+		memcpy_s(ccd->Image.light_frame.frame, nbytes, iptr->bias_frame.frame, nbytes);
+		loadImageImaging(iptr->bias_frame.frame, iptr->bias_frame.x,
+			iptr->bias_frame.y, iptr->bias_frame.w,
+			iptr->bias_frame.h, iptr->bias_frame.binning);
+
+		/* update frame parms */
+
+		iptr->bias_frame.active = true;
+		iptr->bias_frame.active = true;
+		iptr->saved = false;
+		iptr->Filter[0] = filterSet[ccd->filterPosition];
+		iptr->Filter[1] = '\000';
+
+		/* Save bias frame if required */
+
+		if (BiasSaveEachBiasFrame) {
+			if (biasFrameSettings.exposureTime >= 10.0) {
+				sprintf_s(FileName, sizeof(FileName), "%s/Bias%s_%d_%03d.fits",
+					biasFrameSettings.imageDir, binningString[iptr->bias_frame.binning],
+					((int)biasFrameSettings.exposureTime), iframe);
+			} else {
+				sprintf_s(FileName, sizeof(FileName), "%s/Bias%s_%dms_%03d.fits",
+					biasFrameSettings.imageDir, binningString[iptr->bias_frame.binning],
+					((int)(biasFrameSettings.exposureTime * 1000)), iframe);
+			}
+			strcpy_s(iptr->bias_frame.UT, sizeof(iptr->bias_frame.UT), "");
+			strcpy_s(iptr->bias_frame.UTDATE, sizeof(iptr->bias_frame.UTDATE), "");
+			writeFITS(iptr, 2, FileName, iptr->ObjectName);
+		}
+	}
+
+	/* Combine bias frames */
+
+	for (i = npixels; --i >= 0; ) {
+		sumd = 0;
+		for (iframe = 0; iframe<numFrames; iframe++) {
+			iptr = &biasFrames[iframe];
+			b[iframe] = iptr->bias_frame.frame[i];
+			sumd += b[iframe];
+		}
+		if (biasFrameSettings.combineMethod == 1) {
+			m = imedian(b, numFrames);
+		}
+		else {
+			m = ((int)(((float)sumd) / numFrames));
+		}
+		ccd->Image.bias_frame.frame[i] = m;
+	}
+	ccd->Image.bias_frame.active = true;
+	ccd->Image.bias_frame.whichCCD = biasFrameSettings.whichCCD;
+	ccd->Image.bias_frame.binning = biasFrameSettings.binning;
+	ccd->Image.bias_frame.x = biasFrameSettings.x;
+	ccd->Image.bias_frame.y = biasFrameSettings.y;
+	ccd->Image.bias_frame.w = biasFrameSettings.w;
+	ccd->Image.bias_frame.h = biasFrameSettings.h;
+	ccd->Image.bias_frame.exposure = biasFrameSettings.exposureTime;
+	ccd->Image.bias_frame.temp = biasFrames[numFrames / 2].bias_frame.temp;
+
+	/* Write out combined bias frame */
+
+	if (biasFrameSettings.exposureTime >= 10.0) {
+		sprintf_s(FileName, sizeof(FileName), "%s/Bias%s_%d.fits",
+			biasFrameSettings.imageDir, binningString[iptr->bias_frame.binning],
+			((int)biasFrameSettings.exposureTime));
+	} else {
+		sprintf_s(FileName, sizeof(FileName), "%s/Bias%s_%dms.fits",
+			biasFrameSettings.imageDir, binningString[iptr->bias_frame.binning],
+			((int)(biasFrameSettings.exposureTime * 1000)));
+	}
+	strcpy_s(ccd->Image.bias_frame.UT, sizeof(ccd->Image.bias_frame.UT), "");
+	strcpy_s(ccd->Image.bias_frame.UTDATE, sizeof(ccd->Image.bias_frame.UTDATE), "");
+	ccd->Image.bias_frame.time = biasFrames[0].bias_frame.time;
+	writeFITS(&ccd->Image, 2, FileName, "Bias");
+
+	// Display combined bias frame
+
+	iptr = &ccd->Image;
+	memcpy_s(iptr->light_frame.frame, nbytes, iptr->bias_frame.frame, nbytes);
+	loadImageImaging(iptr->bias_frame.frame, iptr->bias_frame.x,
+		iptr->bias_frame.y, iptr->bias_frame.w,
+		iptr->bias_frame.h, iptr->bias_frame.binning);
+
+	// Free up bias frame memory
+
+	for (iframe = 0; iframe<numFrames; iframe++) {
+		free(biasFrames[iframe].dark_frame.frame);
+	}
+	SeriesStarted = false;
+
+	return;
+
+}
+
+
 int imedian(int *data, int num) {
   int max, i, j, jmax;
   int list[100], temp[100];

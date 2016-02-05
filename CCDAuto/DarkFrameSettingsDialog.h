@@ -788,6 +788,8 @@ public: static void SetWhichBinningButton(int binning) {
 				DarkFrameSettingsDialog::FormPtr->Binning3x3Button->Checked = true;
 			}
 		}
+
+
 public: static int GetWhichBinningButton(void) {
 
 			if (DarkFrameSettingsDialog::FormPtr->Binning1x1Button->Checked) {
@@ -798,12 +800,17 @@ public: static int GetWhichBinningButton(void) {
 				return 2;
 			}
 		}
+
+
 public: static void Hide3x3Button(void) {
 			DarkFrameSettingsDialog::FormPtr->Binning3x3Button->Hide();
 		}
+
+
 public: static void Show3x3Button(void) {
 			DarkFrameSettingsDialog::FormPtr->Binning3x3Button->Show();
 		}
+
 
 public:  int SetDarkFrameSettings(void) {
 
@@ -859,6 +866,7 @@ public:  int SetDarkFrameSettings(void) {
 			 return true;
 		 }
 
+
 public:  int GetDarkFrameSettings(void) {
 
 			 char buffer[80];
@@ -902,6 +910,8 @@ public:  int GetDarkFrameSettings(void) {
 
 			 return true;
 		 }
+
+
 private: System::Void SelectDarkFolderButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 char path[180];

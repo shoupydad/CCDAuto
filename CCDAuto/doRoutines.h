@@ -307,8 +307,10 @@ typedef struct {
   int saved;
   int darkOnly;
   int lightOnly;
+  int biasOnly;
   FRAME light_frame;
   FRAME dark_frame;
+  FRAME bias_frame;
 } IMAGE;
 
 typedef struct {
@@ -433,6 +435,18 @@ typedef struct {
   float exposureTime;
   float ccdTemp;
 } DARKFRAMESETTINGS;
+
+typedef struct {
+	char imageDir[80];
+	int whichCCD;
+	int binning;
+	int x, y, h, w;
+	int numFrames;
+	int combineMethod;
+	float exposureTime;
+	float ccdTemp;
+} BIASFRAMESETTINGS;
+
 
 typedef struct {
   FILTERSET filterSeq;
@@ -596,6 +610,7 @@ void DeleteStar(void);
 void DisplayPSF(PIXCELL *PixList, float fitMax, float fitFWHM);
 bool doAutoFocusing(AUTOFOCUSSETTINGS *settings);
 bool doAutoFocusingCalibrationRun(AUTOFOCUSSETTINGS *settings);
+void DoBiasFrameSeries(void);
 bool DoCalibrations(char *DarkDir, int DarkOption, char *FlatDir, int FlatOption, CCD *ccd);
 
 void DoDarkFrameSeries(void);
@@ -857,6 +872,7 @@ extern SCOPE ScopeList[5];
 extern bool AAVSOPhotoDialogExists;
 extern bool AstrometryWindowExists;
 extern bool AutoFocusDialogExists;
+extern bool BiasFrameSettingsDialogExists;
 extern bool CameraSettingsDialogExists;
 extern bool CurrentImageWindowExists;
 extern bool DarkFrameSettingsDialogExists;
@@ -903,27 +919,29 @@ extern double ScopeDEC;
 extern int GetScopeRADEC;
 
 extern AUTOFOCUSSETTINGS autoFocusSettings;
-extern SINGLESETTINGS singleSettings;
-extern SINGLESETTINGS singleSettings_Save;
-extern SINGLESETTINGS guideImageSettings;
-extern SINGLESETTINGS guideImageSettings_Save;
-extern SERIESSETTINGS seriesSettings;
-extern SERIESSETTINGS seriesSettings_Save;
+extern BIASFRAMESETTINGS biasFrameSettings;
+extern BIASFRAMESETTINGS biasFrameSettings_Save;
 extern DARKFRAMESETTINGS darkFrameSettings;
 extern DARKFRAMESETTINGS darkFrameSettings_Save;
 extern FLATFRAMESETTINGS flatFrameSettings;
 extern FLATFRAMESETTINGS flatFrameSettings_Save;
-extern STACKSETTINGS stackSettings;
-extern STACKSETTINGS stackSettings_Save;
-extern OBSSETTINGS ObsSettings;
-extern OBSSETTINGS ObsSettings_Save;
 extern GUIDINGSLITSETTINGS GuidingSlitSettings;
 extern GUIDINGSLITSETTINGS GuidingSlitSettings_save;
+extern OBSSETTINGS ObsSettings;
+extern OBSSETTINGS ObsSettings_Save;
 extern PHOTOMETRYSETTINGS photometrySettings;
 extern PLATESOLU plateSolution;
 extern PLATESOLU plateSolution_save;
 extern PLATESTARS plateStars;
 extern REFSTARS refStars;
+extern SERIESSETTINGS seriesSettings;
+extern SERIESSETTINGS seriesSettings_Save;
+extern SINGLESETTINGS singleSettings;
+extern SINGLESETTINGS singleSettings_Save;
+extern SINGLESETTINGS guideImageSettings;
+extern SINGLESETTINGS guideImageSettings_Save;
+extern STACKSETTINGS stackSettings;
+extern STACKSETTINGS stackSettings_Save;
 
 extern bool UserStopBatch;
 extern bool DontUpdate;
@@ -938,6 +956,7 @@ extern bool SingleSaveEachDarkFrame;
 extern bool SeriesSaveEachDarkFrame;
 extern bool FlatSaveEachDarkFrame;
 extern bool DarkSaveEachDarkFrame;
+extern bool BiasSaveEachBiasFrame;
 extern bool SaveEachFlatFrame;
 extern bool StackSaveEachDarkFrame;
 extern bool StackSaveEachLightFrame;
@@ -949,14 +968,19 @@ extern bool CurrentStarListDefined;
 extern bool DoingAstrometry;
 extern unsigned short ImagingLightFrame[MAXFRAMESIZE];
 extern unsigned short ImagingDarkFrame[MAXFRAMESIZE];
+extern unsigned short ImagingBiasFrame[MAXFRAMESIZE];
 extern unsigned short ImagingFlatLightFrame[MAXFRAMESIZE];
 extern unsigned short ImagingFlatDarkFrame[MAXFRAMESIZE];
+extern unsigned short ImagingFlatBiasFrame[MAXFRAMESIZE];
 extern unsigned short SpectroLightFrame[MAXFRAMESIZE];
 extern unsigned short SpectroDarkFrame[MAXFRAMESIZE];
+extern unsigned short SpectroBiasFrame[MAXFRAMESIZE];
 extern unsigned short SpectroFlatLightFrame[MAXFRAMESIZE];
 extern unsigned short SpectroFlatDarkFrame[MAXFRAMESIZE];
+extern unsigned short SpectroFlatBiasFrame[MAXFRAMESIZE];
 extern unsigned short TrackingLightFrame[MAXFRAMESIZE];
 extern unsigned short TrackingDarkFrame[MAXFRAMESIZE];
+extern unsigned short TrackingBiasFrame[MAXFRAMESIZE];
 extern unsigned short TrackingFlatLightFrame[MAXFRAMESIZE];
 extern unsigned short TrackingFlatDarkFrame[MAXFRAMESIZE];
 

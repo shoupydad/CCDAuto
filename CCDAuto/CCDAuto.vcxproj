@@ -146,6 +146,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="AstrometryWindow.cpp" />
     <ClCompile Include="AutoFocusDialog.cpp" />
+    <ClCompile Include="BiasFrameSettingDialog.cpp" />
     <ClCompile Include="CameraSettingsDialog.cpp" />
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="CCDAuto.cpp" />
@@ -195,6 +196,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="AutoFocusDialog.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="BiasFrameSettingDialog.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="CameraCode\Apogee\apogee.h" />
@@ -311,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AutoFocusDialog.resx">
       <DependentUpon>AutoFocusDialog.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BiasFrameSettingDialog.resx">
+      <DependentUpon>BiasFrameSettingDialog.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CameraSettingsDialog.resx">
       <DependentUpon>CameraSettingsDialog.h</DependentUpon>

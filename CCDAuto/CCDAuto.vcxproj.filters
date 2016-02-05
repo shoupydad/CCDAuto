@@ -153,6 +153,9 @@
     <ClCompile Include="AutoFocusDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BiasFrameSettingDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AAVSOPhotoDialog.h">
@@ -299,6 +302,9 @@
     <ClInclude Include="AutoFocusDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BiasFrameSettingDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">
@@ -394,6 +400,9 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="PhotometryPlotWindow.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AutoFocusDialog.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

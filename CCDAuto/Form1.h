@@ -14,6 +14,7 @@
 #include "ObservatorySettingsDialog.h"
 #include "OpenCalDialog.h"
 #include "GuideFrameWindow.h"
+#include "BiasFrameSettingDialog.h"
 
 namespace CCDAuto {
 
@@ -99,6 +100,7 @@ namespace CCDAuto {
 	private: System::Windows::Forms::ToolStripMenuItem^  GToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  CToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  updateMX916KeywordsToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  exposeBiasFramesToolStripMenuItem;
 
 
 
@@ -346,6 +348,7 @@ private: System::ComponentModel::IContainer^  components;
 			this->MainTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->DownloadTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->FolderBrowserDialog = (gcnew System::Windows::Forms::FolderBrowserDialog());
+			this->exposeBiasFramesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->MenuStrip->SuspendLayout();
 			this->tableLayoutPanel1->SuspendLayout();
 			this->CurrentSeriesGroupBox->SuspendLayout();
@@ -675,9 +678,10 @@ private: System::ComponentModel::IContainer^  components;
 			// 
 			// executeToolStripMenuItem
 			// 
-			this->executeToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
+			this->executeToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {
 				this->ExposeSingleFrameMenuItem,
-					this->ExposeDarkFramesMenuItem, this->ExposeFlatFramesMenuItem, this->ExposeSeriesOfFramesMenuItem, this->ExposeStackFramesMenuItem
+					this->ExposeDarkFramesMenuItem, this->ExposeFlatFramesMenuItem, this->ExposeSeriesOfFramesMenuItem, this->ExposeStackFramesMenuItem,
+					this->exposeBiasFramesToolStripMenuItem
 			});
 			this->executeToolStripMenuItem->Name = L"executeToolStripMenuItem";
 			this->executeToolStripMenuItem->Size = System::Drawing::Size(59, 20);
@@ -1453,6 +1457,13 @@ private: System::ComponentModel::IContainer^  components;
 			// 
 			this->FolderBrowserDialog->SelectedPath = L"c:\\Users\\shoup.31\\Documents\\Observatory\\ImageData";
 			// 
+			// exposeBiasFramesToolStripMenuItem
+			// 
+			this->exposeBiasFramesToolStripMenuItem->Name = L"exposeBiasFramesToolStripMenuItem";
+			this->exposeBiasFramesToolStripMenuItem->Size = System::Drawing::Size(217, 22);
+			this->exposeBiasFramesToolStripMenuItem->Text = L"Expose Bias Frames";
+			this->exposeBiasFramesToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::exposeBiasFramesToolStripMenuItem_Click);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -1495,6 +1506,7 @@ private: void Form1ClosingEventHandler(Object^ sender, System::Windows::Forms::F
 				   e->Cancel = true;
 			 }
 		   }
+
 
 private: System::Void ExitMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
@@ -1553,6 +1565,8 @@ private: System::Void ExitMenuItem_Click(System::Object^  sender, System::EventA
 			 ExitMenuItemClicked = true;
 			 Application::Exit();
 		 }
+
+
 private: System::Void OpenMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 char fileName[160], Message[160];
 			 int i, Success;
@@ -1583,6 +1597,8 @@ private: System::Void OpenMenuItem_Click(System::Object^  sender, System::EventA
 			 ccd->Image.saved = true;
 //			 updateStatusInfo();
 		 }
+
+
 private: System::Void openCalibrateToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 char fileName[160], Message[160], DarkDir[MAX_SIZE_PATH_CHARS], FlatDir[MAX_SIZE_PATH_CHARS];
@@ -1636,6 +1652,8 @@ private: System::Void openCalibrateToolStripMenuItem_Click(System::Object^  send
 				ccd->Image.light_frame.y, ccd->Image.light_frame.w,
 				ccd->Image.light_frame.h, ccd->Image.light_frame.binning);
 		 }
+
+
 private: void SaveImage(bool as) {
 
  			 FILE *fptr;
@@ -1762,12 +1780,18 @@ private: void SaveImage(bool as) {
 				 } while (true);
 			 }
 		 }
+
+
 private: System::Void SaveMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 SaveImage(false);
 		 }
+
+
 private: System::Void SaveAsMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 SaveImage(true);
 		 }
+
+
 private: System::Void ImagingEstablishLinkMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int i, Linked, status;
@@ -1830,6 +1854,8 @@ private: System::Void ImagingEstablishLinkMenuItem_Click(System::Object^  sender
 
 			 return;
 		 }
+
+
 private: System::Void ImagingCloseLinkStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (! ImagingCCD.Linked) {
@@ -1842,6 +1868,8 @@ private: System::Void ImagingCloseLinkStripMenuItem_Click(System::Object^  sende
 			 freeImageBuffers(&ImagingCCD);
 			 return;
 		 }
+
+
 private: System::Void ImagingTurnOnTempRegMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 bool okay, Success;
@@ -1861,9 +1889,13 @@ private: System::Void ImagingTurnOnTempRegMenuItem_Click(System::Object^  sender
 			 Success = doSetTempOnCamera(&ImagingCCD, (double) setpoint);
 			 return; 
 		 }
+
+
 private: System::Void ImagingTurnOffTempRegMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 doSetTempOffCamera(&ImagingCCD);
 		 }
+
+
 private: System::Void SpectroEstablishLinkMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int i, Linked, status;
@@ -1922,6 +1954,8 @@ private: System::Void SpectroEstablishLinkMenuItem_Click(System::Object^  sender
 
 			 return;
 		 }
+
+
 private: System::Void SpectroCloseLinkMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (! SpectroCCD.Linked) {
@@ -1934,6 +1968,8 @@ private: System::Void SpectroCloseLinkMenuItem1_Click(System::Object^  sender, S
 			 freeImageBuffers(&SpectroCCD);
 			 return;
 		 }
+
+
 private: System::Void SpectroTurnOnTempRegMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 bool okay, Success;
@@ -1953,54 +1989,76 @@ private: System::Void SpectroTurnOnTempRegMenuItem1_Click(System::Object^  sende
 			 Success = doSetTempOnCamera(&SpectroCCD, setpoint);
 			 return; 
 		 }
+
+
 private: System::Void SpectroTurnOffTempRegMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 doSetTempOffCamera(&SpectroCCD);
 		 }
+
+
 private: System::Void BToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int status;
 			 doFilterWheel(ccd, &status, 1);
 		 }
+
+
 private: System::Void VToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int status;
 			 doFilterWheel(ccd, &status, 2);
 		 }
+
+
 private: System::Void RToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int status;
 			 doFilterWheel(ccd, &status, 3);
 		 }
+
+
 private: System::Void IToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int status;
 			 doFilterWheel(ccd, &status, 4);
 		 }
+
+
 private: System::Void HToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int status;
 			 doFilterWheel(ccd, &status, 6);
 		 }
+
+
 private: System::Void GToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int status;
 			 doFilterWheel(ccd, &status, 5);
 		 }
+
+
 private: System::Void CToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int status;
 			 doFilterWheel(ccd, &status, 7);
 		 }
+
+
 private: System::Void ObservatoryMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 ObservatorySettingsDialog::FormPtr->ShowTheDialog();
 		 }
+
+
 private: System::Void ShowCurrentImageMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if (CurrentImageWindowExists)
 				 CurrentImageWindow::FormPtr->Show();
 			 else
 				 Form1::CCDAutoForm->StatusPrint("*** WARNING - Current Image Window not active, you must open or take an image first.");
 		 }
+
+
 private: System::Void GuidingSlitImageMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (! GuideFrameWindowExists)
@@ -2008,12 +2066,16 @@ private: System::Void GuidingSlitImageMenuItem_Click(System::Object^  sender, Sy
 
 			 GuideFrameWindow::FormPtr->ShowTheWindow();
 		 }
+
+
 private: System::Void CamerasMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if (! CameraSettingsDialogExists) {
 				 gcnew CameraSettingsDialog();
 			 }
 			 CameraSettingsDialog::FormPtr->ShowTheDialog();
 		 }
+
+
 private: System::Void ExposeSingleFrameMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 
 			 /* Save current settings in case "cancel" button hit */
@@ -2035,6 +2097,8 @@ private: System::Void ExposeSingleFrameMenuItem_Click(System::Object^  sender, S
 
 			 return;
 		 }
+
+
 private: System::Void ExposeDarkFramesMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 /* Save current settings in case "cancel" button hit */
@@ -2056,6 +2120,8 @@ private: System::Void ExposeDarkFramesMenuItem_Click(System::Object^  sender, Sy
 
 			 return;
 		 }
+
+
 private: System::Void ExposeFlatFramesMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 /* Save current settings in case "cancel" button hit */
@@ -2077,6 +2143,8 @@ private: System::Void ExposeFlatFramesMenuItem_Click(System::Object^  sender, Sy
 
 			return;
 		 }
+
+
 private: System::Void ExposeSeriesOfFramesMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 /* Save current settings in case "cancel" button hit */
@@ -2098,8 +2166,12 @@ private: System::Void ExposeSeriesOfFramesMenuItem_Click(System::Object^  sender
 
 			 return;
 		 }
+
+
 private: System::Void ExposeStackFramesMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
+
+
 private: System::Void viewEditObjectListToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 /* Create & show the dialog */
@@ -2107,6 +2179,8 @@ private: System::Void viewEditObjectListToolStripMenuItem_Click(System::Object^ 
 			 ShowObjectListDialog();
 
 		 }
+
+
 public: static void StatusPrint(char *Message) {
 		String ^buffer;
 		buffer = gcnew String(Message);
@@ -2120,111 +2194,149 @@ public: static void StatusPrint(char *Message) {
 		Form1::CCDAutoForm->StatusRichTextBox->ScrollToCaret();
 		delete buffer;
 		 }
+
+
 public: static void SetCCDStatusTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CCDStatusTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCCDTempTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CCDTempTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCCDCoolingTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CCDCoolingTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCCDFilterTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CCDFilterTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageExposeTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentImageExposeTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageBinningTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentImageBinningTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageWhichCCDTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentImageWhichCCDTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageFrameSizeTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentImageFrameSizeTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageFileNameTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentImageFileNameTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageObjectNameTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentImageObjectNameTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentImageDirectoryTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentImageDirectoryTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetProcessingExpNumTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->ProcessingExpNumTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetProcessingSeqNumTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->ProcessingSeqNumTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentSeriesFileNameTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentSeriesFileNameTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetCurrentSeriesStatusTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->CurrentSeriesStatusTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetTimeToNextExpTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->TimeToNextExpTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: static void SetTimeToSeriesEndTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->TimeToSeriesEndTextBox->Text = buffer;
 		delete buffer;
 		}
+
+
 public: void OpenFileDialog_FileOk( Object^ sender, System::ComponentModel::CancelEventArgs^ e ) {
 		return;
 		}
+
+
 public: void MainTimerCallback(Object^ sender, System::EventArgs^ e) {
 
 			static int TimeToGetScopePos=10;
@@ -2281,10 +2393,13 @@ public: void MainTimerCallback(Object^ sender, System::EventArgs^ e) {
 			Busy = false;
 
 		}
+
+
 public: void SetDownloadTimerState(bool On) {
 
 			Form1::DownloadTimer->Enabled = On;
 		}
+
 
 private: System::Void DownloadTimerCallback(System::Object^  sender, System::EventArgs^  e) {
 
@@ -2303,20 +2418,27 @@ private: System::Void SetBaseFolder_Click(System::Object^  sender, System::Event
 			 Directory::SetCurrentDirectory(path);
 			 return;
 		 }
+
+
 private: System::Void PauseResumeSeriesButton_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
 			 PauseSeries = (! PauseSeries);
 		 }
+
+
 private: System::Void StopSeriesButton_Clicked(System::Object^  sender, System::EventArgs^  e) {
 
 			 StopSeries = true;
 		 }
+
+
 public: static void SetUTTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->UTTextBox->Text = buffer;
 		delete buffer;
 		}
+
 
 public: static void SetLocalTextBox(char *text) {
 		String ^buffer;
@@ -2325,6 +2447,7 @@ public: static void SetLocalTextBox(char *text) {
 		delete buffer;
 		}
 
+
 public: static void SetLSTTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
@@ -2332,12 +2455,14 @@ public: static void SetLSTTextBox(char *text) {
 		delete buffer;
 		}
 
+
 public: static void SetJDTextBox(char *text) {
 		String ^buffer;
 		buffer = gcnew String(text);
 		Form1::CCDAutoForm->JDTextBox->Text = buffer;
 		delete buffer;
 		}
+
 
 private: System::Void showPhotometryPlotToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
@@ -2347,6 +2472,8 @@ private: System::Void showPhotometryPlotToolStripMenuItem_Click(System::Object^ 
 			 PhotometryPlotWindow::FormPtr->ShowTheDialog();
 			 return;
 		 }
+
+
 private: System::Void TrackingEstablishLinkToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 int i, Linked;
@@ -2381,6 +2508,8 @@ private: System::Void TrackingEstablishLinkToolStripMenuItem_Click(System::Objec
 
 			 return;
 		 }
+
+
 private: System::Void TrackingCloseLinkToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (! TrackingCCD.Linked) {
@@ -2392,6 +2521,8 @@ private: System::Void TrackingCloseLinkToolStripMenuItem_Click(System::Object^  
 			 freeImageBuffers(&TrackingCCD);
 			 return;
 		 }
+
+
 private: System::Void onOffDebugModeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (GlobalDebug) {
@@ -2402,6 +2533,8 @@ private: System::Void onOffDebugModeToolStripMenuItem_Click(System::Object^  sen
 				 GlobalDebug = true;
 			 }
 		 }
+
+
 private: System::Void onOffImageProgressToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (DontShowImageProgress) {
@@ -2413,6 +2546,8 @@ private: System::Void onOffImageProgressToolStripMenuItem_Click(System::Object^ 
 			 }
 
 		 }
+
+
 private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 char message[160];
@@ -2421,6 +2556,8 @@ private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, Syst
 				 RELEASE_VERSION);
 			 MessageBox(message, OKAY, true);
 		 }
+
+
 private: System::Void onOffAskSaveImageToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 if (DontAskSaveImage) {
@@ -2432,10 +2569,25 @@ private: System::Void onOffAskSaveImageToolStripMenuItem_Click(System::Object^  
 			 }
 			 return;
 		 }
+
+
 private: System::Void updateMX916KeywordsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 ShowUpdateMX916Keywords();
 		 }
+
+
+private: System::Void exposeBiasFramesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			
+	if (! BiasFrameSettingsDialogExists) {
+		gcnew BiasFrameSettingDialog();
+	}
+
+	BiasFrameSettingDialog::FormPtr->ShowTheDialog();
+	return;
+
+}
+
 };
 };
 
